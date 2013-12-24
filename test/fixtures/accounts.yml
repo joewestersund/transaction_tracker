@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  account_name: MyString
+  order_in_list: 1
+
+two:
+  account_name: MyString
+  order_in_list: 1

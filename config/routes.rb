@@ -1,4 +1,12 @@
 TransactionTracker::Application.routes.draw do
+  resources :users
+
+  resources :transactions
+
+  resources :transaction_categories
+
+  resources :accounts
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

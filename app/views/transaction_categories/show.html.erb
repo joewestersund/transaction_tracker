@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User name:</strong>
+  <%= @transaction_category.user_name %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @transaction_category.name %>
+</p>
+
+<p>
+  <strong>Is income:</strong>
+  <%= @transaction_category.is_income %>
+</p>
+
+<p>
+  <strong>Order in list:</strong>
+  <%= @transaction_category.order_in_list %>
+</p>
+
+<%= link_to 'Edit', edit_transaction_category_path(@transaction_category) %> |
+<%= link_to 'Back', transaction_categories_path %>
