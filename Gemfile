@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg' #PostgreSQL
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -30,6 +29,26 @@ gem 'jbuilder', '~> 1.2'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
+end
+
+group :development do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'annotate'  #adds annotations to models, call bundle exec annotate to make it work
+end
+
+group :test do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'capybara'
+  gem 'rb-fsevent'
+  #gem 'growl'  #not needed if we don't want notifications from guard.
+  gem 'guard-spork'
+  gem 'spork-rails'
+  gem 'factory_girl_rails'
+
+  gem 'cucumber-rails', '1.4.0', :require => false
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
 # Use ActiveModel has_secure_password
