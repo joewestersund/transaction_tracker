@@ -5,7 +5,6 @@
     <tr>
       <th>Name</th>
       <th>Is income</th>
-      <th>Order in list</th>
       <th></th>
       <th></th>
       <th></th>
@@ -19,7 +18,6 @@
       <tr>
         <td><%= transaction_category.name %></td>
         <td><%= transaction_category.is_income %></td>
-        <td><%= transaction_category.order_in_list %></td>
         <td><%= link_to 'Edit', edit_transaction_category_path(transaction_category) %></td>
         <td><%= link_to 'Delete', transaction_category, method: :delete, data: { confirm: "Are you sure you want to delete transaction category '#{transaction_category.name}'?" } %></td>
         <td><%= link_to 'Move Up', "/transaction_categories/#{transaction_category.id}/move_up", method: :post %></td>

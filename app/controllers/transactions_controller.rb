@@ -85,7 +85,7 @@ class TransactionsController < ApplicationController
     end
 
     def set_select_options
-      @user_accounts = current_user.accounts.all
-      @user_transaction_categories = current_user.transaction_categories.all
+      @user_accounts = current_user.accounts.order('order_in_list').all
+      @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
     end
 end

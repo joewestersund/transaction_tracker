@@ -118,10 +118,10 @@ class TransactionCategoriesController < ApplicationController
     def get_adjacent(current, get_previous = false)
       if get_previous
         TransactionCategory.first(:conditions => ["order_in_list < ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list")
+                                                  current.order_in_list,current_user.id], order: "order_in_list DESC")
       else
         TransactionCategory.first(:conditions => ["order_in_list > ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list DESC")
+                                                  current.order_in_list,current_user.id], order: "order_in_list")
       end
     end
 

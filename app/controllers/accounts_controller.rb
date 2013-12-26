@@ -119,9 +119,9 @@ class AccountsController < ApplicationController
     def get_adjacent(current, get_previous = false)
       if get_previous
         Account.first(conditions: ["order_in_list < ? AND user_id = ?",
-                                   current.order_in_list,current_user.id], order: "order_in_list")
+                                   current.order_in_list,current_user.id], order: "order_in_list DESC")
       else
-        Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list DESC")
+        Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list")
       end
     end
 end
