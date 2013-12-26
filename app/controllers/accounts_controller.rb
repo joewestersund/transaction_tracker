@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = current_user.accounts.all
+    @accounts = current_user.accounts.order('order_in_list').all
   end
 
   # GET /accounts/1
@@ -27,6 +27,8 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.user = current_user
+    a_max = Account.first(conditions: {user_id: current_user.id}, order: "order_in_list DESC")
+    @account.order_in_list = a_max.nil? ? 1 : a_max.order_in_list + 1
 
     respond_to do |format|
       if @account.save
@@ -53,12 +55,27 @@ class AccountsController < ApplicationController
     end
   end
 
+  def move_up
+    move(true)
+  end
+
+  def move_down
+    move(false)
+  end
+
   # DELETE /accounts/1
   # DELETE /accounts/1.json
   def destroy
     @account.destroy
+
+    #update any transactions that used this account.
+    Transaction.where(account_id: @account.id, user_id: current_user.id).each do |t|
+      t.account_id = nil
+      t.save
+    end
+
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      format.html { redirect_to accounts_url, notice: "Account '#{@account.account_name}' was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -77,5 +94,34 @@ class AccountsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
       params.require(:account).permit(:account_name, :order_in_list)
+    end
+
+    def move(up = true)
+      a = Account.find(params[:id])
+
+      if a.present?
+        a2 = get_adjacent(a,up)
+        if a2.present?
+          swap_and_save(a, a2)
+          respond_to do |format|
+            format.html { redirect_to accounts_path }
+            format.json { head :no_content }
+          end
+          return
+        end
+      end
+      respond_to do |format|
+        format.html { redirect_to accounts_path, notice: "could not move" }
+        format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+      end
+    end
+
+    def get_adjacent(current, get_previous = false)
+      if get_previous
+        Account.first(conditions: ["order_in_list < ? AND user_id = ?",
+                                   current.order_in_list,current_user.id], order: "order_in_list")
+      else
+        Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list DESC")
+      end
     end
 end

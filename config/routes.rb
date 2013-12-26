@@ -15,8 +15,12 @@ TransactionTracker::Application.routes.draw do
   resources :transactions
 
   resources :transaction_categories
+  post '/transaction_categories/:id/move_up', to: 'transaction_categories#move_up'
+  post '/transaction_categories/:id/move_down', to: 'transaction_categories#move_down'
 
   resources :accounts
+  post '/accounts/:id/move_up', to: 'accounts#move_up'
+  post '/accounts/:id/move_down', to: 'accounts#move_down'
 
   resources :sessions, only: [:new, :create, :destroy]
   get '/signin', to: "sessions#new"

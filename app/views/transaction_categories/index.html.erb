@@ -9,6 +9,8 @@
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -18,9 +20,10 @@
         <td><%= transaction_category.name %></td>
         <td><%= transaction_category.is_income %></td>
         <td><%= transaction_category.order_in_list %></td>
-        <td><%= link_to 'Show', transaction_category %></td>
         <td><%= link_to 'Edit', edit_transaction_category_path(transaction_category) %></td>
-        <td><%= link_to 'Destroy', transaction_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', transaction_category, method: :delete, data: { confirm: "Are you sure you want to delete transaction category '#{transaction_category.name}'?" } %></td>
+        <td><%= link_to 'Move Up', "/transaction_categories/#{transaction_category.id}/move_up", method: :post %></td>
+        <td><%= link_to 'Move Down', "/transaction_categories/#{transaction_category.id}/move_down", method: :post %></td>
       </tr>
     <% end %>
   </tbody>

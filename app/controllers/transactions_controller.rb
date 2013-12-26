@@ -16,6 +16,9 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    Time.use_zone(current_user.time_zone) do
+      @transaction.date = Time.now.in_time_zone
+    end
   end
 
   # GET /transactions/1/edit
@@ -30,7 +33,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
+        format.html { redirect_to transactions_path, notice: 'Transaction was successfully created.' }
         format.json { render action: 'show', status: :created, location: @transaction }
       else
         set_select_options
@@ -45,7 +48,7 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-        format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
+        format.html { redirect_to transactions_path, notice: 'Transaction was successfully updated.' }
         format.json { head :no_content }
       else
         set_select_options
