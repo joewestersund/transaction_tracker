@@ -1,10 +1,11 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_select_options, only: [:new, :edit]
 
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = current_user.transactions.all
   end
 
   # GET /transactions/1
@@ -25,12 +26,14 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
+    @transaction.user = current_user
 
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
         format.json { render action: 'show', status: :created, location: @transaction }
       else
+        set_select_options
         format.html { render action: 'new' }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
@@ -45,6 +48,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
         format.json { head :no_content }
       else
+        set_select_options
         format.html { render action: 'edit' }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
@@ -64,11 +68,21 @@ class TransactionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      t = Transaction.find(params[:id])
+      if t.nil? or t.user != current_user
+        redirect_to transactions_path
+      else
+        @transaction = t
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:date, :vendor_name, :amount, :description)
+      params.require(:transaction).permit(:date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+    end
+
+    def set_select_options
+      @user_accounts = current_user.accounts.all
+      @user_transaction_categories = current_user.transaction_categories.all
     end
 end

@@ -1,7 +1,9 @@
 <div class="center hero-unit">
 	<h1>Welcome to the Transaction Tracker</h1>
   <p>
-      This is an open-source project by Joe Westersund to help him balance his checkbook.
+      This is a free, open-source project by Joe Westersund to help him balance his checkbook.
   </p>
-	<%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+	<% unless signed_in? %>
+    <%= link_to "free sign up", signup_path, class: "btn btn-large btn-primary" %>
+  <% end %>
 </div>

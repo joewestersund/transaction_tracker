@@ -4,7 +4,7 @@ class TransactionCategoriesController < ApplicationController
   # GET /transaction_categories
   # GET /transaction_categories.json
   def index
-    @transaction_categories = TransactionCategory.all
+    @transaction_categories = current_user.transaction_categories.all #TransactionCategory.all
   end
 
   # GET /transaction_categories/1
@@ -25,6 +25,7 @@ class TransactionCategoriesController < ApplicationController
   # POST /transaction_categories.json
   def create
     @transaction_category = TransactionCategory.new(transaction_category_params)
+    @transaction_category.user = current_user
 
     respond_to do |format|
       if @transaction_category.save
@@ -64,11 +65,16 @@ class TransactionCategoriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction_category
-      @transaction_category = TransactionCategory.find(params[:id])
+      tc = TransactionCategory.find(params[:id])
+      if tc.nil? or tc.user != current_user
+        redirect_to transaction_categories_path
+      else
+        @transaction_category = tc
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_category_params
-      params.require(:transaction_category).permit(:user_name, :name, :is_income, :order_in_list)
+      params.require(:transaction_category).permit(:name, :is_income, :order_in_list)
     end
 end

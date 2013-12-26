@@ -1,9 +1,8 @@
-<h1>Listing transaction_categories</h1>
+<h1>Your Transaction Categories</h1>
 
 <table>
   <thead>
     <tr>
-      <th>User name</th>
       <th>Name</th>
       <th>Is income</th>
       <th>Order in list</th>
@@ -16,7 +15,6 @@
   <tbody>
     <% @transaction_categories.each do |transaction_category| %>
       <tr>
-        <td><%= transaction_category.user_name %></td>
         <td><%= transaction_category.name %></td>
         <td><%= transaction_category.is_income %></td>
         <td><%= transaction_category.order_in_list %></td>

@@ -6,11 +6,18 @@
 #  email           :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  name            :string(255)
 #  password_digest :string(255)
+#  remember_token  :string(255)
+#  time_zone       :string(255)
 #
 
 class User < ActiveRecord::Base
   has_secure_password #adds authenticate method, etc.
+
+  has_many :accounts, :dependent => :destroy
+  has_many :transaction_categories, :dependent => :destroy
+  has_many :transactions, :dependent => :destroy
 
   before_save { |user| user.email.downcase! }
   before_create :create_remember_token
@@ -19,7 +26,9 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 100}, format: { with: VALID_EMAIL_REGEX }, uniqueness: {case_sensitive: false}
 
-  validates :password, length: {minimum: 6}
+  validates :password, :presence =>true, :confirmation => true, :length => { :within => 6..40 }, :on => :create
+  validates :password, :confirmation => true, :length => { :within => 6..40 }, :on => :update_password
+
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64

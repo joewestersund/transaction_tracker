@@ -13,11 +13,21 @@
 
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.datetime_select :date %>
+    <%= f.date_select :date %>
   </div>
   <div class="field">
     <%= f.label :vendor_name %><br>
     <%= f.text_field :vendor_name %>
+  </div>
+  <div class="field">
+    <%= f.label :account %><br>
+    <%= f.collection_select :account_id, @user_accounts, :id, :account_name, { :include_blank => true } %>
+    <%= link_to "Add", new_account_path %>
+  </div>
+  <div class="field">
+    <%= f.label :transaction_category %><br>
+    <%= f.collection_select :transaction_category_id, @user_transaction_categories, :id, :name, { :include_blank => true } %>
+    <%= link_to "Add", new_transaction_category_path %>
   </div>
   <div class="field">
     <%= f.label :amount %><br>

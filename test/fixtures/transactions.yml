@@ -2,13 +2,16 @@
 #
 # Table name: transactions
 #
-#  id          :integer          not null, primary key
-#  date        :datetime
-#  vendor_name :string(255)
-#  amount      :decimal(, )
-#  description :text
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id                      :integer          not null, primary key
+#  date                    :datetime
+#  vendor_name             :string(255)
+#  amount                  :decimal(, )
+#  description             :text
+#  created_at              :datetime
+#  updated_at              :datetime
+#  user_id                 :integer
+#  account_id              :integer
+#  transaction_category_id :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

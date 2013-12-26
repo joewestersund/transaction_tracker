@@ -8,6 +8,9 @@ TransactionTracker::Application.routes.draw do
   get '/signup', to: 'users#new' # creates named path 'signup'
 
   resources :users
+  get '/profile/edit_password', to: 'users#edit_password'
+  get '/profile/edit', to: 'users#edit'
+  patch '/profile/update_password', to: 'users#update_password'
 
   resources :transactions
 

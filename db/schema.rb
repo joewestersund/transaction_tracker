@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131226000815) do
+ActiveRecord::Schema.define(version: 20131226023048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,15 +21,16 @@ ActiveRecord::Schema.define(version: 20131226000815) do
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "transaction_categories", force: true do |t|
-    t.string   "user_name"
     t.string   "name"
     t.boolean  "is_income"
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "transactions", force: true do |t|
@@ -39,6 +40,9 @@ ActiveRecord::Schema.define(version: 20131226000815) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "account_id"
+    t.integer  "transaction_category_id"
   end
 
   create_table "users", force: true do |t|
@@ -48,6 +52,7 @@ ActiveRecord::Schema.define(version: 20131226000815) do
     t.string   "name"
     t.string   "password_digest"
     t.string   "remember_token"
+    t.string   "time_zone"
   end
 
 end

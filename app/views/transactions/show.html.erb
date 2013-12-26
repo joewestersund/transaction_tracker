@@ -6,8 +6,19 @@
 </p>
 
 <p>
-  <strong>Vendor name:</strong>
+  <strong>Vendor Name:</strong>
   <%= @transaction.vendor_name %>
+</p>
+
+<p>
+  <strong>Account Name:</strong>
+  <%= @transaction.account.account_name if @transaction.account.present? %>
+</p>
+
+
+<p>
+  <strong>Transaction Category:</strong>
+  <%= @transaction.transaction_category.name if @transaction.transaction_category.present?  %>
 </p>
 
 <p>

@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = Account.all
+    @accounts = current_user.accounts.all
   end
 
   # GET /accounts/1
@@ -19,16 +19,18 @@ class AccountsController < ApplicationController
 
   # GET /accounts/1/edit
   def edit
+
   end
 
   # POST /accounts
   # POST /accounts.json
   def create
     @account = Account.new(account_params)
+    @account.user = current_user
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        format.html { redirect_to accounts_path, notice: "Account '#{@account.account_name}' was successfully created." }
         format.json { render action: 'show', status: :created, location: @account }
       else
         format.html { render action: 'new' }
@@ -42,7 +44,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+        format.html { redirect_to accounts_path, notice: "Account '#{@account.account_name}' was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -64,7 +66,12 @@ class AccountsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_account
-      @account = Account.find(params[:id])
+      a = Account.find(params[:id])
+      if a.nil? or a.user != current_user
+        redirect_to accounts_path
+      else
+        @account = a
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
