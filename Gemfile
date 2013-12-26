@@ -33,7 +33,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'bootstrap-sass' #include bootstrap css and js files
+
 group :development do
+  gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'annotate'  #adds annotations to models, call bundle exec annotate to make it work

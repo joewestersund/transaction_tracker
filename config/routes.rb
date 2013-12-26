@@ -1,4 +1,12 @@
 TransactionTracker::Application.routes.draw do
+
+  root 'static_pages#home'
+
+  get '/help', to: 'static_pages#help' # creates named path 'help' for help_path, etc
+  get '/about', to: 'static_pages#about' # creates named path 'about'
+  get '/contact', to: 'static_pages#contact' # creates named path 'contact'
+  get '/signup', to: 'users#new' # creates named path 'signup'
+
   resources :users
 
   resources :transactions
@@ -6,6 +14,11 @@ TransactionTracker::Application.routes.draw do
   resources :transaction_categories
 
   resources :accounts
+
+  resources :sessions, only: [:new, :create, :destroy]
+  get '/signin', to: "sessions#new"
+  delete '/signout', to: "sessions#destroy"
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
