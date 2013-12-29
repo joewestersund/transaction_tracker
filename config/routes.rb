@@ -1,5 +1,7 @@
 TransactionTracker::Application.routes.draw do
 
+  resources :account_balances
+
   get "summaries/by_account"
   get "summaries/by_category"
   root 'static_pages#home'

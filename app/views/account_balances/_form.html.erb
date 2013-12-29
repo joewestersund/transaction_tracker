@@ -1,0 +1,30 @@
+<%= form_for(@account_balance) do |f| %>
+  <% if @account_balance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@account_balance.errors.count, "error") %> prohibited this account_balance from being saved:</h2>
+
+      <ul>
+      <% @account_balance.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :account %><br>
+    <%= f.collection_select :account_id, @user_accounts, :id, :account_name %>
+    <%= link_to "Add new account", new_account_path %>
+  </div>
+  <div class="field">
+    <%= f.label :balance_date %><br>
+    <%= f.date_select :balance_date %>
+  </div>
+  <div class="field">
+    <%= f.label :balance %><br>
+    <%= f.text_field :balance %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -14,6 +14,7 @@ class Account < ActiveRecord::Base
 
   belongs_to :user
   has_many :transactions
+  has_many :account_balances, :dependent => :destroy
 
   validates :order_in_list, numericality: { only_integer: true, greater_than: 0 }
   validates :user_id, presence: true

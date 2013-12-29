@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_secure_password #adds authenticate method, etc.
 
   has_many :accounts, :dependent => :destroy
+  has_many :account_balances
   has_many :transaction_categories, :dependent => :destroy
   has_many :transactions, :dependent => :destroy
 

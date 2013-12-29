@@ -71,69 +71,69 @@ class TransactionsController < ApplicationController
     end
   end
 
-private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_transaction
-    t = Transaction.find(params[:id])
-    if t.nil? or t.user != current_user
-      redirect_to transactions_path
-    else
-      @transaction = t
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_transaction
+      t = Transaction.find(params[:id])
+      if t.nil? or t.user != current_user
+        redirect_to transactions_path
+      else
+        @transaction = t
+      end
     end
-  end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def transaction_params
-    params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
-  end
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def transaction_params
+      params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+    end
 
-  def set_select_options
-    @user_accounts = current_user.accounts.order('order_in_list').all
-    @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
-  end
+    def set_select_options
+      @user_accounts = current_user.accounts.order('order_in_list').all
+      @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
+    end
 
-  def set_year_month_day(transaction) #set these ahead of time in the database, so we can index on them and avoid DB-specific SQL in Summaries table.
-    transaction.year = transaction.transaction_date.year
-    transaction.month = transaction.transaction_date.month
-    transaction.day = transaction.transaction_date.day
-  end
+    def set_year_month_day(transaction) #set these ahead of time in the database, so we can index on them and avoid DB-specific SQL in Summaries table.
+      transaction.year = transaction.transaction_date.year
+      transaction.month = transaction.transaction_date.month
+      transaction.day = transaction.transaction_date.day
+    end
 
-  def search_params
-    params.permit(:month, :day, :year, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
-  end
+    def search_params
+      params.permit(:month, :day, :year, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+    end
 
-  def get_conditions
+    def get_conditions
 
-    search_terms = Transaction.new(search_params)
+      search_terms = Transaction.new(search_params)
 
-    conditions = {}
-    conditions_string = []
+      conditions = {}
+      conditions_string = []
 
-    conditions[:month] = search_terms.month if search_terms.month.present?
-    conditions_string << "month = :month" if search_terms.month.present?
+      conditions[:month] = search_terms.month if search_terms.month.present?
+      conditions_string << "month = :month" if search_terms.month.present?
 
-    conditions[:day] = search_terms.day if search_terms.day.present?
-    conditions_string << "day = :day" if search_terms.day.present?
+      conditions[:day] = search_terms.day if search_terms.day.present?
+      conditions_string << "day = :day" if search_terms.day.present?
 
-    conditions[:year] = search_terms.year if search_terms.year.present?
-    conditions_string << "year = :year" if search_terms.year.present?
+      conditions[:year] = search_terms.year if search_terms.year.present?
+      conditions_string << "year = :year" if search_terms.year.present?
 
-    conditions[:vendor_name] = "%#{search_terms.vendor_name}%" if search_terms.vendor_name.present?
-    conditions_string << "vendor_name LIKE :vendor_name" if search_terms.vendor_name.present?
+      conditions[:vendor_name] = "%#{search_terms.vendor_name}%" if search_terms.vendor_name.present?
+      conditions_string << "vendor_name LIKE :vendor_name" if search_terms.vendor_name.present?
 
-    conditions[:account_id] = search_terms.account_id if search_terms.account_id.present?
-    conditions_string << "account_id = :account_id" if search_terms.account_id.present?
+      conditions[:account_id] = search_terms.account_id if search_terms.account_id.present?
+      conditions_string << "account_id = :account_id" if search_terms.account_id.present?
 
-    conditions[:transaction_category_id] = search_terms.transaction_category_id if search_terms.transaction_category_id.present?
-    conditions_string << "transaction_category_id = :transaction_category_id" if search_terms.transaction_category_id.present?
+      conditions[:transaction_category_id] = search_terms.transaction_category_id if search_terms.transaction_category_id.present?
+      conditions_string << "transaction_category_id = :transaction_category_id" if search_terms.transaction_category_id.present?
 
-    conditions[:amount] = search_terms.amount if search_terms.amount.present?
-    conditions_string << "amount = :amount" if search_terms.amount.present?
+      conditions[:amount] = search_terms.amount if search_terms.amount.present?
+      conditions_string << "amount = :amount" if search_terms.amount.present?
 
-    conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
-    conditions_string << "description LIKE :description" if search_terms.description.present?
+      conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
+      conditions_string << "description LIKE :description" if search_terms.description.present?
 
-    return [conditions_string.join(" AND "), conditions]
-  end
+      return [conditions_string.join(" AND "), conditions]
+    end
 
 end
