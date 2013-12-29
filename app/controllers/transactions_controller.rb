@@ -136,26 +136,7 @@ private
     conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
     conditions_string << "description LIKE :description" if search_terms.description.present?
 
-    #conditions[:month] = get_search_term("month", search_terms.month,:numeric) if search_terms.month.present?
-    #conditions[:day] = get_search_term("day", search_terms.day,:numeric) if search_terms.day.present?
-    #conditions[:year] = get_search_term("year", search_terms.year,:numeric) if search_terms.year.present?
-    #conditions[:vendor_name] = get_search_term("vendor_name", search_terms.vendor_name) if search_terms.vendor_name.present?
-    #conditions[:account_id] = get_search_term("account_id", search_terms.account_id) if search_terms.account_id.present?
-    #conditions[:transaction_category_id] << get_search_term("transaction_category_id", search_terms.transaction_category_id) if search_terms.transaction_category_id.present?
-    #conditions[:amount] << get_search_term("amount", search_terms.amount) if search_terms.amount.present?
-    #conditions[:description] << get_search_term("description", search_terms.description,:like) if search_terms.description.present?
-
     return conditions_string.join(" AND "), conditions
   end
-
-  #def get_search_term(name, value, type = nil)
-  #  if type == :numeric
-  #    "#{name} = #{value}"
-  #  elsif type == :like
-  #    "#{name} LIKE '%#{value}%'"
-  #  else
-  #    "#{name} = '#{value}'"
-  #  end
-  #end
 
 end
