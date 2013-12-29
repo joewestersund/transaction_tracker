@@ -1,22 +1,26 @@
-<table class="summary">
-  <thead>
-  <tr>
-    <th></th>
-    <% @table.column_headers.each do |ch| %>
-      <th><%= link_to ch.text, ch.href if ch.text.present?%></th>
-    <% end %>
-  </tr>
-  </thead>
-
-  <tbody>
-  <% @table.row_headers.each_index do |index| %>
+<% if @table.row_headers.count == 0 %>
+  <div class="no_data">No data is available</div>
+<% else %>
+  <table class="summary">
+    <thead>
     <tr>
-      <% rh = @table.row_headers[index] %>
-      <td class="row_header"><%= link_to rh.text, rh.href if rh.text.present?%></td>
-      <% @table.cells[index].each do |c| %>
-        <td><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
-      <% end %>
+      <th></th>
+        <% @table.column_headers.each do |ch| %>
+          <th><%= link_to ch.text, ch.href if ch.text.present?%></th>
+        <% end %>
     </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+    <% @table.row_headers.each_index do |index| %>
+      <tr>
+        <% rh = @table.row_headers[index] %>
+        <td class="row_header"><%= link_to rh.text, rh.href if rh.text.present?%></td>
+        <% @table.cells[index].each do |c| %>
+          <td><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -12,10 +12,10 @@ class SummariesController < ApplicationController
 
   def by_category
     at = get_averaging_time
-    has_null_column = current_user.transactions.where("transaction_category_id IS NULL").where(conditions).count > 0
-    column_names = current_user.transaction_categories.where(conditions).select("id as column_id, name as column_name").order(:order_in_list).all
-    row_names = current_user.transactions.where(conditions).select("#{at}").group(group_by).order(order_by)
-    data = current_user.transactions.where(conditions).select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
+    has_null_column = current_user.transactions.where("transaction_category_id IS NULL").where(get_conditions(:has_null_column)).count > 0
+    column_names = current_user.transaction_categories.where(get_conditions(:column_names)).select("id as column_id, name as column_name").order(:order_in_list).all
+    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
+    data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
     create_summary_table(row_names,column_names,has_null_column,data,:by_category)
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
   end
