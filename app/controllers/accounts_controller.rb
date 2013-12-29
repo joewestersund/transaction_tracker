@@ -80,48 +80,48 @@ class AccountsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_account
-      a = Account.find(params[:id])
-      if a.nil? or a.user != current_user
-        redirect_to accounts_path
-      else
-        @account = a
-      end
+private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_account
+    a = Account.find(params[:id])
+    if a.nil? or a.user != current_user
+      redirect_to accounts_path
+    else
+      @account = a
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-      params.require(:account).permit(:account_name, :order_in_list)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def account_params
+    params.require(:account).permit(:account_name, :order_in_list)
+  end
 
-    def move(up = true)
-      a = Account.find(params[:id])
+  def move(up = true)
+    a = Account.find(params[:id])
 
-      if a.present?
-        a2 = get_adjacent(a,up)
-        if a2.present?
-          swap_and_save(a, a2)
-          respond_to do |format|
-            format.html { redirect_to accounts_path }
-            format.json { head :no_content }
-          end
-          return
+    if a.present?
+      a2 = get_adjacent(a,up)
+      if a2.present?
+        swap_and_save(a, a2)
+        respond_to do |format|
+          format.html { redirect_to accounts_path }
+          format.json { head :no_content }
         end
-      end
-      respond_to do |format|
-        format.html { redirect_to accounts_path, notice: "could not move" }
-        format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+        return
       end
     end
+    respond_to do |format|
+      format.html { redirect_to accounts_path, notice: "could not move" }
+      format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+    end
+  end
 
-    def get_adjacent(current, get_previous = false)
-      if get_previous
-        Account.first(conditions: ["order_in_list < ? AND user_id = ?",
-                                   current.order_in_list,current_user.id], order: "order_in_list DESC")
-      else
-        Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list")
-      end
+  def get_adjacent(current, get_previous = false)
+    if get_previous
+      Account.first(conditions: ["order_in_list < ? AND user_id = ?",
+                                 current.order_in_list,current_user.id], order: "order_in_list DESC")
+    else
+      Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list")
     end
+  end
 end

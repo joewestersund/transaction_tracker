@@ -1,5 +1,6 @@
 <%# add navigation links to this file %>
 <% if signed_in? %>
+  <li><%= link_to "Transaction Summary", summaries_by_category_path %></li>
   <li><%= link_to "Transactions", transactions_path %></li>
   <li><%= link_to "Transaction Categories", transaction_categories_path %></li>
   <li><%= link_to "Accounts", accounts_path %></li>

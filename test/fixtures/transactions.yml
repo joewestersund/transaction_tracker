@@ -3,7 +3,7 @@
 # Table name: transactions
 #
 #  id                      :integer          not null, primary key
-#  date                    :datetime
+#  transaction_date        :datetime
 #  vendor_name             :string(255)
 #  amount                  :decimal(, )
 #  description             :text
@@ -12,6 +12,9 @@
 #  user_id                 :integer
 #  account_id              :integer
 #  transaction_category_id :integer
+#  year                    :integer
+#  month                   :integer
+#  day                     :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

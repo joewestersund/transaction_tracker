@@ -4,7 +4,7 @@ class TransactionCategoriesController < ApplicationController
   # GET /transaction_categories
   # GET /transaction_categories.json
   def index
-    @transaction_categories = current_user.transaction_categories.order('order_in_list').all #TransactionCategory.all
+    @transaction_categories = current_user.transaction_categories.order('order_in_list').all
   end
 
   # GET /transaction_categories/1
@@ -79,50 +79,50 @@ class TransactionCategoriesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction_category
-      tc = TransactionCategory.find(params[:id])
-      if tc.nil? or tc.user != current_user
-        redirect_to transaction_categories_path
-      else
-        @transaction_category = tc
-      end
+private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_transaction_category
+    tc = TransactionCategory.find(params[:id])
+    if tc.nil? or tc.user != current_user
+      redirect_to transaction_categories_path
+    else
+      @transaction_category = tc
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_category_params
-      params.require(:transaction_category).permit(:name, :is_income, :order_in_list)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def transaction_category_params
+    params.require(:transaction_category).permit(:name, :is_income, :order_in_list)
+  end
 
-    def move(up = true)
-      tc = TransactionCategory.find(params[:id])
+  def move(up = true)
+    tc = TransactionCategory.find(params[:id])
 
-      if tc.present?
-        tc2 = get_adjacent(tc,up)
-        if tc2.present?
-          swap_and_save(tc, tc2)
-          respond_to do |format|
-            format.html { redirect_to transaction_categories_path }
-            format.json { head :no_content }
-          end
-          return
+    if tc.present?
+      tc2 = get_adjacent(tc,up)
+      if tc2.present?
+        swap_and_save(tc, tc2)
+        respond_to do |format|
+          format.html { redirect_to transaction_categories_path }
+          format.json { head :no_content }
         end
-      end
-      respond_to do |format|
-        format.html { redirect_to transaction_categories_path, notice: "could not move" }
-        format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+        return
       end
     end
+    respond_to do |format|
+      format.html { redirect_to transaction_categories_path, notice: "could not move" }
+      format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+    end
+  end
 
-    def get_adjacent(current, get_previous = false)
-      if get_previous
-        TransactionCategory.first(:conditions => ["order_in_list < ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list DESC")
-      else
-        TransactionCategory.first(:conditions => ["order_in_list > ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list")
-      end
+  def get_adjacent(current, get_previous = false)
+    if get_previous
+      TransactionCategory.first(:conditions => ["order_in_list < ? AND user_id = ?",
+                                                current.order_in_list,current_user.id], order: "order_in_list DESC")
+    else
+      TransactionCategory.first(:conditions => ["order_in_list > ? AND user_id = ?",
+                                                current.order_in_list,current_user.id], order: "order_in_list")
     end
+  end
 
 end

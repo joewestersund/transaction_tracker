@@ -3,7 +3,7 @@
 # Table name: transactions
 #
 #  id                      :integer          not null, primary key
-#  date                    :datetime
+#  transaction_date        :datetime
 #  vendor_name             :string(255)
 #  amount                  :decimal(, )
 #  description             :text
@@ -12,6 +12,9 @@
 #  user_id                 :integer
 #  account_id              :integer
 #  transaction_category_id :integer
+#  year                    :integer
+#  month                   :integer
+#  day                     :integer
 #
 
 class Transaction < ActiveRecord::Base
@@ -21,7 +24,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :transaction_category
 
   validates :user_id, presence: true
-  validates :date, presence: true
+  validates :transaction_date, presence: true
   validates :amount, presence: true
 
 end

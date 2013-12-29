@@ -1,5 +1,7 @@
 TransactionTracker::Application.routes.draw do
 
+  get "summaries/by_account"
+  get "summaries/by_category"
   root 'static_pages#home'
 
   get '/help', to: 'static_pages#help' # creates named path 'help' for help_path, etc

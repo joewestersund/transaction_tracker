@@ -24,4 +24,9 @@ module ApplicationHelper
     "Y" if bool_variable
     "N"
   end
+
+  def nil_to_zero(variable)
+    variable if variable.present?
+    0
+  end
 end

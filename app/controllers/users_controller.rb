@@ -59,16 +59,16 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-    def set_user
-      @user = current_user
-    end
+private
+  def set_user
+    @user = current_user
+  end
 
-    def user_params
-      params.require(:user).permit(:name, :email, :time_zone)
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :time_zone)
+  end
 
-    def user_params_change_password()
-      params.require(:user).permit(:password, :password_confirmation)
-    end
+  def user_params_change_password()
+    params.require(:user).permit(:password, :password_confirmation)
+  end
 end

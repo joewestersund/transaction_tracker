@@ -17,7 +17,7 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     Time.use_zone(current_user.time_zone) do
-      @transaction.date = Time.now.in_time_zone
+      @transaction.transaction_date = Time.now.in_time_zone
     end
   end
 
@@ -30,6 +30,7 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
     @transaction.user = current_user
+    set_year_month_day(@transaction)
 
     respond_to do |format|
       if @transaction.save
@@ -47,7 +48,9 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1.json
   def update
     respond_to do |format|
-      if @transaction.update(transaction_params)
+      @transaction.attributes = transaction_params
+      set_year_month_day(@transaction)
+      if @transaction.save
         format.html { redirect_to transactions_path, notice: 'Transaction was successfully updated.' }
         format.json { head :no_content }
       else
@@ -68,24 +71,30 @@ class TransactionsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction
-      t = Transaction.find(params[:id])
-      if t.nil? or t.user != current_user
-        redirect_to transactions_path
-      else
-        @transaction = t
-      end
+private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_transaction
+    t = Transaction.find(params[:id])
+    if t.nil? or t.user != current_user
+      redirect_to transactions_path
+    else
+      @transaction = t
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_params
-      params.require(:transaction).permit(:date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def transaction_params
+    params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+  end
 
-    def set_select_options
-      @user_accounts = current_user.accounts.order('order_in_list').all
-      @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
-    end
+  def set_select_options
+    @user_accounts = current_user.accounts.order('order_in_list').all
+    @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
+  end
+
+  def set_year_month_day(transaction) #set these ahead of time in the database, so we can index on them and avoid DB-specific SQL in Summaries table.
+    transaction.year = transaction.transaction_date.year
+    transaction.month = transaction.transaction_date.month
+    transaction.day = transaction.transaction_date.day
+  end
 end
