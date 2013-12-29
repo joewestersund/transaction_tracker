@@ -2,20 +2,22 @@ class SummariesController < ApplicationController
 
   def by_account
     at = get_averaging_time
-    has_null_column = current_user.transactions.where("account_id IS NULL").count > 0
-    column_names = current_user.accounts.select("id as column_id, account_name as column_name").order(:order_in_list).all
-    row_names = current_user.transactions.select("#{at}").group(group_by).order(order_by)
-    data = current_user.transactions.select("#{at}, sum(amount) as amount_sum, account_id as column_id").group("account_id, #{group_by}")
+    has_null_column = current_user.transactions.where("account_id IS NULL").where(get_conditions(:has_null_column)).count > 0
+    column_names = current_user.accounts.where(get_conditions(:column_names)).select("id as column_id, account_name as column_name").order(:order_in_list).all
+    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
+    data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, account_id as column_id").group("account_id, #{group_by}")
     create_summary_table(row_names,column_names,has_null_column,data,:by_account)
+    @user_accounts = current_user.accounts.order('order_in_list').all
   end
 
   def by_category
     at = get_averaging_time
-    has_null_column = current_user.transactions.where("transaction_category_id IS NULL").count > 0
-    column_names = current_user.transaction_categories.select("id as column_id, name as column_name").order(:order_in_list).all
-    row_names = current_user.transactions.select("#{at}").group(group_by).order(order_by)
-    data = current_user.transactions.select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
+    has_null_column = current_user.transactions.where("transaction_category_id IS NULL").where(conditions).count > 0
+    column_names = current_user.transaction_categories.where(conditions).select("id as column_id, name as column_name").order(:order_in_list).all
+    row_names = current_user.transactions.where(conditions).select("#{at}").group(group_by).order(order_by)
+    data = current_user.transactions.where(conditions).select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
     create_summary_table(row_names,column_names,has_null_column,data,:by_category)
+    @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
   end
 
 private
@@ -106,6 +108,41 @@ private
 
   def get_row_name(year, month, day)
     "#{(month.to_s + '/') if month.present?}#{(day.to_s + '/') if day.present?}#{year}"
+  end
+
+  def search_params(query_type)
+    if query_type == :column_names
+        params.permit(:account_id, :transaction_category_id)
+    else
+       params.permit(:month, :day, :year, :account_id, :transaction_category_id)
+    end
+  end
+
+  def get_conditions(query_type)
+
+    search_terms = Transaction.new(search_params(query_type))
+
+    conditions = {}
+    conditions_string = []
+
+    conditions[:month] = search_terms.month if search_terms.month.present?
+    conditions_string << "month = :month" if search_terms.month.present?
+
+    conditions[:day] = search_terms.day if search_terms.day.present?
+    conditions_string << "day = :day" if search_terms.day.present?
+
+    conditions[:year] = search_terms.year if search_terms.year.present?
+    conditions_string << "year = :year" if search_terms.year.present?
+
+    id_field_name = query_type == :column_names ? "id" : "account_id"
+    conditions[:account_id] = search_terms.account_id if search_terms.account_id.present?
+    conditions_string << "#{id_field_name} = :account_id" if search_terms.account_id.present?
+
+    id_field_name = query_type == :column_names ? "id" : "transaction_category_id"
+    conditions[:transaction_category_id] = search_terms.transaction_category_id if search_terms.transaction_category_id.present?
+    conditions_string << "#{id_field_name} = :transaction_category_id" if search_terms.transaction_category_id.present?
+
+    return [conditions_string.join(" AND "), conditions]
   end
 
 end

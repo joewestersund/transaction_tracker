@@ -5,8 +5,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    conditions_array = get_conditions(Transaction.new(search_params))
-    @transactions = current_user.transactions.where(conditions_array).page(params[:page]).per_page(20)
+    @transactions = current_user.transactions.where(get_conditions).page(params[:page]).per_page(20)
   end
 
   # GET /transactions/1
@@ -88,10 +87,6 @@ private
     params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
   end
 
-  def search_params
-    params.permit(:month, :day, :year, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
-  end
-
   def set_select_options
     @user_accounts = current_user.accounts.order('order_in_list').all
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
@@ -103,11 +98,16 @@ private
     transaction.day = transaction.transaction_date.day
   end
 
-  def get_conditions(search_terms)
+  def search_params
+    params.permit(:month, :day, :year, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+  end
+
+  def get_conditions
+
+    search_terms = Transaction.new(search_params)
+
     conditions = {}
     conditions_string = []
-
-    conditions_string << "user_id = #{current_user.id}" #include user_id here. needed to make pagination work.
 
     conditions[:month] = search_terms.month if search_terms.month.present?
     conditions_string << "month = :month" if search_terms.month.present?
