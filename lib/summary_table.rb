@@ -1,7 +1,7 @@
 class SummaryTable
 
   class SummaryCell
-    attr_accessor :text, :comment
+    attr_accessor :text, :href
   end
 
   def initialize(rows,columns)

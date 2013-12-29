@@ -3,7 +3,7 @@
   <tr>
     <th></th>
     <% @table.column_headers.each do |ch| %>
-      <th><%= ch.text %></th>
+      <th><%= link_to ch.text, ch.href if ch.text.present?%></th>
     <% end %>
   </tr>
   </thead>
@@ -11,9 +11,10 @@
   <tbody>
   <% @table.row_headers.each_index do |index| %>
     <tr>
-      <td class="row_header"><%= @table.row_headers[index].text %></td>
+      <% rh = @table.row_headers[index] %>
+      <td class="row_header"><%= link_to rh.text, rh.href if rh.text.present?%></td>
       <% @table.cells[index].each do |c| %>
-        <td><%= number_to_currency(c.text) %></td>
+        <td><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
       <% end %>
     </tr>
   <% end %>
