@@ -1,11 +1,17 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :set_select_options, only: [:new, :edit]
+  before_action :set_select_options, only: [:new, :edit, :index]
 
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = current_user.transactions.all
+    conditions_string, conditions = get_conditions(Transaction.new(search_params))
+    if conditions.length > 0
+      @transactions = current_user.transactions.all(conditions: [conditions_string, conditions])
+    else
+      @transactions = current_user.transactions.all
+    end
+
   end
 
   # GET /transactions/1
@@ -87,6 +93,10 @@ private
     params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
   end
 
+  def search_params
+    params.permit(:month, :day, :year, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+  end
+
   def set_select_options
     @user_accounts = current_user.accounts.order('order_in_list').all
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
@@ -97,4 +107,55 @@ private
     transaction.month = transaction.transaction_date.month
     transaction.day = transaction.transaction_date.day
   end
+
+  def get_conditions(search_terms)
+    conditions = {}
+    conditions_string = []
+
+    conditions[:month] = search_terms.month if search_terms.month.present?
+    conditions_string << "month = :month" if search_terms.month.present?
+
+    conditions[:day] = search_terms.day if search_terms.day.present?
+    conditions_string << "day = :day" if search_terms.day.present?
+
+    conditions[:year] = search_terms.year if search_terms.year.present?
+    conditions_string << "year = :year" if search_terms.year.present?
+
+    conditions[:vendor_name] = "%#{search_terms.vendor_name}%" if search_terms.vendor_name.present?
+    conditions_string << "vendor_name LIKE :vendor_name" if search_terms.vendor_name.present?
+
+    conditions[:account_id] = search_terms.account_id if search_terms.account_id.present?
+    conditions_string << "account_id = :account_id" if search_terms.account_id.present?
+
+    conditions[:transaction_category_id] = search_terms.transaction_category_id if search_terms.transaction_category_id.present?
+    conditions_string << "transaction_category_id = :transaction_category_id" if search_terms.transaction_category_id.present?
+
+    conditions[:amount] = search_terms.amount if search_terms.amount.present?
+    conditions_string << "amount = :amount" if search_terms.amount.present?
+
+    conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
+    conditions_string << "description LIKE :description" if search_terms.description.present?
+
+    #conditions[:month] = get_search_term("month", search_terms.month,:numeric) if search_terms.month.present?
+    #conditions[:day] = get_search_term("day", search_terms.day,:numeric) if search_terms.day.present?
+    #conditions[:year] = get_search_term("year", search_terms.year,:numeric) if search_terms.year.present?
+    #conditions[:vendor_name] = get_search_term("vendor_name", search_terms.vendor_name) if search_terms.vendor_name.present?
+    #conditions[:account_id] = get_search_term("account_id", search_terms.account_id) if search_terms.account_id.present?
+    #conditions[:transaction_category_id] << get_search_term("transaction_category_id", search_terms.transaction_category_id) if search_terms.transaction_category_id.present?
+    #conditions[:amount] << get_search_term("amount", search_terms.amount) if search_terms.amount.present?
+    #conditions[:description] << get_search_term("description", search_terms.description,:like) if search_terms.description.present?
+
+    return conditions_string.join(" AND "), conditions
+  end
+
+  #def get_search_term(name, value, type = nil)
+  #  if type == :numeric
+  #    "#{name} = #{value}"
+  #  elsif type == :like
+  #    "#{name} LIKE '%#{value}%'"
+  #  else
+  #    "#{name} = '#{value}'"
+  #  end
+  #end
+
 end

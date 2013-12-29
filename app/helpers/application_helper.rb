@@ -21,12 +21,12 @@ module ApplicationHelper
   end
 
   def show_boolean(bool_variable)
-    "Y" if bool_variable
+    return "Y" if bool_variable
     "N"
   end
 
   def nil_to_zero(variable)
-    variable if variable.present?
+    return variable if variable.present?
     0
   end
 end

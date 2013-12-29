@@ -8,3 +8,22 @@ th, td {
 th {
   border-bottom: 1px black solid;
 }
+
+th:first-of-type, td:first-of-type {
+  border-left: none;
+}
+
+.filter {
+
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+
+  div.field, div.actions {
+    display: inline-block;
+  }
+
+  div.field.number input{
+    width: 50px;
+  }
+
+}

@@ -1,5 +1,45 @@
 <h1>Your Transactions</h1>
 
+<div class="filter">
+  <%= form_tag transactions_path, method: 'get' do %>
+    <div class="field number">
+      <%= label_tag :month %><br>
+      <%= text_field_tag :month, params[:month] %>
+    </div>
+    <div class="field number">
+      <%= label_tag :day %><br>
+      <%= text_field_tag :day, params[:day] %>
+    </div>
+    <div class="field number">
+      <%= label_tag :year %><br>
+      <%= text_field_tag :year, params[:year] %>
+    </div>
+    <div class="field">
+      <%= label_tag :vendor_name %><br>
+      <%= text_field_tag :vendor_name, params[:vendor_name] %>
+    </div>
+    <div class="field">
+      <%= label_tag :account %><br>
+      <%= select_tag :account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:account_id]), { :include_blank => true } %>
+    </div>
+    <div class="field">
+      <%= label_tag :category %><br>
+      <%= select_tag :transaction_category_id, options_from_collection_for_select(@user_transaction_categories,:id,:name,params[:transaction_category_id]), { :include_blank => true } %>
+    </div>
+    <div class="field number">
+      <%= label_tag :amount %><br>
+      <%= text_field_tag :amount, params[:amount] %>
+    </div>
+    <div class="field">
+      <%= label_tag :description %><br>
+      <%= text_field_tag :description, params[:description] %>
+    </div>
+    <div class="actions">
+      <%= submit_tag "Search" %>
+    </div>
+  <% end %>
+</div>
+
 <table>
   <thead>
     <tr>
@@ -9,7 +49,6 @@
       <th>Transaction Category</th>
       <th>Amount</th>
       <th>Description</th>
-      <th></th>
       <th></th>
       <th></th>
     </tr>
