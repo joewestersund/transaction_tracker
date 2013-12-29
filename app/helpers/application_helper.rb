@@ -19,4 +19,9 @@ module ApplicationHelper
     first.save
     second.save
   end
+
+  def show_boolean(bool_variable)
+    "Y" if bool_variable
+    "N"
+  end
 end

@@ -12,13 +12,13 @@
   </thead>
 
   <tbody>
-    <% @accounts.each do |account| %>
+    <% @accounts.each_with_index do |account, index| %>
       <tr>
         <td><%= account.account_name %></td>
         <td><%= link_to 'Edit', edit_account_path(account) %></td>
         <td><%= link_to 'Delete', account, method: :delete, data: { confirm: "Are you sure you want to delete account '#{account.account_name}'?" } %></td>
-        <td><%= link_to 'Move Up', "/accounts/#{account.id}/move_up", method: :post %></td>
-        <td><%= link_to 'Move Down', "/accounts/#{account.id}/move_down", method: :post %></td>
+        <td><%= (link_to 'Move Up', "/accounts/#{account.id}/move_up", method: :post) unless index == 0  %></td>
+        <td><%= (link_to 'Move Down', "/accounts/#{account.id}/move_down", method: :post) unless index == @accounts.count-1  %></td>
       </tr>
     <% end %>
   </tbody>
