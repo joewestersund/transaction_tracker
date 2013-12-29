@@ -1,7 +1,7 @@
 <h1>Your Transactions</h1>
 
 <div class="filter">
-  <%= form_tag transactions_path, method: 'get' do %>
+  <%= form_tag request.path, method: 'get' do %>
     <div class="field number">
       <%= label_tag :year %><br>
       <%= text_field_tag :year, params[:year] %>
@@ -70,6 +70,7 @@
   </tbody>
 </table>
 
+<%= will_paginate @transactions %>
 <br>
 
 <%= link_to 'New Transaction', new_transaction_path %>

@@ -5,13 +5,8 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    conditions_string, conditions = get_conditions(Transaction.new(search_params))
-    if conditions.length > 0
-      @transactions = current_user.transactions.all(conditions: [conditions_string, conditions])
-    else
-      @transactions = current_user.transactions.all
-    end
-
+    conditions_array = get_conditions(Transaction.new(search_params))
+    @transactions = current_user.transactions.where(conditions_array).page(params[:page]).per_page(20)
   end
 
   # GET /transactions/1
@@ -112,6 +107,8 @@ private
     conditions = {}
     conditions_string = []
 
+    conditions_string << "user_id = #{current_user.id}" #include user_id here. needed to make pagination work.
+
     conditions[:month] = search_terms.month if search_terms.month.present?
     conditions_string << "month = :month" if search_terms.month.present?
 
@@ -136,7 +133,7 @@ private
     conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
     conditions_string << "description LIKE :description" if search_terms.description.present?
 
-    return conditions_string.join(" AND "), conditions
+    return [conditions_string.join(" AND "), conditions]
   end
 
 end

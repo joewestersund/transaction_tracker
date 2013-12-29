@@ -29,4 +29,9 @@ class Transaction < ActiveRecord::Base
   validates :transaction_date, presence: true
   validates :amount, presence: true
 
+  def self.search(conditions_array, page, per_page)
+    paginate :per_page => per_page, :page => page,
+             :conditions => conditions_array
+  end
+
 end
