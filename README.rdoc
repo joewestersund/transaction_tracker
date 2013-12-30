@@ -1,28 +1,9 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an open-source application for keeping track of your spending,
+and analyzing where your money is going. I'm writing it for some practice
+with rails, and to help me balance my checkbook.
 
-Things you may want to cover:
+Feel free to use or adapt it if it's of use to you too.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+-Joe Westersund 12/29/2013

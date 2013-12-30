@@ -36,6 +36,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'rails_12factor' #for deployment to Heroku
+
 gem 'bootstrap-sass' #include bootstrap css and js files
 
 group :development do
