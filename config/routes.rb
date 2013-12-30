@@ -2,9 +2,10 @@ TransactionTracker::Application.routes.draw do
 
   resources :account_balances
 
-  get "summaries/by_account"
-  get "summaries/by_category"
-  root 'static_pages#home'
+  get "/check_balance", to: 'balance_checks#check_balance'
+
+  get "/summaries/by_account"
+  get "/summaries/by_category"
 
   get '/help', to: 'static_pages#help' # creates named path 'help' for help_path, etc
   get '/about', to: 'static_pages#about' # creates named path 'about'
@@ -30,6 +31,7 @@ TransactionTracker::Application.routes.draw do
   get '/signin', to: "sessions#new"
   delete '/signout', to: "sessions#destroy"
 
+  root 'static_pages#home'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
