@@ -1,31 +1,34 @@
 <h1>Your Transaction Categories</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Is income</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @transaction_categories.each_with_index do |transaction_category, index| %>
+<% if @transaction_categories.nil? or @transaction_categories.each.count == 0 %>
+  <div class="no_data">You do not have any categories set up.</div>
+<% else %>
+  <table>
+    <thead>
       <tr>
-        <td><%= transaction_category.name %></td>
-        <td><%= show_boolean(transaction_category.is_income) %></td>
-        <td><%= link_to 'Edit', edit_transaction_category_path(transaction_category) %></td>
-        <td><%= link_to 'Delete', transaction_category, method: :delete, data: { confirm: "Are you sure you want to delete transaction category '#{transaction_category.name}'?" } %></td>
-        <td><%= (link_to 'Move Up', "/transaction_categories/#{transaction_category.id}/move_up", method: :post) unless index == 0 %></td>
-        <td><%= (link_to 'Move Down', "/transaction_categories/#{transaction_category.id}/move_down", method: :post) unless index == @transaction_categories.count-1 %></td>
+        <th>Name</th>
+        <th>Is income</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @transaction_categories.each_with_index do |transaction_category, index| %>
+        <tr>
+          <td><%= transaction_category.name %></td>
+          <td><%= show_boolean(transaction_category.is_income) %></td>
+          <td><%= link_to 'Edit', edit_transaction_category_path(transaction_category) %></td>
+          <td><%= link_to 'Delete', transaction_category, method: :delete, data: { confirm: "Are you sure you want to delete transaction category '#{transaction_category.name}'?" } %></td>
+          <td><%= (link_to 'Move Up', "/transaction_categories/#{transaction_category.id}/move_up", method: :post) unless index == 0 %></td>
+          <td><%= (link_to 'Move Down', "/transaction_categories/#{transaction_category.id}/move_down", method: :post) unless index == @transaction_categories.count-1 %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <br>
 
 <%= link_to 'New Transaction category', new_transaction_category_path %>

@@ -26,6 +26,11 @@ class BalanceChecksController < ApplicationController
       conditions = ["account_id = :account_id AND transaction_date > :start_date AND transaction_date <= :end_date", {account_id: @account.id, start_date: start_date, end_date: end_date}]
       @transactions = current_user.transactions.where(conditions).page(params[:page]).per_page(20)
       @total_spending = current_user.transactions.where(conditions).sum(:amount)
+    else
+      respond_to do |format|
+        format.html { redirect_to accounts_path, notice: "To run the balance check you need to have at least 1 account set up." }
+        format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+      end
     end
 
   end

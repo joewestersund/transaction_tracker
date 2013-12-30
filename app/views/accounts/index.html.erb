@@ -1,29 +1,32 @@
 <h1>Your Accounts</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Account name</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @accounts.each_with_index do |account, index| %>
+<% if @accounts.nil? or @accounts.each.count == 0 %>
+  <div class="no_data">You do not have any accounts set up.</div>
+<% else %>
+  <table>
+    <thead>
       <tr>
-        <td><%= account.account_name %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Delete', account, method: :delete, data: { confirm: "Are you sure you want to delete account '#{account.account_name}'?" } %></td>
-        <td><%= (link_to 'Move Up', "/accounts/#{account.id}/move_up", method: :post) unless index == 0  %></td>
-        <td><%= (link_to 'Move Down', "/accounts/#{account.id}/move_down", method: :post) unless index == @accounts.count-1  %></td>
+        <th>Account name</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @accounts.each_with_index do |account, index| %>
+        <tr>
+          <td><%= account.account_name %></td>
+          <td><%= link_to 'Edit', edit_account_path(account) %></td>
+          <td><%= link_to 'Delete', account, method: :delete, data: { confirm: "Are you sure you want to delete account '#{account.account_name}'?" } %></td>
+          <td><%= (link_to 'Move Up', "/accounts/#{account.id}/move_up", method: :post) unless index == 0  %></td>
+          <td><%= (link_to 'Move Down', "/accounts/#{account.id}/move_down", method: :post) unless index == @accounts.count-1  %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <br>
 
 <%= link_to 'New Account', new_account_path %>
