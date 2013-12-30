@@ -7,9 +7,7 @@ TransactionTracker::Application.routes.draw do
   get "/summaries/by_account"
   get "/summaries/by_category"
 
-  get '/help', to: 'static_pages#help' # creates named path 'help' for help_path, etc
   get '/about', to: 'static_pages#about' # creates named path 'about'
-  get '/contact', to: 'static_pages#contact' # creates named path 'contact'
   get '/welcome', to: 'static_pages#welcome' # creates named path 'welcome'
   get '/signup', to: 'users#new' # creates named path 'signup'
 
