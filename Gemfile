@@ -20,6 +20,7 @@ gem 'will_paginate', '~> 3.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
 
 # Use jquery as the JavaScript library
@@ -42,14 +43,10 @@ gem 'bootstrap-sass' #include bootstrap css and js files
 
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html
-  gem 'rspec-rails'
-  gem 'guard-rspec'
   gem 'annotate'  #adds annotations to models, call bundle exec annotate to make it work
 end
 
 group :test do
-  gem 'rspec-rails'
-  gem 'guard-rspec'
   gem 'capybara'
   gem 'rb-fsevent'
   #gem 'growl'  #not needed if we don't want notifications from guard.
@@ -61,14 +58,18 @@ group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+group :development, :text do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+end
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+ruby "2.0.0"
