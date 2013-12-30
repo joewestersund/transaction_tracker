@@ -27,3 +27,12 @@ th:first-of-type, td:first-of-type {
   }
 
 }
+
+.welcome a {
+  color: blue;
+
+  &:hover {
+    text-decoration: underline;
+    background-color: inherit;
+  }
+}

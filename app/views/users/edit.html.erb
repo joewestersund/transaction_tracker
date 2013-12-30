@@ -1,6 +1,6 @@
 <h1>Edit Your Profile</h1>
 
-<%= render 'form' %>
+<%= render 'form', locals: { new_user: false } %>
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Home', root_path %>

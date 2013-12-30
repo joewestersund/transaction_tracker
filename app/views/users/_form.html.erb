@@ -23,6 +23,18 @@
     <%= f.label :time_zone %><br>
     <%= f.time_zone_select :time_zone %>
   </div>
+
+  <% if locals[:new_user] %>
+    <div class="field">
+      <%= f.label :password %><br>
+      <%= f.password_field :password %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation %><br>
+      <%= f.password_field :password_confirmation %>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
