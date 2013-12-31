@@ -1,5 +1,7 @@
 TransactionTracker::Application.routes.draw do
 
+  resources :transfers
+
   resources :account_balances
 
   get "/check_balance", to: 'balance_checks#check_balance'

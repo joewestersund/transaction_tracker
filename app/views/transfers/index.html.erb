@@ -1,0 +1,37 @@
+<h1>Listing transfers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>From account</th>
+      <th>To account</th>
+      <th>Transfer date</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transfers.each do |transfer| %>
+      <tr>
+        <td><%= transfer.user_id %></td>
+        <td><%= transfer.from_account_id %></td>
+        <td><%= transfer.to_account_id %></td>
+        <td><%= transfer.transfer_date %></td>
+        <td><%= transfer.amount %></td>
+        <td><%= transfer.description %></td>
+        <td><%= link_to 'Show', transfer %></td>
+        <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
+        <td><%= link_to 'Destroy', transfer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transfer', new_transfer_path %>
