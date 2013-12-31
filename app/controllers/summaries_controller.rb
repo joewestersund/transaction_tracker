@@ -2,22 +2,22 @@ class SummariesController < ApplicationController
 
   def by_account
     at = get_averaging_time
-    #has_null_column = current_user.transactions.where("account_id IS NULL").where(get_conditions(:has_null_column)).count > 0
+
     column_names = current_user.accounts.where(get_conditions(:column_names)).select("id as column_id, account_name as column_name").order(:order_in_list).all
     row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
     data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, account_id as column_id").group("account_id, #{group_by}")
-    #create_summary_table(row_names,column_names,has_null_column,data,:by_account)
+
     create_summary_table(row_names,column_names,data,:by_account)
     @user_accounts = current_user.accounts.order('order_in_list').all
   end
 
   def by_category
     at = get_averaging_time
-    #has_null_column = current_user.transactions.where("transaction_category_id IS NULL").where(get_conditions(:has_null_column)).count > 0
+
     column_names = current_user.transaction_categories.where(get_conditions(:column_names)).select("id as column_id, name as column_name").order(:order_in_list).all
     row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
     data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
-    #create_summary_table(row_names,column_names,has_null_column,data,:by_category)
+
     create_summary_table(row_names,column_names,data,:by_category)
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
   end
@@ -53,9 +53,9 @@ class SummariesController < ApplicationController
     end
 
 
-    def create_summary_table(row_names, column_names, data, summary_type) #(row_names, column_names, has_null_column, data, summary_type)
+    def create_summary_table(row_names, column_names, data, summary_type)
       row_count = row_names.each.count
-      column_count = column_names.each.count + (has_null_column ? 1 : 0)
+      column_count = column_names.each.count
       st = SummaryTable.new(row_count, column_count)
       rows_hash = {}
       columns_hash = {}
@@ -76,12 +76,6 @@ class SummariesController < ApplicationController
         st.column_headers[index].href = transactions_path + get_query_string(nil, nil, nil, summary_type, c.column_id)
         index += 1
       end
-
-      #if has_null_column
-      #  columns_hash[0] = index
-      #  st.column_headers[index].text = "[none]"
-      #  st.column_headers[index].href = transactions_path
-      #end
 
       data.each do |d|
         row = rows_hash[get_row_name(d.year, d.month, d.day)]
