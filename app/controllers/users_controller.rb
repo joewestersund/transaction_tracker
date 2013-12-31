@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params_new)
     if @user.save
+      create_user_defaults(@user)
       sign_in @user
       flash[:notice] = "Welcome to the Transaction Tracker!"
       redirect_to welcome_path
@@ -68,11 +69,28 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :time_zone)
     end
 
-  def user_params_new
-    params.require(:user).permit(:name, :email, :time_zone, :password, :password_confirmation)
-  end
+    def user_params_new
+      params.require(:user).permit(:name, :email, :time_zone, :password, :password_confirmation)
+    end
 
     def user_params_change_password()
       params.require(:user).permit(:password, :password_confirmation)
     end
+
+    def create_user_defaults(user)
+      ["cash" "checking" "savings" "credit card"].each do |account_name|
+        a = Account.new
+        a.account_name = "cash"
+        a.user = user
+        a.save
+      end
+
+      ["rent" "groceries" "restauraunts" "car" "salary"].each do |cat_name|
+        tc = TransactionCategory.new
+        tc.name = cat_name
+        tc.user = user
+        tc.save
+      end
+    end
+
 end

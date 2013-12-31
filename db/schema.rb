@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131231062356) do
+ActiveRecord::Schema.define(version: 20131231070447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20131231062356) do
 
   create_table "transaction_categories", force: true do |t|
     t.string   "name"
-    t.boolean  "is_income"
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -69,7 +68,13 @@ ActiveRecord::Schema.define(version: 20131231062356) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
   end
+
+  add_index "transfers", ["from_account_id"], name: "index_transfers_on_from_account_id", using: :btree
+  add_index "transfers", ["to_account_id"], name: "index_transfers_on_to_account_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"

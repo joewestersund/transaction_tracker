@@ -1,18 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
-  <%= @transfer.user_id %>
-</p>
-
-<p>
   <strong>From account:</strong>
-  <%= @transfer.from_account_id %>
+  <%= @transfer.from_account.account_name %>
 </p>
 
 <p>
   <strong>To account:</strong>
-  <%= @transfer.to_account_id %>
+  <%= @transfer.to_account.account_name %>
 </p>
 
 <p>
@@ -22,7 +17,7 @@
 
 <p>
   <strong>Amount:</strong>
-  <%= @transfer.amount %>
+  <%= number_to_currency(@transfer.amount) %>
 </p>
 
 <p>

@@ -11,6 +11,9 @@
 #  description     :text
 #  created_at      :datetime
 #  updated_at      :datetime
+#  year            :integer
+#  month           :integer
+#  day             :integer
 #
 
 require 'spec_helper'

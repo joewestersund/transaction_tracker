@@ -1,37 +1,73 @@
-<h1>Listing transfers</h1>
+<h1>Transfers Between Accounts</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>From account</th>
-      <th>To account</th>
-      <th>Transfer date</th>
-      <th>Amount</th>
-      <th>Description</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="filter">
+  <%= form_tag request.path, method: 'get' do %>
+    <div class="field number">
+      <%= label_tag :year %><br>
+      <%= text_field_tag :year, params[:year] %>
+    </div>
+    <div class="field number">
+      <%= label_tag :month %><br>
+      <%= text_field_tag :month, params[:month] %>
+    </div>
+    <div class="field number">
+      <%= label_tag :day %><br>
+      <%= text_field_tag :day, params[:day] %>
+    </div>
+    <div class="field">
+      <%= label_tag :to_account %><br>
+      <%= select_tag :to_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:to_account_id]), { :include_blank => true } %>
+    </div>
+    <div class="field">
+      <%= label_tag :from_account %><br>
+      <%= select_tag :from_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:from_account_id]), { :include_blank => true } %>
+    </div>
+    <div class="field number">
+      <%= label_tag :amount %><br>
+      <%= text_field_tag :amount, params[:amount] %>
+    </div>
+    <div class="field">
+      <%= label_tag :description %><br>
+      <%= text_field_tag :description, params[:description] %>
+    </div>
+    <div class="actions">
+      <%= submit_tag "Search" %>
+    </div>
+  <% end %>
+</div>
 
-  <tbody>
-    <% @transfers.each do |transfer| %>
+<% if @transfers.nil? or @transfers.each.count == 0 %>
+  <div class="no_data">You haven't entered any account transfers data, or no transfers match the filter above.</div>
+<% else %>
+  <table>
+    <thead>
       <tr>
-        <td><%= transfer.user_id %></td>
-        <td><%= transfer.from_account_id %></td>
-        <td><%= transfer.to_account_id %></td>
-        <td><%= transfer.transfer_date %></td>
-        <td><%= transfer.amount %></td>
-        <td><%= transfer.description %></td>
-        <td><%= link_to 'Show', transfer %></td>
-        <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
-        <td><%= link_to 'Destroy', transfer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>From account</th>
+        <th>To account</th>
+        <th>Transfer date</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @transfers.each do |transfer| %>
+        <tr>
+          <td><%= transfer.from_account.account_name %></td>
+          <td><%= transfer.to_account.account_name %></td>
+          <td><%= transfer.transfer_date %></td>
+          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= transfer.description %></td>
+          <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
+          <td><%= link_to 'Destroy', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @transfers %>
+<% end %>
 <br>
 
 <%= link_to 'New Transfer', new_transfer_path %>

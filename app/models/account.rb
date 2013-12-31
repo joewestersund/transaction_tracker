@@ -15,6 +15,8 @@ class Account < ActiveRecord::Base
   belongs_to :user
   has_many :transactions
   has_many :account_balances, :dependent => :destroy
+  has_many :incoming_transfers, source: "to_account_id", :dependent => :destroy
+  has_many :outgoing_transfers, source: "from_account_id", :dependent => :destroy
 
   validates :order_in_list, numericality: { only_integer: true, greater_than: 0 }
   validates :user_id, presence: true

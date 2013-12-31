@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :account_balances
   has_many :transaction_categories, :dependent => :destroy
   has_many :transactions, :dependent => :destroy
+  has_many :transfers, :dependent => :destroy
 
   before_save { |user| user.email.downcase! }
   before_create :create_remember_token

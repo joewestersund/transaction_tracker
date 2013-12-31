@@ -24,14 +24,9 @@ class Transaction < ActiveRecord::Base
   belongs_to :transaction_category
 
   validates :user_id, presence: true
-  #validates :account_id, presence: true
-  #validates :transaction_category_id, presence: true
+  validates :account_id, presence: true
+  validates :transaction_category_id, presence: true
   validates :transaction_date, presence: true
   validates :amount, presence: true
-
-  def self.search(conditions_array, page, per_page)
-    paginate :per_page => per_page, :page => page,
-             :conditions => conditions_array
-  end
 
 end

@@ -4,7 +4,6 @@
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
-#  is_income     :boolean
 #  order_in_list :integer
 #  created_at    :datetime
 #  updated_at    :datetime

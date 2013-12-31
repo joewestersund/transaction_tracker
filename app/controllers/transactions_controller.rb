@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = current_user.transactions.where(get_conditions).page(params[:page]).per_page(20)
+    @transactions = current_user.transactions.where(get_conditions).order(:transaction_date).page(params[:page]).per_page(20)
   end
 
   # GET /transactions/1
