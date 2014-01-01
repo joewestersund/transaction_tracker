@@ -58,7 +58,7 @@
     </thead>
 
     <tbody>
-      <% @transactions.each do |transaction| %>
+      <% @transactions.reverse.each do |transaction| %>
         <tr>
           <td><%= transaction.transaction_date.strftime('%m/%e/%Y') %></td>
           <td><%= transaction.vendor_name %></td>

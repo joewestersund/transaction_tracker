@@ -5,7 +5,7 @@ class TransfersController < ApplicationController
   # GET /transfers
   # GET /transfers.json
   def index
-    @transfers = current_user.transfers.where(get_conditions).order(:transfer_date).page(params[:page]).per_page(20)
+    @transfers = current_user.transfers.where(get_conditions).order("transfer_date DESC").page(params[:page]).per_page(20)
   end
 
   # GET /transfers/1

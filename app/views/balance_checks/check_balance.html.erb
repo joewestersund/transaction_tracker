@@ -18,6 +18,38 @@
 <% if @start_balance.nil? or @end_balance.nil? %>
   <div class="no_data">There is not enough data for this account. There must be at least 2 account balance data points in order to display this view.</div>
 <% else %>
+  <h4>Balance Summary</h4>
+  <table>
+    <tr>
+      <td>Start balance <%= start_date %></td>
+      <td><%= number_to_currency(@start_balance.balance) %></td>
+    </tr>
+    <tr>
+      <td>End balance <%= end_date %></td>
+      <td><%= number_to_currency(@end_balance.balance) %></td>
+    </tr>
+    <% balance_change = @end_balance.balance - @start_balance.balance %>
+    <tr>
+      <td>Balance increase:</td>
+      <td><%= number_to_currency(balance_change) %></td>
+    </tr>
+    <tr>
+      <td>Transfers in:</td>
+      <td><%= number_to_currency(@transfers_in_total) %></td>
+    </tr>
+    <tr>
+      <td>Spending total:</td>
+      <td><%= number_to_currency(@total_spending) %></td>
+    </tr>
+    <tr>
+      <td>Transfers out:</td>
+      <td><%= number_to_currency(@transfers_out_total) %></td>
+    </tr>
+    <tr>
+      <td>Spending (earnings) not accounted for:</td>
+      <td><%= number_to_currency(balance_change + @total_spending + @transfers_out_total - @transfers_in_total )%></td>
+    </tr>
+  </table>
 
   <h4>Transfers in</h4>
   <% if @transfers_in.nil? or @transfers_in.each.count == 0 %>
@@ -37,7 +69,7 @@
       </thead>
 
       <tbody>
-      <% @transfers_in.each do |transfer| %>
+      <% @transfers_in.reverse.each do |transfer| %>
         <tr>
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>
@@ -72,7 +104,7 @@
       </thead>
 
       <tbody>
-      <% @transactions.each do |transaction| %>
+      <% @transactions.reverse.each do |transaction| %>
         <tr>
           <td><%= transaction.transaction_date.strftime('%m/%e/%Y') %></td>
           <td><%= transaction.vendor_name %></td>
@@ -107,7 +139,7 @@
       </thead>
 
       <tbody>
-      <% @transfers_out.each do |transfer| %>
+      <% @transfers_out.reverse.each do |transfer| %>
         <tr>
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>
@@ -122,39 +154,6 @@
     </table>
     <%= will_paginate @transfers_out, :param_name => 'transfers_out_page'%>
   <% end %>
-
-  <h4>Balance Summary</h4>
-  <table>
-    <tr>
-      <td>Start balance <%= start_date %></td>
-      <td><%= number_to_currency(@start_balance.balance) %></td>
-    </tr>
-    <tr>
-      <td>End balance <%= end_date %></td>
-      <td><%= number_to_currency(@end_balance.balance) %></td>
-    </tr>
-    <% balance_change = @end_balance.balance - @start_balance.balance %>
-    <tr>
-      <td>Balance increase:</td>
-      <td><%= number_to_currency(balance_change) %></td>
-    </tr>
-    <tr>
-      <td>Transfers in:</td>
-      <td><%= number_to_currency(@transfers_in_total) %></td>
-    </tr>
-    <tr>
-      <td>Spending total:</td>
-      <td><%= number_to_currency(@total_spending) %></td>
-    </tr>
-    <tr>
-      <td>Transfers out:</td>
-      <td><%= number_to_currency(@transfers_out_total) %></td>
-    </tr>
-    <tr>
-      <td>Spending (earnings) not accounted for:</td>
-      <td><%= number_to_currency(balance_change + @total_spending + @transfers_out_total - @transfers_in_total )%></td>
-    </tr>
-  </table>
 <% end %>
 
 <br>

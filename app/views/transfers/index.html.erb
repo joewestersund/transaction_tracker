@@ -53,7 +53,7 @@
     </thead>
 
     <tbody>
-      <% @transfers.each do |transfer| %>
+      <% @transfers.reverse.each do |transfer| %>
         <tr>
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>

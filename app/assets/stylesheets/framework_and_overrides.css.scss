@@ -36,10 +36,20 @@ main {
   @extend .container;
   background-color: #eee;
   padding-bottom: 80px;
-  width: 100%;
+  width: 960px; /* 100%;   */
   margin-top: 51px; // accommodate the navbar
+  border: 1px black solid
   }
 section {
   @extend .row;
   margin-top: 20px;
   }
+.header {
+  background-color: black;
+  width: 100%
+}
+.navbar {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
