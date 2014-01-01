@@ -24,6 +24,19 @@ class SummaryTable
     @column_header_cells
   end
 
+  def empty_columns
+    column_is_empty_array = Array.new(@columns,true) #set to true by default
+    @table_cells.each_index do |row_index|
+      @table_cells[row_index].each_index do |column_index|
+        if @table_cells[row_index][column_index].text.present?
+          column_is_empty_array[column_index] = false
+          break
+        end
+      end
+    end
+    column_is_empty_array
+  end
+
   def row_headers
     @row_header_cells
   end

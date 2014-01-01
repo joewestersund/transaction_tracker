@@ -85,6 +85,8 @@ class SummariesController < ApplicationController
         st.cells[row][column].href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
       end
 
+      @empty_columns = st.empty_columns
+
       @table = st
     end
 

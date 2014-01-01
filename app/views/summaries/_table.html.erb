@@ -5,19 +5,20 @@
     <thead>
     <tr>
       <th></th>
-        <% @table.column_headers.each do |ch| %>
-          <th><%= link_to ch.text, ch.href if ch.text.present?%></th>
+        <% @table.column_headers.each_with_index do |ch, index| %>
+          <th class="<%= "no_data hide" if @empty_columns[index] %>"><%= link_to ch.text, ch.href if ch.text.present?%></th>
         <% end %>
     </tr>
     </thead>
 
     <tbody>
-    <% @table.row_headers.each_index do |index| %>
+    <% @table.row_headers.each_index do |row_index| %>
       <tr>
-        <% rh = @table.row_headers[index] %>
+        <% rh = @table.row_headers[row_index] %>
         <td class="row_header"><%= link_to rh.text, rh.href if rh.text.present?%></td>
-        <% @table.cells[index].each do |c| %>
-          <td><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
+        <% @table.cells[row_index].each_index do |cell_index| %>
+          <% c = @table.cells[row_index][cell_index]%>
+          <td class="<%= "no_data hide" if @empty_columns[cell_index] %>"><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
         <% end %>
       </tr>
     <% end %>
