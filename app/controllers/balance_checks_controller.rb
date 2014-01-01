@@ -28,7 +28,7 @@ class BalanceChecksController < ApplicationController
       @total_spending = current_user.transactions.where(conditions).sum(:amount)
     else
       respond_to do |format|
-        format.html { redirect_to accounts_path, notice: "To run the balance check you need to have at least 1 account set up." }
+        format.html { redirect_to accounts_path, notice: "To run the balance check you need to have at least 1 account set up, with 2 account balances to compare." }
         format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
       end
     end

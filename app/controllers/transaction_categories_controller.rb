@@ -65,17 +65,16 @@ class TransactionCategoriesController < ApplicationController
   # DELETE /transaction_categories/1
   # DELETE /transaction_categories/1.json
   def destroy
-    @transaction_category.destroy
-
-    #update any transactions that used this account.
-    Transaction.where(transaction_category_id: @transaction_category.id, user_id: current_user.id).each do |t|
-      t.account_id = nil
-      t.save
-    end
-
-    respond_to do |format|
-      format.html { redirect_to transaction_categories_path, notice: "Transaction category '#{@transaction_category.name}' was successfully deleted." }
-      format.json { head :no_content }
+    if @transaction_category.destroy
+      respond_to do |format|
+        format.html { redirect_to transaction_categories_path, notice: "Transaction category '#{@transaction_category.name}' was successfully deleted." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to transaction_categories_path, alert: "Transaction category '#{@transaction_category.name}' could not be deleted. Check that it's not being used for any existing transactions." }
+        format.json { render json: @transaction_category.errors, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -38,7 +38,7 @@ class TransfersController < ApplicationController
     set_year_month_day(@transfer)
     respond_to do |format|
       if @transfer.save
-        format.html { redirect_to @transfer, notice: 'Transfer was successfully created.' }
+        format.html { redirect_to transfers_path, notice: 'Transfer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @transfer }
       else
         set_select_options
@@ -55,7 +55,7 @@ class TransfersController < ApplicationController
       @transfer.attributes = transaction_params
       set_year_month_day(@transfer)
       if @transfer.save
-        format.html { redirect_to @transfer, notice: 'Transfer was successfully updated.' }
+        format.html { redirect_to transfers_path, notice: 'Transfer was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

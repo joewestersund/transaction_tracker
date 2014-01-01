@@ -66,17 +66,16 @@ class AccountsController < ApplicationController
   # DELETE /accounts/1
   # DELETE /accounts/1.json
   def destroy
-    @account.destroy
-
-    #update any transactions that used this account.
-    Transaction.where(account_id: @account.id, user_id: current_user.id).each do |t|
-      t.account_id = nil
-      t.save
-    end
-
-    respond_to do |format|
-      format.html { redirect_to accounts_url, notice: "Account '#{@account.account_name}' was successfully deleted." }
-      format.json { head :no_content }
+    if @account.destroy
+      respond_to do |format|
+        format.html { redirect_to accounts_path, notice: "Account '#{@account.account_name}' was successfully deleted." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to accounts_path, alert: "Account '#{@account.account_name}' could not be deleted. Check that it's not being used in any transactions or transfers."}
+        format.json { render json: @account.errors, status: :unprocessable_entity }
+      end
     end
   end
 

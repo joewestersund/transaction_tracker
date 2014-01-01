@@ -15,7 +15,20 @@ class TransactionCategory < ActiveRecord::Base
   belongs_to :user
   has_many :transactions
 
+  validates :name, presence: true, :uniqueness => {:scope => :user}
   validates :order_in_list, numericality: { only_integer: true, greater_than: 0 }
   validates :user_id, presence: true
+
+  before_destroy :check_no_transactions
+
+  private
+    def check_no_transactions
+      status = true
+      if self.transactions.count > 0
+        self.errors[:deletion_status] = 'Cannot delete a category that is being used for one or more transactions.'
+        status = false
+      end
+      status
+    end
 
 end

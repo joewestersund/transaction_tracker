@@ -8,9 +8,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params_new)
     if @user.save
-      create_user_defaults(@user)
       sign_in @user
-      flash[:notice] = "Welcome to the Transaction Tracker!"
+      create_user_defaults(@user)
+      flash[:notice] = "Welcome to the Spending Tracker! We've set up some default account names and transaction categories for you."
       redirect_to welcome_path
     else
       render 'new'
@@ -78,18 +78,32 @@ class UsersController < ApplicationController
     end
 
     def create_user_defaults(user)
-      ["cash" "checking" "savings" "credit card"].each do |account_name|
+      account_names = ["cash", "checking", "savings", "credit card"]
+      account_names.each_with_index do |account_name, index|
         a = Account.new
-        a.account_name = "cash"
+        a.account_name = account_name
+        a.order_in_list = index + 1
         a.user = user
-        a.save
+        if !a.save
+          respond_to do |format|
+            format.html { redirect_to signup_path }
+            format.json { head :no_content }
+          end
+        end
       end
 
-      ["rent" "groceries" "restauraunts" "car" "salary"].each do |cat_name|
+      category_names = ["rent", "groceries", "restauraunts", "car", "salary"]
+      category_names.each_with_index do |cat_name, index|
         tc = TransactionCategory.new
         tc.name = cat_name
+        tc.order_in_list = index + 1
         tc.user = user
-        tc.save
+        if !tc.save
+          respond_to do |format|
+            format.html { redirect_to signup_path }
+            format.json { head :no_content }
+          end
+        end
       end
     end
 
