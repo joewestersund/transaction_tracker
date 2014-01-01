@@ -61,7 +61,7 @@
           <td><%= number_to_currency(transfer.amount) %></td>
           <td><%= transfer.description %></td>
           <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
-          <td><%= link_to 'Destroy', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
+          <td><%= link_to 'Delete', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
         </tr>
       <% end %>
     </tbody>

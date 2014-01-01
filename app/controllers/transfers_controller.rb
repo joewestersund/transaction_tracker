@@ -52,7 +52,7 @@ class TransfersController < ApplicationController
   # PATCH/PUT /transfers/1.json
   def update
     respond_to do |format|
-      @transfer.attributes = transaction_params
+      @transfer.attributes = transfer_params
       set_year_month_day(@transfer)
       if @transfer.save
         format.html { redirect_to transfers_path, notice: 'Transfer was successfully updated.' }

@@ -1,4 +1,11 @@
 <h1>Balance Check</h1>
+<% start_date = @start_balance.balance_date.strftime('%m/%e/%Y')
+   end_date =  @end_balance.balance_date.strftime('%m/%e/%Y') %>
+<div class="inline">
+  <h4><%= "#{start_date} to #{end_date}" %></h4>
+  <%= link_to "earlier", request.path + "?account_id=#{@account.id}&prev_balance=#{@account_balance_num + 1}" if @show_earlier_link%>
+  <%= link_to "later", request.path + "?account_id=#{@account.id}&prev_balance=#{@account_balance_num - 1}" if @show_later_link %>
+</div>
 
 <div class="inline">
   <h4>Account:</h4>
@@ -11,13 +18,42 @@
 <% if @start_balance.nil? or @end_balance.nil? %>
   <div class="no_data">There is not enough data for this account. There must be at least 2 account balance data points in order to display this view.</div>
 <% else %>
-  <% start_date = @start_balance.balance_date.strftime('%m/%e/%Y')
-     end_date =  @end_balance.balance_date.strftime('%m/%e/%Y') %>
-  <div class="inline">
-    <h4>Transactions between <%= "#{start_date} and #{end_date}" %></h4>
-    <%= link_to "earlier", request.path + "?account_id=#{@account.id}&prev_balance=#{@account_balance_num + 1}" if @show_earlier_link%>
-    <%= link_to "later", request.path + "?account_id=#{@account.id}&prev_balance=#{@account_balance_num - 1}" if @show_later_link %>
-  </div>
+
+  <h4>Transfers in</h4>
+  <% if @transfers_in.nil? or @transfers_in.each.count == 0 %>
+    <div class="no_data">No transfers in to this account were found.</div>
+  <% else %>
+    <table>
+      <thead>
+      <tr>
+        <th>From account</th>
+        <th>To account</th>
+        <th>Transfer date</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @transfers_in.each do |transfer| %>
+        <tr>
+          <td><%= transfer.from_account.account_name %></td>
+          <td><%= transfer.to_account.account_name %></td>
+          <td><%= transfer.transfer_date %></td>
+          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= transfer.description %></td>
+          <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
+          <td><%= link_to 'Delete', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @transfers_in, :param_name => 'transfers_in_page'%>
+  <% end %>
+
+  <h4>Spending</h4>
   <% if @transactions.count == 0 %>
     <div class="no_data">No transactions were found</div>
   <% else %>
@@ -27,7 +63,7 @@
         <th>Date</th>
         <th>Vendor Name</th>
         <th>Account</th>
-        <th>Transaction Category</th>
+        <th>Spending Category</th>
         <th>Amount</th>
         <th>Description</th>
         <th></th>
@@ -50,7 +86,41 @@
       <% end %>
       </tbody>
     </table>
-    <%= will_paginate @transactions %>
+    <%= will_paginate @transactions, :param_name => 'transactions_page'%>
+  <% end %>
+
+  <h4>Transfers out</h4>
+  <% if @transfers_out.nil? or @transfers_out.each.count == 0 %>
+    <div class="no_data">No transfers out from this account were found.</div>
+  <% else %>
+    <table>
+      <thead>
+      <tr>
+        <th>From account</th>
+        <th>To account</th>
+        <th>Transfer date</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @transfers_out.each do |transfer| %>
+        <tr>
+          <td><%= transfer.from_account.account_name %></td>
+          <td><%= transfer.to_account.account_name %></td>
+          <td><%= transfer.transfer_date %></td>
+          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= transfer.description %></td>
+          <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
+          <td><%= link_to 'Delete', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @transfers_out, :param_name => 'transfers_out_page'%>
   <% end %>
 
   <h4>Balance Summary</h4>
@@ -65,16 +135,24 @@
     </tr>
     <% balance_change = @end_balance.balance - @start_balance.balance %>
     <tr>
-      <td>Balance change:</td>
+      <td>Balance increase:</td>
       <td><%= number_to_currency(balance_change) %></td>
     </tr>
     <tr>
-      <td>Transactions total:</td>
+      <td>Transfers in:</td>
+      <td><%= number_to_currency(@transfers_in_total) %></td>
+    </tr>
+    <tr>
+      <td>Spending total:</td>
       <td><%= number_to_currency(@total_spending) %></td>
     </tr>
     <tr>
+      <td>Transfers out:</td>
+      <td><%= number_to_currency(@transfers_out_total) %></td>
+    </tr>
+    <tr>
       <td>Spending (earnings) not accounted for:</td>
-      <td><%= number_to_currency(@total_spending - balance_change)%></td>
+      <td><%= number_to_currency(balance_change + @total_spending + @transfers_out_total - @transfers_in_total )%></td>
     </tr>
   </table>
 <% end %>
