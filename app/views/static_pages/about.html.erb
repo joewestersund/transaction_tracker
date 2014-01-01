@@ -1,9 +1,17 @@
-<div class="center hero-unit">
-  <h1>Welcome to the Spending Tracker</h1>
+<div class="about center hero-unit">
+  <h1>Spending Tracker</h1>
   <p>
-    This is a free, open-source project by Joe Westersund to help him balance his checkbook. You're welcome to use it too if you like. Or, <%= link_to "download the source code", "https://github.com/joewestersund/transaction_tracker" %> to create your own version.
+    A free, open-source project by Joe Westersund to help him balance his checkbook. You're welcome to use it too if you like.
   </p>
+  <p>
+    Or, <%= link_to "download the source code", "https://github.com/joewestersund/transaction_tracker" %> to create your own version.
+  </p>
+  <p>
+    Feel free to <%= mail_to 'joe.westersund@gmail.com', 'contact me' %> if you have any questions or suggestions.
+  </p>
+
   <% unless signed_in? %>
     <%= link_to "free sign up", signup_path, class: "btn btn-large btn-primary" %>
   <% end %>
+
 </div>

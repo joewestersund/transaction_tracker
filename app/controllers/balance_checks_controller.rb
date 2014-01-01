@@ -1,15 +1,26 @@
 class BalanceChecksController < ApplicationController
 
   def check_balance
-    if params[:account_id].present?
-      @account = current_user.accounts.find(params[:account_id])
-    else
-      @account = current_user.accounts.order(:order_in_list).first
+    #only include accounts that have enough balance info to do a check
+    @user_accounts = []
+    current_user.accounts.order(:order_in_list).each do |a|
+      if a.account_balances.count >= 2
+        @user_accounts << a
+        break
+      end
     end
-    @user_accounts = current_user.accounts.order(:order_in_list).all
 
     @account_balance_num = 1 #default value
-    @account_balance_num = params[:prev_balance].to_i if params[:prev_balance].present?
+
+    if params[:account_id].present?
+      a = current_user.accounts.find(params[:account_id])
+      if a.present?
+        @account = a
+        @account_balance_num = params[:prev_balance].to_i if params[:prev_balance].present?
+      end
+    else
+      @account = @user_accounts[0] if @user_accounts.count > 0
+    end
 
     if @account.present? and @account.account_balances.count >= @account_balance_num + 1
       balances = @account.account_balances.order("balance_date DESC")

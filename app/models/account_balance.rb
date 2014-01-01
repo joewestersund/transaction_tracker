@@ -16,7 +16,8 @@ class AccountBalance < ActiveRecord::Base
   belongs_to :user
 
   validates :account_id, presence: true
-  validates :balance_date, presence: true, :uniqueness => {:scope => :account} #can't have two balances on same day for same account
+  validates :balance_date, presence: true
+  validates :balance_date, :uniqueness => {:scope => :account, message: "- you've already entered balance information for this account for this day."} #can't have two balances on same day for same account
   validates :balance, presence: true
 
 end

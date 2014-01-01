@@ -21,7 +21,7 @@
           <td><%= account_balance.balance_date %></td>
           <td><%= number_to_currency(account_balance.balance) %></td>
           <td><%= link_to 'Edit', edit_account_balance_path(account_balance) %></td>
-          <td><%= link_to 'Destroy', account_balance, method: :delete, data: { confirm: 'Are you sure you want to delete this account balance record?' } %></td>
+          <td><%= link_to 'Delete', account_balance, method: :delete, data: { confirm: 'Are you sure you want to delete this account balance record?' } %></td>
         </tr>
       <% end %>
     </tbody>

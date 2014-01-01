@@ -40,6 +40,7 @@ class AccountBalancesController < ApplicationController
         format.html { redirect_to account_balances_path, notice: 'Account balance was successfully created.' }
         format.json { render action: 'show', status: :created, location: @account_balance }
       else
+        set_select_options
         format.html { render action: 'new' }
         format.json { render json: @account_balance.errors, status: :unprocessable_entity }
       end
@@ -54,6 +55,7 @@ class AccountBalancesController < ApplicationController
         format.html { redirect_to account_balances_path, notice: 'Account balance was successfully updated.' }
         format.json { head :no_content }
       else
+        set_select_options
         format.html { render action: 'edit' }
         format.json { render json: @account_balance.errors, status: :unprocessable_entity }
       end

@@ -28,7 +28,7 @@ th:first-of-type, td:first-of-type {
 
 }
 
-.welcome a {
+.welcome a, .about a {
   color: blue;
 
   &:hover {
