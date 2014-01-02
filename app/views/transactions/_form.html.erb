@@ -12,11 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :date %><br>
+    <%= f.label :transaction_date, "Date" %><br>
     <%= f.date_select :transaction_date %>
   </div>
   <div class="field">
-    <%= f.label :vendor_name %><br>
+    <%= f.label :vendor_name, "Vendor Name" %><br>
     <%= f.text_field :vendor_name %>
   </div>
   <div class="field">
@@ -25,12 +25,12 @@
     <%= link_to "Add / Edit", new_account_path %>
   </div>
   <div class="field">
-    <%= f.label :transaction_category %><br>
+    <%= f.label :transaction_category, "Spending Category" %><br>
     <%= f.collection_select :transaction_category_id, @user_transaction_categories, :id, :name %>
     <%= link_to "Add / Edit", new_transaction_category_path %>
   </div>
   <div class="field">
-    <%= f.label :amount_spent %><br>
+    <%= f.label :amount, "Amount Spent" %><br>
     <%= f.text_field :amount %>
   </div>
   <div class="field">

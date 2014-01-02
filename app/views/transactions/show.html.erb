@@ -17,12 +17,12 @@
 
 
 <p>
-  <strong>Transaction Category:</strong>
+  <strong>Spending Category:</strong>
   <%= @transaction.transaction_category.name if @transaction.transaction_category.present?  %>
 </p>
 
 <p>
-  <strong>Amount:</strong>
+  <strong>Amount Spent:</strong>
   <%= number_to_currency(@transaction.amount) %>
 </p>
 

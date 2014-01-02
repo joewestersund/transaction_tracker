@@ -12,17 +12,17 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :from_account %><br>
+    <%= f.label :from_account, "From Account" %><br>
     <%= f.collection_select :from_account_id, @user_accounts, :id, :account_name %>
     <%= link_to "Add / Edit", new_account_path %>
   </div>
   <div class="field">
-    <%= f.label :to_account %><br>
+    <%= f.label :to_account, "To Account" %><br>
     <%= f.collection_select :to_account_id, @user_accounts, :id, :account_name %>
     <%= link_to "Add / Edit", new_account_path %>
   </div>
   <div class="field">
-    <%= f.label :transfer_date %><br>
+    <%= f.label :transfer_date, "Date" %><br>
     <%= f.date_select :transfer_date %>
   </div>
   <div class="field">
