@@ -64,16 +64,18 @@ class SummariesController < ApplicationController
       row_names.each do |r|
         row_name = get_row_name(r.year, r.month, r.day)
         rows_hash[row_name] = index
-        st.row_headers[index].text = row_name
-        st.row_headers[index].href = transactions_path + get_query_string(r.year, r.month, r.day, summary_type, nil)
+        st.set_header_text(:row, index, row_name)
+        href = transactions_path + get_query_string(r.year, r.month, r.day, summary_type, nil)
+        st.set_header_href(:row, index, href)
         index += 1
       end
 
       index=0
       column_names.each do |c|
         columns_hash[c.column_id] = index
-        st.column_headers[index].text = c.column_name
-        st.column_headers[index].href = transactions_path + get_query_string(nil, nil, nil, summary_type, c.column_id)
+        st.set_header_text(:column,index, c.column_name)
+        href = transactions_path + get_query_string(nil, nil, nil, summary_type, c.column_id)
+        st.set_header_href(:column, index, href)
         index += 1
       end
 
@@ -81,11 +83,10 @@ class SummariesController < ApplicationController
         row = rows_hash[get_row_name(d.year, d.month, d.day)]
         col_id = nil_to_zero(d.column_id)
         column = columns_hash[col_id]
-        st.cells[row][column].text = d.amount_sum
-        st.cells[row][column].href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
+        st.set_text(row, column, d.amount_sum)
+        href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
+        st.set_href(row,column,href)
       end
-
-      @empty_columns = st.empty_columns
 
       @table = st
     end

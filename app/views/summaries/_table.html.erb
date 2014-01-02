@@ -1,24 +1,32 @@
-<% if @table.row_headers.count == 0 %>
+<% if @table.num_rows == 0 %>
   <div class="no_data">You haven't entered any transaction data, or no data matches the filter above.</div>
-<% else %>
+<% else
+  if @table.some_columns_have_no_data %>
+    <%= check_box_tag :show_all_columns %>
+    <%= label_tag :show_all_columns, "Show All Columns" %>
+  <% end %>
   <table class="summary">
     <thead>
     <tr>
       <th></th>
-        <% @table.column_headers.each_with_index do |ch, index| %>
-          <th class="<%= "no_data hide" if @empty_columns[index] %>"><%= link_to ch.text, ch.href if ch.text.present?%></th>
+        <% for column_index in 0..(@table.num_columns-1)
+          ch_text = @table.header_text(:column,column_index)
+          ch_href = @table.header_href(:column,column_index)%>
+          <th class="<%= "no_data hide" if @table.column_has_no_data(column_index) %>"><%= link_to ch_text, ch_href if ch_text.present?%></th>
         <% end %>
     </tr>
     </thead>
 
     <tbody>
-    <% @table.row_headers.each_index do |row_index| %>
+    <% for row_index in 0..(@table.num_rows-1) %>
       <tr>
-        <% rh = @table.row_headers[row_index] %>
-        <td class="row_header"><%= link_to rh.text, rh.href if rh.text.present?%></td>
-        <% @table.cells[row_index].each_index do |cell_index| %>
-          <% c = @table.cells[row_index][cell_index]%>
-          <td class="<%= "no_data hide" if @empty_columns[cell_index] %>"><%= link_to number_to_currency(c.text), c.href if c.text.present?%></td>
+        <% rh_text = @table.header_text(:row,row_index)
+          rh_href = @table.header_href(:row,row_index)%>
+        <td class="row_header"><%= link_to rh_text, rh_href if rh_text.present?%></td>
+        <% for column_index in 0..(@table.num_columns-1)
+          c_text = @table.text(row_index,column_index)
+          c_href = @table.href(row_index,column_index) %>
+          <td class="<%= "no_data hide" if @table.column_has_no_data(column_index) %>"><%= link_to number_to_currency(c_text), c_href if c_text.present?%></td>
         <% end %>
       </tr>
     <% end %>
