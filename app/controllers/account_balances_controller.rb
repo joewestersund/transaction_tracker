@@ -1,4 +1,5 @@
 class AccountBalancesController < ApplicationController
+  before_action :signed_in_user
   before_action :set_account_balance, only: [:show, :edit, :update, :destroy]
   before_action :set_select_options, only: [:new, :edit, :index]
 

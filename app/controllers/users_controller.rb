@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only: [:edit, :edit_password, :update, :update_password, :show, :destroy, :index]
   before_action :set_user, only: [:show, :edit, :edit_password, :update, :update_password, :destroy]
 
   def new
@@ -36,9 +37,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def update_password
     respond_to do |format|
       if params[:user][:password].present? and @user.update(user_params_change_password)
@@ -49,6 +47,9 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def show
   end
 
   def destroy

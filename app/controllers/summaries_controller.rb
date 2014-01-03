@@ -1,4 +1,5 @@
 class SummariesController < ApplicationController
+  before_action :signed_in_user
 
   def by_account
     at = get_averaging_time

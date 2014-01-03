@@ -1,4 +1,5 @@
 class BalanceChecksController < ApplicationController
+  before_action :signed_in_user
 
   def check_balance
     #only include accounts that have enough balance info to do a check
