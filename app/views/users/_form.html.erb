@@ -36,6 +36,6 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit locals[:new_user] ? "Sign Up" : "Submit", class: "btn btn-large btn-primary" %>
   </div>
 <% end %>

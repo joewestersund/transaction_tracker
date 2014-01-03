@@ -11,7 +11,7 @@
   <h4>Account:</h4>
   <%= form_tag request.path, method: 'get' do %>
     <%= select_tag :account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,@account.id) %>
-    <%= submit_tag "Switch Account"%>
+    <%= submit_tag "Switch Account" %>
   <% end %>
   <span>Only accounts with at least two account balance data points are shown.</span>
 </div>
