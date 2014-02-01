@@ -7,7 +7,6 @@ class BalanceChecksController < ApplicationController
     current_user.accounts.order(:order_in_list).each do |a|
       if a.account_balances.count >= 2
         @user_accounts << a
-        break
       end
     end
 

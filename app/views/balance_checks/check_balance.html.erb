@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <td>Spending (earnings) not accounted for:</td>
-      <td><%= number_to_currency(balance_change + @total_spending + @transfers_out_total - @transfers_in_total )%></td>
+      <td><%= number_to_currency(-1 * (balance_change + @total_spending + @transfers_out_total - @transfers_in_total ))%></td>
     </tr>
   </table>
 
