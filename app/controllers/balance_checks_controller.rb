@@ -31,8 +31,8 @@ class BalanceChecksController < ApplicationController
       @end_balance = balances[@account_balance_num-1]
       @start_balance = balances[@account_balance_num]
 
-      end_date = @end_balance.balance_date.end_of_day
-      start_date = @start_balance.balance_date.end_of_day
+      end_date = @end_balance.balance_date
+      start_date = @start_balance.balance_date
       transaction_conditions = get_conditions(:transactions, @account.id, start_date, end_date)
       transfer_in_conditions = get_conditions(:transfers_in, @account.id, start_date, end_date)
       transfer_out_conditions = get_conditions(:transfers_out, @account.id, start_date, end_date)
