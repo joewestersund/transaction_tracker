@@ -21,11 +21,11 @@
   <h4>Balance Summary</h4>
   <table>
     <tr>
-      <td>Start balance <%= start_date %></td>
+      <td>Start balance <%= start_date %> (end of day)</td>
       <td><%= number_to_currency(@start_balance.balance) %></td>
     </tr>
     <tr>
-      <td>End balance <%= end_date %></td>
+      <td>End balance <%= end_date %> (end of day)</td>
       <td><%= number_to_currency(@end_balance.balance) %></td>
     </tr>
     <% balance_change = @end_balance.balance - @start_balance.balance %>
