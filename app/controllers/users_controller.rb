@@ -93,7 +93,7 @@ class UsersController < ApplicationController
         end
       end
 
-      category_names = ["rent", "groceries", "restauraunts", "car", "salary"]
+      category_names = ["rent", "groceries", "restaurants", "car", "salary"]
       category_names.each_with_index do |cat_name, index|
         tc = TransactionCategory.new
         tc.name = cat_name
