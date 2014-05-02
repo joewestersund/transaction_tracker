@@ -40,6 +40,10 @@
   <% end %>
 </div>
 
+<%= link_to 'New Transaction', new_transaction_path %>
+<br>
+<br>
+
 <% if @transactions.nil? or @transactions.each.count == 0 %>
   <div class="no_data">You haven't entered any transaction data, or no transactions match the filter above.</div>
 <% else %>
@@ -58,7 +62,7 @@
     </thead>
 
     <tbody>
-      <% @transactions.reverse.each do |transaction| %>
+      <% @transactions.each do |transaction| %>
         <tr>
           <td><%= transaction.transaction_date.strftime('%m/%e/%Y') %></td>
           <td><%= transaction.vendor_name %></td>
@@ -74,6 +78,4 @@
   </table>
   <%= will_paginate @transactions %>
 <% end %>
-<br>
 
-<%= link_to 'New Transaction', new_transaction_path %>

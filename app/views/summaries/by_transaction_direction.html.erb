@@ -1,11 +1,11 @@
-<h1>Spending Summary by Category</h1>
+<h1>Spending Summary by Transaction Direction</h1>
 
 <div class="summary_type_navbar">
   <%= link_to "By Day", summaries_by_category_path + "?averaging_time=day", {class: mark_current_tab(@averaging_time,"day")} %>
   <%= link_to "By Month", summaries_by_category_path + "?averaging_time=month", {class: mark_current_tab(@averaging_time,"month")} %>
   <%= link_to "By Year", summaries_by_category_path + "?averaging_time=year", {class: mark_current_tab(@averaging_time,"year")} %>
   <%= link_to "By Account", summaries_by_account_path %>
-  <%= link_to "By Transaction Direction", summaries_by_transaction_direction_path %>
+  <%= link_to "By Category", summaries_by_category_path %>
 </div>
 
 <div class="filter">
@@ -21,10 +21,6 @@
     <div class="field number">
       <%= label_tag :day %><br>
       <%= text_field_tag :day, params[:day] %>
-    </div>
-    <div class="field">
-      <%= label_tag :category %><br>
-      <%= select_tag :transaction_category_id, options_from_collection_for_select(@user_transaction_categories,:id,:name,params[:transaction_category_id]), { :include_blank => true } %>
     </div>
     <div class="actions">
       <%= submit_tag "Search" %>

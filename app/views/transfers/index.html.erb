@@ -36,6 +36,10 @@
   <% end %>
 </div>
 
+<%= link_to 'New Transfer', new_transfer_path %>
+<br>
+<br>
+
 <% if @transfers.nil? or @transfers.each.count == 0 %>
   <div class="no_data">You haven't entered any account transfers data, or no transfers match the filter above.</div>
 <% else %>
@@ -53,7 +57,7 @@
     </thead>
 
     <tbody>
-      <% @transfers.reverse.each do |transfer| %>
+      <% @transfers.each do |transfer| %>
         <tr>
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>
@@ -68,6 +72,3 @@
   </table>
   <%= will_paginate @transfers %>
 <% end %>
-<br>
-
-<%= link_to 'New Transfer', new_transfer_path %>

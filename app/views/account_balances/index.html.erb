@@ -1,5 +1,9 @@
 <h1>Your Account Balances</h1>
 
+<%= link_to 'New Account Balance', new_account_balance_path %>
+<br>
+<br>
+
 <% if @account_balances.nil? or @account_balances.count == 0 %>
   <div class="no_data">You haven't entered any account balance data.</div>
 <% else %>
@@ -28,6 +32,3 @@
   </table>
   <%= will_paginate @transactions %>
 <% end %>
-
-<br>
-<%= link_to 'New Account Balance', new_account_balance_path %>

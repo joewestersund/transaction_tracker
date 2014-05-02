@@ -1,3 +1,23 @@
+require 'ostruct'
+
+class ColumnNameAndID
+  def column_id
+    @column_id
+  end
+
+  def column_id=(column_id)
+    @column_id = column_id
+  end
+
+  def column_name
+    @column_name
+  end
+
+  def column_name=(column_name)
+    @column_name = column_name
+  end
+end
+
 class SummariesController < ApplicationController
   before_action :signed_in_user
 
@@ -21,6 +41,24 @@ class SummariesController < ApplicationController
 
     create_summary_table(row_names,column_names,data,:by_category)
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
+  end
+
+  def by_transaction_direction
+    at = get_averaging_time
+
+    c1 = ColumnNameAndID.new
+    c2 = ColumnNameAndID.new
+    c3 = ColumnNameAndID.new
+    c1.column_id = c1.column_name = "income"
+    c2.column_id = c2.column_name = "spending"
+    c3.column_id = c3.column_name = "savings"
+    column_names = [c1, c2, c3 ]
+    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
+    sql = "select #{at}, sum(income) as income, sum(spending) as spending, (sum(income) - sum(spending)) as savings FROM (select #{at}, case when amount >=0 then amount else 0 end as spending, case when amount < 0 then -1*amount else 0 end as income from transactions where user_id = #{current_user.id}) AS SpendingAndIncome GROUP BY #{group_by}"
+    data = ActiveRecord::Base.connection.exec_query(sql).rows
+
+    create_summary_table(row_names,column_names,data,:by_transaction_direction)
+
   end
 
   private
@@ -102,7 +140,7 @@ class SummariesController < ApplicationController
       if qs.length > 0
         "?" + qs.join("&")
       else
-        nil
+        "" #nil
       end
     end
 

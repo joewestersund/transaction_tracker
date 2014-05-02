@@ -6,7 +6,7 @@ class AccountBalancesController < ApplicationController
   # GET /account_balances
   # GET /account_balances.json
   def index
-    @account_balances = current_user.account_balances.page(params[:page]).per_page(20).order(:balance_date)
+    @account_balances = current_user.account_balances.order("balance_date DESC").page(params[:page]).per_page(20)
   end
 
   # GET /account_balances/1
