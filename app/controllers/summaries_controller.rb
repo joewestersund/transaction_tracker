@@ -130,6 +130,44 @@ class SummariesController < ApplicationController
       @table = st
     end
 
+    def create_fixed_column_summary_table(row_names, column_names, data)
+      row_count = row_names.each.count
+      column_count = column_names.each.count
+      st = SummaryTable.new(row_count, column_count)
+      rows_hash = {}
+
+      index=0
+      row_names.each do |r|
+        row_name = get_row_name(r.year, r.month, r.day)
+        rows_hash[row_name] = index
+        st.set_header_text(:row, index, row_name)
+        href = transactions_path + get_query_string(r.year, r.month, r.day, :fixed, nil)
+        st.set_header_href(:row, index, href)
+        index += 1
+      end
+
+      index = 0
+      column_names.each do |c|
+        columns_hash[c] = index
+        st.set_header_text(:column,index, c)
+        href = transactions_path + get_query_string(nil, nil, nil, :fixed, c)
+        st.set_header_href(:column, index, href)
+        index += 1
+      end
+
+      #TODO: fix this function
+      data.each do |d|
+        row = rows_hash[get_row_name(d.year, d.month, d.day)]
+        col_id = nil_to_zero(d.column_id)
+        column = columns_hash[col_id]
+        st.set_text(row, column, d.amount_sum)
+        href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
+        st.set_href(row,column,href)
+      end
+
+      @table = st
+    end
+
     def get_query_string(year,month,day,summary_type,column_id)
       qs = []
       qs << "year=#{year}" if year.present?
