@@ -118,13 +118,31 @@ class SummariesController < ApplicationController
         index += 1
       end
 
-      data.each do |d|
-        row = rows_hash[get_row_name(d.year, d.month, d.day)]
-        col_id = nil_to_zero(d.column_id)
-        column = columns_hash[col_id]
-        st.set_text(row, column, d.amount_sum)
-        href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
-        st.set_href(row,column,href)
+
+      if summary_type == :by_transaction_direction
+        #this type uses custom sql, so the data is in a different structure.
+        data.each do |d|
+          row = rows_hash[get_row_name(d[0], d[1], d[2])]
+          href = transactions_path + get_query_string(d[0], d[1], d[2], nil, nil)
+          #income
+          st.set_text(row, 0, d[3])
+          st.set_href(row,0,href)
+          #spending
+          st.set_text(row, 1, d[4])
+          st.set_href(row,1,href)
+          #savings
+          st.set_text(row, 2, d[5])
+          st.set_href(row,2,href)
+        end
+      else
+        data.each do |d|
+          row = rows_hash[get_row_name(d.year, d.month, d.day)]
+          col_id = nil_to_zero(d.column_id)
+          column = columns_hash[col_id]
+          st.set_text(row, column, d.amount_sum)
+          href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
+          st.set_href(row,column,href)
+        end
       end
 
       @table = st
