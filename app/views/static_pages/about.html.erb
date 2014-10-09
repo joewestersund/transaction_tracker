@@ -11,7 +11,9 @@
   </p>
 
   <% unless signed_in? %>
-    <%= link_to "free sign up", signup_path, class: "btn btn-large btn-primary" %>
-  <% end %>
+    <%= link_to "Sign up", signup_path, class: "btn btn-large btn-primary" %>
+    &NonBreakingSpace;
+    <%= link_to "Sign in", signin_path, class: "btn btn-large btn-primary" %>
+<% end %>
 
 </div>
