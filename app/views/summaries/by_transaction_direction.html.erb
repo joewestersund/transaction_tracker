@@ -1,9 +1,9 @@
 <h1>Spending Summary by Transaction Direction</h1>
 
 <div class="summary_type_navbar">
-  <%= link_to "By Day", summaries_by_transaction_direction_path + "?averaging_time=day", {class: mark_current_tab(@averaging_time,"day")} %>
-  <%= link_to "By Month", summaries_by_transaction_direction_path + "?averaging_time=month", {class: mark_current_tab(@averaging_time,"month")} %>
-  <%= link_to "By Year", summaries_by_transaction_direction_path + "?averaging_time=year", {class: mark_current_tab(@averaging_time,"year")} %>
+  <%= link_to "By Day", summaries_by_transaction_direction_path + "?averaging_time=day&#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"day")} %>
+  <%= link_to "By Month", summaries_by_transaction_direction_path + "?averaging_time=month&#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"month")} %>
+  <%= link_to "By Year", summaries_by_transaction_direction_path + "?averaging_time=year&#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"year")} %>
   <%= link_to "By Account", summaries_by_account_path %>
   <%= link_to "By Category", summaries_by_category_path %>
 </div>
@@ -24,6 +24,7 @@
     </div>
     <div class="actions">
       <%= submit_tag "Search" %>
+      <%= hidden_field_tag :averaging_time, params[:averaging_time] %>
     </div>
   <% end %>
 </div>

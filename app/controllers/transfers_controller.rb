@@ -126,7 +126,7 @@ class TransfersController < ApplicationController
       conditions_string << "amount = :amount" if search_terms.amount.present?
 
       conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
-      conditions_string << "description LIKE :description" if search_terms.description.present?
+      conditions_string << "description ILIKE :description" if search_terms.description.present?
 
       return [conditions_string.join(" AND "), conditions]
     end

@@ -20,6 +20,7 @@ end
 
 class SummariesController < ApplicationController
   before_action :signed_in_user
+  before_action :get_params_for_link_url
 
   def by_account
     at = get_averaging_time
@@ -62,6 +63,12 @@ class SummariesController < ApplicationController
   end
 
   private
+    def get_params_for_link_url
+      params_to_exclude = ["averaging_time"]
+      filtered_params = params.reject{ |key, value| params_to_exclude.include?(key) }
+      @params_for_link_url = "&" + URI.encode(filtered_params.map{|k,v| "#{k}=#{v}"}.join("&"))
+    end
+
     def get_averaging_time
       at = params[:averaging_time]
       if at == "year"

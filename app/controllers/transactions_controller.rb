@@ -110,6 +110,12 @@ class TransactionsController < ApplicationController
       conditions = {}
       conditions_string = []
 
+      conditions[:start_date] = params[:start_date] if params[:start_date].present?
+      conditions_string << "transaction_date >= :start_date" if params[:start_date].present?
+
+      conditions[:end_date] = params[:end_date] if params[:end_date].present?
+      conditions_string << "transaction_date <= :end_date" if params[:end_date].present?
+
       conditions[:month] = search_terms.month if search_terms.month.present?
       conditions_string << "month = :month" if search_terms.month.present?
 
@@ -120,7 +126,7 @@ class TransactionsController < ApplicationController
       conditions_string << "year = :year" if search_terms.year.present?
 
       conditions[:vendor_name] = "%#{search_terms.vendor_name}%" if search_terms.vendor_name.present?
-      conditions_string << "vendor_name LIKE :vendor_name" if search_terms.vendor_name.present?
+      conditions_string << "vendor_name ILIKE :vendor_name" if search_terms.vendor_name.present?
 
       conditions[:account_id] = search_terms.account_id if search_terms.account_id.present?
       conditions_string << "account_id = :account_id" if search_terms.account_id.present?
@@ -132,7 +138,7 @@ class TransactionsController < ApplicationController
       conditions_string << "amount = :amount" if search_terms.amount.present?
 
       conditions[:description] = "%#{search_terms.description}%" if search_terms.description.present?
-      conditions_string << "description LIKE :description" if search_terms.description.present?
+      conditions_string << "description ILIKE :description" if search_terms.description.present?
 
       return [conditions_string.join(" AND "), conditions]
     end
