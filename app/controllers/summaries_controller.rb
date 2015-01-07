@@ -55,7 +55,11 @@ class SummariesController < ApplicationController
     c3.column_id = c3.column_name = "savings"
     column_names = [c1, c2, c3 ]
     row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
-    sql = "select #{at}, sum(income) as income, sum(spending) as spending, (sum(income) - sum(spending)) as savings FROM (select #{at}, case when amount >=0 then amount else 0 end as spending, case when amount < 0 then -1*amount else 0 end as income from transactions where user_id = #{current_user.id}) AS SpendingAndIncome GROUP BY #{group_by}"
+    filter_string = ""
+    filter_string += " AND year = #{params[:year]}" if params[:year].present?
+    filter_string += " AND month = #{params[:month]}" if params[:month].present?
+    filter_string += " AND day = #{params[:day]}" if params[:day].present?
+    sql = "select #{at}, sum(income) as income, sum(spending) as spending, (sum(income) - sum(spending)) as savings FROM (select #{at}, case when amount >=0 then amount else 0 end as spending, case when amount < 0 then -1*amount else 0 end as income from transactions where user_id = #{current_user.id} #{ filter_string if !filter_string.empty?}) AS SpendingAndIncome GROUP BY #{group_by}"
     data = ActiveRecord::Base.connection.exec_query(sql).rows
 
     create_summary_table(row_names,column_names,data,:by_transaction_direction)
@@ -180,7 +184,6 @@ class SummariesController < ApplicationController
         index += 1
       end
 
-      #TODO: fix this function
       data.each do |d|
         row = rows_hash[get_row_name(d.year, d.month, d.day)]
         col_id = nil_to_zero(d.column_id)
@@ -214,6 +217,8 @@ class SummariesController < ApplicationController
     def search_params(query_type)
       if query_type == :column_names
           params.permit(:account_id, :transaction_category_id)
+      elsif query_type == :date_only
+        params.permit(:month, :day, :year)
       else
          params.permit(:month, :day, :year, :account_id, :transaction_category_id)
       end

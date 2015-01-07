@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :account %><br>
+    <%= f.label :account %>
     <%= f.collection_select :account_id, @user_accounts, :id, :account_name %>
     <%= link_to "Add new account", new_account_path %>
   </div>
   <div class="field">
-    <%= f.label :balance_date, "Date" %><br>
+    <%= f.label :balance_date, "Date" %>
     <%= f.date_select :balance_date %>
   </div>
   <div class="field">
-    <%= f.label :balance, "Balance (at end of day)"%><br>
+    <%= f.label :balance, "Balance (at end of day)"%>
     <%= f.text_field :balance %>
   </div>
   <div class="actions">
