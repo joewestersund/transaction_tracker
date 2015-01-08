@@ -29,7 +29,8 @@ class TransactionsController < ApplicationController
   # POST /transactions
   # POST /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = Transaction.new(transaction_params_without_amount)
+    @transaction.amount = currency_string_to_number(transaction_params_amount)
     @transaction.user = current_user
     set_year_month_day(@transaction)
 
@@ -49,7 +50,8 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1.json
   def update
     respond_to do |format|
-      @transaction.attributes = transaction_params
+      @transaction.attributes = transaction_params_without_amount
+      @transaction.amount = currency_string_to_number(transaction_params_amount)
       set_year_month_day(@transaction)
       if @transaction.save
         format.html { redirect_to transactions_path, notice: 'Transaction was successfully updated.' }
@@ -84,11 +86,16 @@ class TransactionsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_params
-      params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :amount, :description)
+    def transaction_params_without_amount
+      params.require(:transaction).permit(:transaction_date, :vendor_name, :account_id, :transaction_category_id, :description)
     end
 
-    def set_select_options
+    def transaction_params_amount
+      params[:transaction][:amount]
+    end
+
+
+  def set_select_options
       @user_accounts = current_user.accounts.order('order_in_list').all
       @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
     end

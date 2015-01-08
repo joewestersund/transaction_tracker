@@ -29,4 +29,10 @@ module ApplicationHelper
     return variable if variable.present?
     0
   end
+
+  def currency_string_to_number(currency_string)
+    #take a string which may be in a currency format, like $12,345.67
+    #and convert it to a number.
+      currency_string.gsub(/[^\d\.-]/, '') if !currency_string.blank?
+  end
 end
