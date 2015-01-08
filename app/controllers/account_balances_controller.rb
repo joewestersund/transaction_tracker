@@ -33,8 +33,9 @@ class AccountBalancesController < ApplicationController
   # POST /account_balances
   # POST /account_balances.json
   def create
-    @account_balance = AccountBalance.new(account_balance_params)
+    @account_balance = AccountBalance.new(account_balance_params_no_balance)
     @account_balance.user = current_user
+    @account_balance.balance = currency_string_to_number(account_balance_params_balance)
 
     respond_to do |format|
       if @account_balance.save
@@ -52,7 +53,9 @@ class AccountBalancesController < ApplicationController
   # PATCH/PUT /account_balances/1.json
   def update
     respond_to do |format|
-      if @account_balance.update(account_balance_params)
+      @account_balance.attributes = account_balance_params_no_balance
+      @account_balance.balance = currency_string_to_number(account_balance_params_balance)
+      if @account_balance.save
         format.html { redirect_to account_balances_path, notice: 'Account balance was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,8 +83,12 @@ class AccountBalancesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def account_balance_params
-      params.require(:account_balance).permit(:account_id, :balance_date, :balance)
+    def account_balance_params_no_balance
+      params.require(:account_balance).permit(:account_id, :balance_date)
+    end
+
+    def account_balance_params_balance
+      params[:account_balance][:balance]
     end
 
     def set_select_options

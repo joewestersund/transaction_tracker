@@ -34,8 +34,9 @@ class TransfersController < ApplicationController
   # POST /transfers
   # POST /transfers.json
   def create
-    @transfer = Transfer.new(transfer_params)
+    @transfer = Transfer.new(transfer_params_no_amount)
     @transfer.user = current_user
+    @transfer.amount = currency_string_to_number(transfer_params_amount)
     set_year_month_day(@transfer)
     respond_to do |format|
       if @transfer.save
@@ -53,7 +54,8 @@ class TransfersController < ApplicationController
   # PATCH/PUT /transfers/1.json
   def update
     respond_to do |format|
-      @transfer.attributes = transfer_params
+      @transfer.attributes = transfer_params_no_amount
+      @transfer.amount = currency_string_to_number(transfer_params_amount)
       set_year_month_day(@transfer)
       if @transfer.save
         format.html { redirect_to transfers_path, notice: 'Transfer was successfully updated.' }
@@ -82,8 +84,12 @@ class TransfersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def transfer_params
-      params.require(:transfer).permit(:from_account_id, :to_account_id, :transfer_date, :amount, :description)
+    def transfer_params_no_amount
+      params.require(:transfer).permit(:from_account_id, :to_account_id, :transfer_date, :description)
+    end
+
+    def transfer_params_amount
+      params[:transfer][:amount]
     end
 
     def set_select_options
