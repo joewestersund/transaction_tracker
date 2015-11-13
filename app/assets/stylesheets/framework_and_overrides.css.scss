@@ -34,13 +34,14 @@ img {
   }
 // apply styles to HTML elements
 // to make views framework-neutral
+
 main {
   @extend .container;
-  background-color: #eee;
+  //background-color: #eee;
   padding-bottom: 80px;
   //width: 100%;  //960px;
   margin-top: 51px; // accommodate the navbar
-  border: 1px black solid
+  //border: 1px black solid
   }
 section {
   @extend .row;
