@@ -1,5 +1,9 @@
 <h1>Your Accounts</h1>
 
+<%= link_to 'New Account', new_account_path %>
+<br>
+<br>
+
 <% if @accounts.nil? or @accounts.each.count == 0 %>
   <div class="no_data">You do not have any accounts set up.</div>
 <% else %>
@@ -29,4 +33,4 @@
 <% end %>
 <br>
 
-<%= link_to 'New Account', new_account_path %>
+

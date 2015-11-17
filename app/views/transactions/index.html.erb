@@ -1,5 +1,9 @@
 <h1>Transactions</h1>
 
+<%= link_to 'New Transaction', new_transaction_path %>
+<br>
+<br>
+
 <div class="filter">
   <%= form_tag request.path, method: 'get' do %>
     <div class="field">
@@ -47,10 +51,6 @@
     </div>
   <% end %>
 </div>
-
-<%= link_to 'New Transaction', new_transaction_path %>
-<br>
-<br>
 
 <% if @transactions.nil? or @transactions.each.count == 0 %>
   <div class="no_data">You haven't entered any transaction data, or no transactions match the filter above.</div>
