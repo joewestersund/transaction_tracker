@@ -99,7 +99,7 @@ class SummariesController < ApplicationController
     end
 
     def order_by
-      "year, month, day" #always this, no matter the averaging time.
+      "year desc, month desc, day desc" #always this, no matter the averaging time.
     end
 
 
