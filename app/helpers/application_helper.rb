@@ -35,4 +35,8 @@ module ApplicationHelper
     #and convert it to a number.
       currency_string.gsub(/[^\d\.-]/, '') if !currency_string.blank?
   end
+
+  def glyphicon_link(glyphicon_name, alt_text)
+    '<i class="glyphicon ' + glyphicon_name + '" title="' + alt_text + '" aria-hidden="true"></i><span class="visible-xs-inline visible-lg-inline nav-text">' + alt_text + '</span><span class="sr-only">' + alt_text + '</span>'
+  end
 end

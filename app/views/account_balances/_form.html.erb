@@ -22,7 +22,7 @@
   </div>
   <div class="field">
     <%= f.label :balance, "Balance (at end of day)"%>
-    <%= f.number_field :balance %>
+    <%= f.number_field :balance, step: 0.01 %>
   </div>
   <div class="actions">
     <%= f.submit class: "btn btn-large btn-primary" %>
