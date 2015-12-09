@@ -1,11 +1,15 @@
 <h1>Spending Summary by Account</h1>
 
 <div class="summary_type_navbar">
-  <%= link_to "By Day", summaries_by_account_path + "?averaging_time=day#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"day")} %>
-  <%= link_to "By Month", summaries_by_account_path + "?averaging_time=month#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"month")} %>
-  <%= link_to "By Year", summaries_by_account_path + "?averaging_time=year#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"year")} %>
+  <%= link_to "By Day", summaries_by_account_path + "?averaging_time=day&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"day")} %>
+  <%= link_to "By Month", summaries_by_account_path + "?averaging_time=month&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"month")} %>
+  <%= link_to "By Year", summaries_by_account_path + "?averaging_time=year&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"year")} %>
   <%= link_to "By Category", summaries_by_category_path %>
   <%= link_to "By Transaction Direction", summaries_by_transaction_direction_path %>
+</div>
+<div class="summary_type_navbar">
+  <%= link_to "Table", summaries_by_account_path + "?display=table&averaging_time=#{@averaging_time}&#{@params_for_link_url}", {class: mark_current_tab(@show_table,true)} %>
+  <%= link_to "Chart", summaries_by_account_path + "?display=chart&averaging_time=#{@averaging_time}&#{@params_for_link_url}", {class: mark_current_tab(@show_table,false)} %>
 </div>
 
 <div class="filter">
@@ -33,6 +37,10 @@
   <% end %>
 </div>
 
-<%= render 'table' %>
+<% if @show_table %>
+  <%= render 'table' %>
+<% else %>
+  <%= render 'chart' %>
+<% end %>
 
 

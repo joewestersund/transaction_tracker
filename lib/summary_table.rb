@@ -1,7 +1,7 @@
 class SummaryTable
 
   class SummaryCell
-    attr_accessor :text, :href
+    attr_accessor :text, :href, :numeric_value
   end
 
   def initialize(rows,columns)
@@ -48,8 +48,17 @@ class SummaryTable
     @table_cells[row][column].text
   end
 
-  def set_text(row, column, text)
+  def numeric_value(row,column)
+    @table_cells[row][column].numeric_value
+  end
+
+  def set_text(row, column, text, numeric_value)
     @table_cells[row][column].text = text
+    @table_cells[row][column].numeric_value = numeric_value
+
+    @min_cell_value = @min_cell_value.nil? || numeric_value < @min_cell_value ? numeric_value : @min_cell_value
+    @max_cell_value = @max_cell_value.nil? || numeric_value > @max_cell_value ? numeric_value : @max_cell_value
+
     @row_has_no_data[row] = false
     @column_has_no_data[column] = false
   end
@@ -100,6 +109,24 @@ class SummaryTable
     else
       raise "Type not recognized"
     end
+  end
+
+  def min_row_value
+    @min_row_value
+  end
+
+  def max_row_value
+    @max_row_value
+  end
+
+  def row_numeric_value(row)
+    @row_header_cells[row].numeric_value
+  end
+
+  def set_row_numeric_value(row,value)
+    @row_header_cells[row].numeric_value = value
+    @min_row_value = @min_row_value.nil? || value < @min_row_value ? value : @min_row_value
+    @max_row_value = @max_row_value.nil? || value > @max_row_value ? value : @max_row_value
   end
 
 end

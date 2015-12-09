@@ -45,6 +45,7 @@ gem 'bootstrap-sass', '~> 3.2.0' #include bootstrap css and js files
 # https://github.com/Nerian/bootstrap-datepicker-rails
 gem 'bootstrap-datepicker-rails'
 
+gem "d3-rails" # for graphing on summary pages
 
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html

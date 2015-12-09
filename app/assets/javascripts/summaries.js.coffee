@@ -8,5 +8,124 @@ ready = ->
     $(".no_data").toggleClass("hide",!show_all);
   $("input#show_all_columns").bind 'click', (event) => toggle_columns();
 
+  chart_present = ($('svg').length > 0);
+
+  load_chart = () ->
+    $.ajax
+      type: 'GET'
+      contentType: 'application/json; charset=utf-8'
+      url: window.location
+      dataType: 'json'
+      success: (data) ->
+        draw_chart data
+        return
+      error: (result) ->
+        chart_error(result)
+        return
+
+  draw_chart = (dataWithSeriesNames) ->
+
+    data = dataWithSeriesNames.data
+
+    margin =
+      top: 20
+      right: 70
+      bottom: 30
+      left: 50
+    width = 960 - (margin.left) - (margin.right)
+    height = 350 - (margin.top) - (margin.bottom)
+
+    color = d3.scale.category10()
+    color.domain = dataWithSeriesNames.seriesNames
+
+    #convert dates from string to Javascript date format
+    parseDate = d3.time.format('%Y-%m-%d').parse
+    i=0
+    while i<data.length
+      j=0
+      while j < data[i].length
+        data[i][j][0] = parseDate(data[i][j][0])
+        j++
+      i++
+
+    dataWithSeriesNames.min_x = parseDate(dataWithSeriesNames.min_x)
+    dataWithSeriesNames.max_x = parseDate(dataWithSeriesNames.max_x)
+
+    console.log(dataWithSeriesNames)
+
+    xScale = d3.time.scale().range([
+      margin.left
+      width + margin.left
+    ]).domain([
+      dataWithSeriesNames.min_x
+      dataWithSeriesNames.max_x
+    ])
+
+    yScale = d3.scale.linear().range([
+      height + margin.top
+      margin.top
+    ]).domain([
+      dataWithSeriesNames.min_y
+      dataWithSeriesNames.max_y
+    ])
+
+    xAxis = d3.svg.axis().scale(xScale).orient('bottom')
+    yAxis = d3.svg.axis().scale(yScale).orient('left')
+
+    line = d3.svg.line().interpolate('linear').x((d) ->
+      xScale d[0]
+    ).y((d) ->
+      yScale d[1]
+    )
+
+    chart = d3.select('#graph').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom)
+    chart.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+    chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + (height + margin.top) + ')').call xAxis
+    chart.append('g').attr('class', 'y axis').attr('transform','translate('+ margin.left + ',0)').call yAxis
+
+    data_series = d3.select('#graph').selectAll('.data_series').data(data).enter().append('g').attr('class', 'data_series')
+    data_series.append('path').attr('class', 'line').attr('d', (d) ->
+      line d
+    ).style 'stroke', (d,i) ->
+      color dataWithSeriesNames.series_names[i]
+
+    data_series.append('text').datum((d,i) ->
+      {
+        name: dataWithSeriesNames.series_names[i]
+        value: d[0] #data is descending, so first data point is the latest.
+      }
+    ).attr('transform', (d) ->
+      'translate(' + xScale(d.value[0]) + ',' + yScale(d.value[1]) + ')'
+    ).attr('x', 5).attr('dy', '.35em').text (d) ->
+      d.name
+
+
+    markers = data_series.selectAll('circle').data((d, i) ->
+      d
+    ).enter().append('circle').attr('cx', (d) ->
+      xScale d[0]
+    ).attr('cy', (d) ->
+      yScale d[1]
+    ).attr('r', 4).attr 'fill', (d, i, seriesNum) ->
+      color dataWithSeriesNames.series_names[seriesNum]
+
+
+
+    return
+
+  chart_error = (result) ->
+    $('.chart_error').remove()
+    $('#graph').after("<div>" + result.statusText+ "<p class='chart_error'>" + result.responseText + "</p></div>")
+    console.log result
+    return
+
+
+  if (chart_present)
+    load_chart()
+
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
+
+

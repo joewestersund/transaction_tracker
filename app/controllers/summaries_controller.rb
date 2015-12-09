@@ -23,54 +23,66 @@ class SummariesController < ApplicationController
   before_action :get_params_for_link_url
 
   def by_account
+    @show_table = show_table
     at = get_averaging_time
-
-    column_names = current_user.accounts.where(get_conditions(:column_names)).select("id as column_id, account_name as column_name").order(:order_in_list).all
-    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
-    data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, account_id as column_id").group("account_id, #{group_by}")
-
-    create_summary_table(row_names,column_names,data,:by_account)
     @user_accounts = current_user.accounts.order('order_in_list').all
+
+    respond_to do |format|
+      format.html {
+        if @show_table
+          @table = get_by_account_data(at,@show_table)
+        end
+      }
+      format.json {
+        render :json => get_by_account_data(at,@show_table)
+      }
+    end
+
   end
 
   def by_category
+    @show_table = show_table
     at = get_averaging_time
-
-    column_names = current_user.transaction_categories.where(get_conditions(:column_names)).select("id as column_id, name as column_name").order(:order_in_list).all
-    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
-    data = current_user.transactions.where(get_conditions(:data)).select("#{at}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}")
-
-    create_summary_table(row_names,column_names,data,:by_category)
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
+
+    respond_to do |format|
+      format.html {
+        if @show_table
+          @table = get_by_category_data(at,@show_table)
+        end
+      }
+      format.json {
+        render :json => get_by_category_data(at,@show_table)
+      }
+    end
+
   end
 
   def by_transaction_direction
+    @show_table = show_table
     at = get_averaging_time
 
-    c1 = ColumnNameAndID.new
-    c2 = ColumnNameAndID.new
-    c3 = ColumnNameAndID.new
-    c1.column_id = c1.column_name = "income"
-    c2.column_id = c2.column_name = "spending"
-    c3.column_id = c3.column_name = "savings"
-    column_names = [c1, c2, c3 ]
-    row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{at}").group(group_by).order(order_by)
-    filter_string = ""
-    filter_string += " AND year = #{params[:year]}" if params[:year].present?
-    filter_string += " AND month = #{params[:month]}" if params[:month].present?
-    filter_string += " AND day = #{params[:day]}" if params[:day].present?
-    sql = "select #{at}, sum(income) as income, sum(spending) as spending, (sum(income) - sum(spending)) as savings FROM (select #{at}, case when amount >=0 then amount else 0 end as spending, case when amount < 0 then -1*amount else 0 end as income from transactions where user_id = #{current_user.id} #{ filter_string if !filter_string.empty?}) AS SpendingAndIncome GROUP BY #{group_by}"
-    data = ActiveRecord::Base.connection.exec_query(sql).rows
-
-    create_summary_table(row_names,column_names,data,:by_transaction_direction)
-
+    respond_to do |format|
+      format.html {
+        if @show_table
+          @table = get_transaction_direction_data(at,@show_table)
+        end
+      }
+      format.json {
+        render :json => get_transaction_direction_data(at,@show_table)
+      }
+    end
   end
 
   private
     def get_params_for_link_url
-      params_to_exclude = ["averaging_time"]
+      params_to_exclude = ["averaging_time", "display"]
       filtered_params = params.reject{ |key, value| params_to_exclude.include?(key) }
       @params_for_link_url = "&" + URI.encode(filtered_params.map{|k,v| "#{k}=#{v}"}.join("&"))
+    end
+
+    def show_table
+      return params[:display] != "chart"
     end
 
     def get_averaging_time
@@ -102,6 +114,92 @@ class SummariesController < ApplicationController
       "year desc, month desc, day desc" #always this, no matter the averaging time.
     end
 
+    def get_by_category_data(averaging_time_string,table_format)
+      column_names = current_user.transaction_categories.where(get_conditions(:column_names)).select("id as column_id, name as column_name").order(:order_in_list).all
+      row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{averaging_time_string}").group(group_by).order(order_by)
+      data = current_user.transactions.where(get_conditions(:data)).select("#{averaging_time_string}, sum(amount) as amount_sum, transaction_category_id as column_id").group("transaction_category_id, #{group_by}").order(order_by)
+
+      if table_format
+        return create_summary_table(row_names,column_names,data,:by_category)
+      else
+        return create_chart_data(column_names,data,:by_category)
+      end
+
+    end
+
+    def get_by_account_data(averaging_time_string,table_format)
+      column_names = current_user.accounts.where(get_conditions(:column_names)).select("id as column_id, account_name as column_name").order(:order_in_list).all
+      row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{averaging_time_string}").group(group_by).order(order_by)
+      data = current_user.transactions.where(get_conditions(:data)).select("#{averaging_time_string}, sum(amount) as amount_sum, account_id as column_id").group("account_id, #{group_by}").order(order_by)
+
+      if table_format
+        return create_summary_table(row_names,column_names,data,:by_account)
+      else
+        return create_chart_data(column_names,data,:by_account)
+      end
+
+    end
+
+    def get_transaction_direction_data(averaging_time_string,table_format)
+
+      c1 = ColumnNameAndID.new
+      c2 = ColumnNameAndID.new
+      c3 = ColumnNameAndID.new
+      c1.column_id = c1.column_name = "income"
+      c2.column_id = c2.column_name = "spending"
+      c3.column_id = c3.column_name = "savings"
+      column_names = [c1, c2, c3 ]
+      row_names = current_user.transactions.where(get_conditions(:row_names)).select("#{averaging_time_string}").group(group_by).order(order_by)
+      filter_string = ""
+      filter_string += " AND year = #{params[:year]}" if params[:year].present?
+      filter_string += " AND month = #{params[:month]}" if params[:month].present?
+      filter_string += " AND day = #{params[:day]}" if params[:day].present?
+      sql = "select #{averaging_time_string}, sum(income) as income, sum(spending) as spending, (sum(income) - sum(spending)) as savings FROM (select #{averaging_time_string}, case when amount >=0 then amount else 0 end as spending, case when amount < 0 then -1*amount else 0 end as income from transactions where user_id = #{current_user.id} #{ filter_string if !filter_string.empty?}) AS SpendingAndIncome GROUP BY #{group_by} ORDER BY #{order_by}"
+      data = ActiveRecord::Base.connection.exec_query(sql).rows
+
+      if table_format
+        return create_summary_table(row_names,column_names,data,:by_transaction_direction)
+      else
+        return create_chart_data(column_names,data,:by_transaction_direction)
+      end
+    end
+
+    def create_chart_data(column_names,data,summary_type)
+      cd = ChartData.new
+      columns_hash = {}
+
+      index=0
+      column_names.each do |c|
+        cd.add_series(c.column_name)
+        columns_hash[c.column_id] = index
+        index += 1
+      end
+
+      if summary_type == :by_transaction_direction
+        #this type uses custom sql, so the data is in a different structure.
+        data.each do |d|
+          year = d[0].to_i
+          month = d[1] ? d[1].to_i : 1  #d[1] may be zero if we're averaging yearly
+          day = d[2] ? d[2].to_i : 1 #d[2] may be zero if we're averaging yearly or monthly
+          x = Date.new(year,month,day)  #d[0] = year, d[1] = month, d[2] = day
+          cd.add_data_point(0,x,d[3].to_f) #income
+          cd.add_data_point(1,x,d[4].to_f) #spending
+          cd.add_data_point(2,x,d[5].to_f) #savings
+        end
+      else
+        data.each do |d|
+          col_id = nil_to_zero(d.column_id)
+          column = columns_hash[col_id]
+          x = Date.new(d.year,d.month || 1, d.day || 1)
+          cd.add_data_point(column,x,d.amount_sum.to_f)
+        end
+      end
+
+      cd.remove_unused_series
+
+      return cd
+
+    end
 
     def create_summary_table(row_names, column_names, data, summary_type)
       row_count = row_names.each.count
@@ -117,6 +215,7 @@ class SummariesController < ApplicationController
         st.set_header_text(:row, index, row_name)
         href = transactions_path + get_query_string(r.year, r.month, r.day, summary_type, nil)
         st.set_header_href(:row, index, href)
+        st.set_row_numeric_value(index,DateTime.new(r.year,r.month || 1, r.day || 1))
         index += 1
       end
 
@@ -136,13 +235,13 @@ class SummariesController < ApplicationController
           row = rows_hash[get_row_name(d[0], d[1], d[2])]
           href = transactions_path + get_query_string(d[0], d[1], d[2], nil, nil)
           #income
-          st.set_text(row, 0, d[3])
+          st.set_text(row, 0, d[3], d[3].to_f)
           st.set_href(row,0,href)
           #spending
-          st.set_text(row, 1, d[4])
+          st.set_text(row, 1, d[4], d[4].to_f)
           st.set_href(row,1,href)
           #savings
-          st.set_text(row, 2, d[5])
+          st.set_text(row, 2, d[5], d[5].to_f)
           st.set_href(row,2,href)
         end
       else
@@ -150,51 +249,16 @@ class SummariesController < ApplicationController
           row = rows_hash[get_row_name(d.year, d.month, d.day)]
           col_id = nil_to_zero(d.column_id)
           column = columns_hash[col_id]
-          st.set_text(row, column, d.amount_sum)
+          st.set_text(row, column, d.amount_sum, d.amount_sum.to_f)
           href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
           st.set_href(row,column,href)
         end
       end
 
-      @table = st
+      return st
     end
 
-    def create_fixed_column_summary_table(row_names, column_names, data)
-      row_count = row_names.each.count
-      column_count = column_names.each.count
-      st = SummaryTable.new(row_count, column_count)
-      rows_hash = {}
 
-      index=0
-      row_names.each do |r|
-        row_name = get_row_name(r.year, r.month, r.day)
-        rows_hash[row_name] = index
-        st.set_header_text(:row, index, row_name)
-        href = transactions_path + get_query_string(r.year, r.month, r.day, :fixed, nil)
-        st.set_header_href(:row, index, href)
-        index += 1
-      end
-
-      index = 0
-      column_names.each do |c|
-        columns_hash[c] = index
-        st.set_header_text(:column,index, c)
-        href = transactions_path + get_query_string(nil, nil, nil, :fixed, c)
-        st.set_header_href(:column, index, href)
-        index += 1
-      end
-
-      data.each do |d|
-        row = rows_hash[get_row_name(d.year, d.month, d.day)]
-        col_id = nil_to_zero(d.column_id)
-        column = columns_hash[col_id]
-        st.set_text(row, column, d.amount_sum)
-        href = transactions_path + get_query_string(d.year, d.month, d.day, summary_type, d.column_id)
-        st.set_href(row,column,href)
-      end
-
-      @table = st
-    end
 
     def get_query_string(year,month,day,summary_type,column_id)
       qs = []
