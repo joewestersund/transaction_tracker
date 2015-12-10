@@ -31,7 +31,7 @@ ready = ->
       top: 20
       right: 70
       bottom: 30
-      left: 50
+      left: 70
     width = 960 - (margin.left) - (margin.right)
     height = 350 - (margin.top) - (margin.bottom)
 
@@ -65,12 +65,14 @@ ready = ->
       height + margin.top
       margin.top
     ]).domain([
-      dataWithSeriesNames.min_y
+      dataWithSeriesNames.min_y - (dataWithSeriesNames.max_y-dataWithSeriesNames.min_y)*0.05 #make the x axis slightly below the lowest point
       dataWithSeriesNames.max_y
     ])
 
     xAxis = d3.svg.axis().scale(xScale).orient('bottom')
-    yAxis = d3.svg.axis().scale(yScale).orient('left')
+    yAxis = d3.svg.axis().scale(yScale).orient('left').tickFormat( (d) ->
+      d3.format('$,')(d)
+    )
 
     line = d3.svg.line().interpolate('linear').x((d) ->
       xScale d[0]
@@ -81,9 +83,19 @@ ready = ->
     chart = d3.select('#graph').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom)
     chart.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-    chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + (height + margin.top) + ')').call xAxis
+    chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + (height + margin.top) + ')')
+    .call xAxis
+
     chart.append('g').attr('class', 'y axis').attr('transform','translate('+ margin.left + ',0)').call yAxis
 
+    #add $ to y axis text
+    #d3.selectAll('.y.axis').text( (d) ->
+    #  console.log(d)
+    #  '$' + d
+    #)
+
+    #bind the data to d3
+    #and add the data series to the chart
     data_series = d3.select('#graph').selectAll('.data_series').data(data).enter().append('g').attr('class', 'data_series')
     data_series.append('path').attr('class', 'line').attr('d', (d) ->
       line d
@@ -103,6 +115,7 @@ ready = ->
     .style 'fill', (d,i) ->
       color dataWithSeriesNames.series_names[i]
 
+    #show circles to mark each data point
     markers = data_series.selectAll('circle').data((d, i) ->
       d
     ).enter().append('circle').attr('cx', (d) ->
@@ -111,8 +124,18 @@ ready = ->
       yScale d[1]
     ).attr('r', 4).attr 'fill', (d, i, seriesNum) ->
       color dataWithSeriesNames.series_names[seriesNum]
+    .append("svg:title")
+    .text (d,i,seriesNum) ->
+      return '('+d[0].toDateString()+',$'+d[1]+') ' + dataWithSeriesNames.series_names[seriesNum]
 
-
+    #show dashed line at y=zero
+    chart.append('line')
+      .style("stroke", "black")
+      .attr("x1", xScale(dataWithSeriesNames.min_x))   #coordinates of 1st point on line
+      .attr("y1", yScale(0))
+      .attr("x2", xScale(dataWithSeriesNames.max_x))   #coordinates of 2nd point on line
+      .attr("y2", yScale(0))
+      .style("stroke-dasharray", ("10, 10"))  #pixels of stroke vs pixels left blank
 
     return
 
