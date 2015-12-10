@@ -1,0 +1,14 @@
+<div class="summary_type_navbar">
+  <%= link_to "By Account", summaries_by_account_path + "?averaging_time=#{@averaging_time}&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(request.path,summaries_by_account_path)}%>
+  <%= link_to "By Category", summaries_by_category_path + "?averaging_time=#{@averaging_time}&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(request.path,summaries_by_category_path)}%>
+  <%= link_to "By Transaction Direction", summaries_by_transaction_direction_path + "?averaging_time=#{@averaging_time}&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(request.path,summaries_by_transaction_direction_path)}%>
+</div>
+<div class="summary_type_navbar">
+  <%= link_to "By Day", request.path + "?averaging_time=day&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"day")} %>
+  <%= link_to "By Month", request.path + "?averaging_time=month&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"month")} %>
+  <%= link_to "By Year", request.path + "?averaging_time=year&display=#{@show_table? "table" : "chart"}#{@params_for_link_url}", {class: mark_current_tab(@averaging_time,"year")} %>
+</div>
+<div class="summary_type_navbar">
+  <%= link_to "Table", request.path + "?display=table&averaging_time=#{@averaging_time}&#{@params_for_link_url}", {class: mark_current_tab(@show_table,true)} %>
+  <%= link_to "Chart", request.path + "?display=chart&averaging_time=#{@averaging_time}&#{@params_for_link_url}", {class: mark_current_tab(@show_table,false)} %>
+</div>

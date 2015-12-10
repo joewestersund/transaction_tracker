@@ -90,6 +90,7 @@ ready = ->
     ).style 'stroke', (d,i) ->
       color dataWithSeriesNames.series_names[i]
 
+    #show series name text
     data_series.append('text').datum((d,i) ->
       {
         name: dataWithSeriesNames.series_names[i]
@@ -99,7 +100,8 @@ ready = ->
       'translate(' + xScale(d.value[0]) + ',' + yScale(d.value[1]) + ')'
     ).attr('x', 5).attr('dy', '.35em').text (d) ->
       d.name
-
+    .style 'fill', (d,i) ->
+      color dataWithSeriesNames.series_names[i]
 
     markers = data_series.selectAll('circle').data((d, i) ->
       d
