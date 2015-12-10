@@ -38,6 +38,8 @@ ready = ->
     color = d3.scale.category10()
     color.domain = dataWithSeriesNames.seriesNames
 
+    currencyFormat = d3.format('$,')  # $5.13 or -$1,000
+
     #convert dates from string to Javascript date format
     parseDate = d3.time.format('%Y-%m-%d').parse
     i=0
@@ -71,7 +73,7 @@ ready = ->
 
     xAxis = d3.svg.axis().scale(xScale).orient('bottom')
     yAxis = d3.svg.axis().scale(yScale).orient('left').tickFormat( (d) ->
-      d3.format('$,')(d)
+      currencyFormat(d)
     )
 
     line = d3.svg.line().interpolate('linear').x((d) ->
@@ -87,12 +89,6 @@ ready = ->
     .call xAxis
 
     chart.append('g').attr('class', 'y axis').attr('transform','translate('+ margin.left + ',0)').call yAxis
-
-    #add $ to y axis text
-    #d3.selectAll('.y.axis').text( (d) ->
-    #  console.log(d)
-    #  '$' + d
-    #)
 
     #bind the data to d3
     #and add the data series to the chart
@@ -126,7 +122,7 @@ ready = ->
       color dataWithSeriesNames.series_names[seriesNum]
     .append("svg:title")
     .text (d,i,seriesNum) ->
-      return '('+d[0].toDateString()+',$'+d[1]+') ' + dataWithSeriesNames.series_names[seriesNum]
+      return '(' + d[0].toDateString() + ',' + currencyFormat(d[1]) + ') ' + dataWithSeriesNames.series_names[seriesNum]
 
     #show dashed line at y=zero
     chart.append('line')
