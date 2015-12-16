@@ -124,6 +124,7 @@ ready = ->
     .text (d,i,seriesNum) ->
       return '(' + d[0].toDateString() + ',' + currencyFormat(d[1]) + ') ' + dataWithSeriesNames.series_names[seriesNum]
 
+
     #show dashed line at y=zero
     chart.append('line')
       .style("stroke", "black")
