@@ -16,4 +16,5 @@
 //= require bootstrap
 //= require bootstrap-datepicker
 //= require d3
+//= require d3-tip
 //= require_tree .

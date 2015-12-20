@@ -92,8 +92,15 @@ ready = ->
 
     #bind the data to d3
     #and add the data series to the chart
-    data_series = d3.select('#graph').selectAll('.data_series').data(data).enter().append('g').attr('class', 'data_series')
-    data_series.append('path').attr('class', 'line').attr('d', (d) ->
+    data_series = d3.select('#graph')
+    .selectAll('.data_series')
+    .data(data).enter()
+    .append('g')
+    .attr('class', 'data_series')
+
+    data_series.append('path')
+    .attr('class', 'line')
+    .attr('d', (d) ->
       line d
     ).style 'stroke', (d,i) ->
       color dataWithSeriesNames.series_names[i]
@@ -111,6 +118,16 @@ ready = ->
     .style 'fill', (d,i) ->
       color dataWithSeriesNames.series_names[i]
 
+    #tooltip for circles in graph
+    tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .html((d,i,seriesNum) ->
+      date = "#{d[0].getMonth()+1}/#{d[0].getDate()}/#{d[0].getFullYear()}"
+      "<span><div>#{date}</div><div>#{currencyFormat(d[1])}</div><div>#{dataWithSeriesNames.series_names[seriesNum]}</div></span>"
+    )
+
+    chart.call(tip) #start d3-tip tooltip code
+
     #show circles to mark each data point
     markers = data_series.selectAll('circle').data((d, i) ->
       d
@@ -120,9 +137,12 @@ ready = ->
       yScale d[1]
     ).attr('r', 4).attr 'fill', (d, i, seriesNum) ->
       color dataWithSeriesNames.series_names[seriesNum]
-    .append("svg:title")
-    .text (d,i,seriesNum) ->
-      return '(' + d[0].toDateString() + ',' + currencyFormat(d[1]) + ') ' + dataWithSeriesNames.series_names[seriesNum]
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
+
+    #.append("svg:title")
+    #.text (d,i,seriesNum) ->
+    #"(#{d[0].toDateString()},#{currencyFormat(d[1])}) #{dataWithSeriesNames.series_names[seriesNum]}"
 
     #show dashed line at y=zero
     chart.append('line')
