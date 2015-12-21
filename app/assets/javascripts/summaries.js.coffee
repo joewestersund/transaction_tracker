@@ -53,8 +53,6 @@ ready = ->
     dataWithSeriesNames.min_x = parseDate(dataWithSeriesNames.min_x)
     dataWithSeriesNames.max_x = parseDate(dataWithSeriesNames.max_x)
 
-    console.log(dataWithSeriesNames)
-
     xScale = d3.time.scale().range([
       margin.left
       width + margin.left
@@ -128,21 +126,22 @@ ready = ->
 
     chart.call(tip) #start d3-tip tooltip code
 
+    circleSize = 4
+    circleSizeHover = 6
+
     #show circles to mark each data point
     markers = data_series.selectAll('circle').data((d, i) ->
       d
-    ).enter().append('circle').attr('cx', (d) ->
+    ).enter().append('circle')
+    .attr('cx', (d) ->
       xScale d[0]
     ).attr('cy', (d) ->
       yScale d[1]
-    ).attr('r', 4).attr 'fill', (d, i, seriesNum) ->
+    ).attr('r', circleSize)
+    .attr 'fill', (d, i, seriesNum) ->
       color dataWithSeriesNames.series_names[seriesNum]
     .on('mouseover', tip.show)
-    .on('mouseout', tip.hide)
-
-    #.append("svg:title")
-    #.text (d,i,seriesNum) ->
-    #"(#{d[0].toDateString()},#{currencyFormat(d[1])}) #{dataWithSeriesNames.series_names[seriesNum]}"
+    .on('mouseout',tip.hide)
 
     #show dashed line at y=zero
     chart.append('line')
