@@ -89,11 +89,11 @@ class SummariesController < ApplicationController
       at = params[:averaging_time]
       if at == "year"
         at_str = "year, null as month, null as day"
-      elsif at == "month"
-        at_str = "year, month, null as day"
-      else
-        at = "day"
+      elsif at == "day"
         at_str = "year, month, day"
+      else  #default to monthly view
+        at = "month"
+        at_str = "year, month, null as day"
       end
       @averaging_time = at
       return at_str
