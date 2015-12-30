@@ -1,43 +1,46 @@
 <h1>Transfers Between Accounts</h1>
 
-<%= link_to 'New Transfer', new_transfer_path %>
-<br>
-<br>
+<div class="link-block">
+  <%= link_to 'New Transfer', new_transfer_path %>
+</div>
 
-<div class="filter">
-  <%= form_tag request.path, method: 'get' do %>
-    <div class="field number">
-      <%= label_tag :year %>
-      <%= number_field_tag :year, params[:year], min:2000 %>
-    </div>
-    <div class="field number">
-      <%= label_tag :month %>
-      <%= number_field_tag :month, params[:month], min:1, max:12 %>
-    </div>
-    <div class="field number">
-      <%= label_tag :day %>
-      <%= number_field_tag :day, params[:day], min:1, max:31 %>
-    </div>
-    <div class="field">
-      <%= label_tag :to_account %>
-      <%= select_tag :to_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:to_account_id]), { :include_blank => true } %>
-    </div>
-    <div class="field">
-      <%= label_tag :from_account %>
-      <%= select_tag :from_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:from_account_id]), { :include_blank => true } %>
-    </div>
-    <div class="field number">
-      <%= label_tag :amount %>
-      <%= number_field_tag :amount, params[:amount], step: 0.01, min:0.01 %>
-    </div>
-    <div class="field">
-      <%= label_tag :description %>
-      <%= text_field_tag :description, params[:description] %>
-    </div>
-    <div class="actions">
-      <%= submit_tag "Search" %>
-    </div>
-  <% end %>
+<div class="filter-box">
+  <button id="show_filter" class="filter-button">Show/Hide Filter</button>
+  <div class="filter hidden">
+    <%= form_tag request.path, method: 'get' do %>
+      <div class="field number">
+        <%= label_tag :year %>
+        <%= number_field_tag :year, params[:year], min:2000 %>
+      </div>
+      <div class="field number">
+        <%= label_tag :month %>
+        <%= number_field_tag :month, params[:month], min:1, max:12 %>
+      </div>
+      <div class="field number">
+        <%= label_tag :day %>
+        <%= number_field_tag :day, params[:day], min:1, max:31 %>
+      </div>
+      <div class="field">
+        <%= label_tag :to_account %>
+        <%= select_tag :to_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:to_account_id]), { :include_blank => true } %>
+      </div>
+      <div class="field">
+        <%= label_tag :from_account %>
+        <%= select_tag :from_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:from_account_id]), { :include_blank => true } %>
+      </div>
+      <div class="field number">
+        <%= label_tag :amount %>
+        <%= number_field_tag :amount, params[:amount], step: 0.01, min:0.01 %>
+      </div>
+      <div class="field">
+        <%= label_tag :description %>
+        <%= text_field_tag :description, params[:description] %>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Search" %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <% if @transfers.nil? or @transfers.each.count == 0 %>

@@ -7,6 +7,14 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = current_user.transactions.where(get_conditions).order("transaction_date DESC").page(params[:page]).per_page(20)
+
+    respond_to do |format|
+      format.html
+      format.xlsx {
+        response.headers['Content-Disposition'] = 'attachment; filename="transactions.xlsx"'
+      }
+    end
+
   end
 
   # GET /transactions/1

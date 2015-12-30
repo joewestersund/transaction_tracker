@@ -1,5 +1,10 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
-timeout 15
+timeout 60
+
+# Enable streaming (for XLSX downloads)
+port = (ENV["PORT"] || 3000).to_i
+listen port, :tcp_nopush => false
+
 preload_app true
 
 before_fork do |server, worker|

@@ -1,0 +1,25 @@
+wb = xlsx_package.workbook
+
+header_style = wb.styles.add_style alignment: {horizontal: :center, vertical: :center, wrap_text: true}, b: true, sz: 10, bg_color: "C0C0C0"
+data_style = wb.styles.add_style alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 10
+
+
+wb.add_worksheet(name: 'Transactions') do |sheet|
+
+  sheet.add_row ["Date", "Vendor Name", "Account",
+                 "Account", "Transaction Category",
+                 "Amount Spent", "Description"], style: header_style
+
+  @transactions.each do |transaction|
+    sheet.add_row [transaction.transaction_date.strftime('%m/%e/%Y'),
+                   transaction.vendor_name,
+                   (transaction.account.account_name if transaction.account.present?),
+                  (transaction.transaction_category.name if transaction.transaction_category.present?),
+                  number_to_currency(transaction.amount),
+                  transaction.description], style: data_style
+  end
+end
+
+#to stream?
+#s = p.to_stream()
+#File.open('example_streamed.xlsx', 'w') { |f| f.write(s.read) }
