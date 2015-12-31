@@ -43,7 +43,7 @@ end
 
 gem 'rails_12factor' #for deployment to Heroku
 
-gem 'bootstrap-sass', '~> 3.2.0' #include bootstrap css and js files
+gem 'bootstrap-sass' #include bootstrap css and js files
 
 # for datepicker
 # https://github.com/Nerian/bootstrap-datepicker-rails
