@@ -33,7 +33,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # gem to export to Excel
-gem 'axlsx'
+#gem 'axlsx'
 gem 'axlsx_rails'
 
 group :doc do

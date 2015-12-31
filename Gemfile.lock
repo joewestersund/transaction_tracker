@@ -232,7 +232,6 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
-  axlsx
   axlsx_rails
   bcrypt-ruby
   bootstrap-datepicker-rails
