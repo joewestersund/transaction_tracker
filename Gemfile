@@ -33,7 +33,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # gem to export to Excel
-#gem 'axlsx'
+#gem 'axlsx' #don't need to explicitly include?
 gem 'axlsx_rails'
 
 group :doc do
@@ -66,7 +66,7 @@ group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
-group :development, :text do
+group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
 end
