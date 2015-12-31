@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 1.2'
 
 # gem to export to Excel
 #gem 'axlsx' #don't need to explicitly include?
-gem 'axlsx_rails'
+gem 'axlsx_rails', '~> 0.3.0'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
