@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.2.5' #-> Bumped the version
+gem 'sprockets-rails' #-> this will add the latest version
 
 gem 'pg', '0.17.1' #PostgreSQL
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+#gem 'bootstrap', '~> 4.0.0.alpha3'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '>= 3.2'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -17,17 +20,14 @@ gem 'coffee-rails', '~> 4.0.0'
 #use will_paginate to show big tables page by page
 gem 'will_paginate', '~> 3.0'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 3.0'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~> 2.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -43,11 +43,9 @@ end
 
 gem 'rails_12factor' #for deployment to Heroku
 
-gem 'bootstrap-sass' #include bootstrap css and js files
-
 # for datepicker
 # https://github.com/Nerian/bootstrap-datepicker-rails
-gem 'bootstrap-datepicker-rails'
+#gem 'bootstrap-datepicker-rails'
 
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html
