@@ -45,7 +45,7 @@ gem 'rails_12factor' #for deployment to Heroku
 
 # for datepicker
 # https://github.com/Nerian/bootstrap-datepicker-rails
-#gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails'
 
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html
