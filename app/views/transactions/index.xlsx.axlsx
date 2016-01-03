@@ -7,7 +7,7 @@ data_style = wb.styles.add_style alignment: {horizontal: :center, vertical: :cen
 wb.add_worksheet(name: 'Transactions') do |sheet|
 
   sheet.add_row ["Date", "Vendor Name", "Account",
-                 "Account", "Transaction Category",
+                 "Transaction Category",
                  "Amount Spent", "Description"], style: header_style
 
   @transactions.each do |transaction|
