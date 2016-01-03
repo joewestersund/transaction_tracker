@@ -4,4 +4,5 @@ module SummariesHelper
       "current"
     end
   end
+
 end

@@ -6,7 +6,9 @@ class TransfersController < ApplicationController
   # GET /transfers
   # GET /transfers.json
   def index
-    @transfers = current_user.transfers.where(get_conditions).order("transfer_date DESC").page(params[:page]).per_page(20)
+    conditions = get_conditions
+    @filtered = !conditions[1].empty?
+    @transfers = current_user.transfers.where(conditions).order("transfer_date DESC").page(params[:page]).per_page(20)
   end
 
   # GET /transfers/1
