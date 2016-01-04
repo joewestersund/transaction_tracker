@@ -19,7 +19,3 @@ wb.add_worksheet(name: 'Transactions') do |sheet|
                   transaction.description], style: data_style
   end
 end
-
-#to stream?
-#s = p.to_stream()
-#File.open('example_streamed.xlsx', 'w') { |f| f.write(s.read) }
