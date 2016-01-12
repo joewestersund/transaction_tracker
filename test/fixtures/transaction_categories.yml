@@ -12,14 +12,17 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  user_name: MyString
-  name: MyString
-  is_income: 
+tc1:
+  user: :u1
+  name: category1
   order_in_list: 1
 
-two:
-  user_name: MyString
-  name: MyString
-  is_income: 
-  order_in_list: 1
+tc2:
+  user: :u1
+  name: category2
+  order_in_list: 2
+
+tc_no_transactions:
+  user: u1
+  name: tc_no_transactions
+  order_in_list: 3

@@ -1,8 +1,12 @@
 require 'test_helper'
+include SessionsHelper
 
 class TransactionsControllerTest < ActionController::TestCase
   setup do
-    @transaction = transactions(:one)
+    sign_in users(:u1)
+    @transaction = transactions(:t1)
+    @account = accounts(:a1)
+    @transaction_category = transaction_categories(:tc1)
   end
 
   test "should get index" do
@@ -18,14 +22,14 @@ class TransactionsControllerTest < ActionController::TestCase
 
   test "should create transaction" do
     assert_difference('Transaction.count') do
-      post :create, transaction: { amount: @transaction.amount, date: @transaction.date, description: @transaction.description, vendor_name: @transaction.vendor_name }
+      post :create, transaction: { amount: @transaction.amount, transaction_date: @transaction.transaction_date, description: @transaction.description, vendor_name: @transaction.vendor_name, account_id: @account, transaction_category_id: @transaction_category }
     end
 
-    assert_redirected_to transaction_path(assigns(:transaction))
+    assert_redirected_to transactions_path
   end
 
   test "should show transaction" do
-    get :show, id: @transaction
+    get :show, id: @transaction.id
     assert_response :success
   end
 
@@ -35,8 +39,8 @@ class TransactionsControllerTest < ActionController::TestCase
   end
 
   test "should update transaction" do
-    patch :update, id: @transaction, transaction: { amount: @transaction.amount, date: @transaction.date, description: @transaction.description, vendor_name: @transaction.vendor_name }
-    assert_redirected_to transaction_path(assigns(:transaction))
+    patch :update, id: @transaction, transaction: { amount: @transaction.amount, transaction_date: @transaction.transaction_date, description: @transaction.description, vendor_name: @transaction.vendor_name, account_id: @account, transaction_category_id: @transaction_category }
+    assert_redirected_to transactions_path
   end
 
   test "should destroy transaction" do

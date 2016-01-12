@@ -1,5 +1,7 @@
 class TransactionsController < ApplicationController
-  before_action :signed_in_user
+  include ActionController::Live
+
+  before_action :signed_in_user, except: :streaming_test
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
   before_action :set_select_options, only: [:new, :edit, :index]
 
@@ -20,6 +22,25 @@ class TransactionsController < ApplicationController
       }
     end
 
+  end
+
+  def streaming_test
+    @transactions = t
+    response.headers['Content-Disposition'] = 'attachment; filename="test.xml"'
+
+    respond_to do |format|
+      format.xml
+    end
+
+    #render layout:false
+    #render stream: true
+
+    #response.headers['Content-Type'] = 'text/event-stream'
+    #10.times {
+    #  response.stream.write "This is a test Message"
+    #  sleep 1
+    #}
+    #response.stream.close
   end
 
   # GET /transactions/1

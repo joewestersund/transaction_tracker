@@ -70,9 +70,7 @@ group :development, :test do
 end
 
 # Use unicorn as the app server
-group :production do
-  gem 'unicorn'
-end
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

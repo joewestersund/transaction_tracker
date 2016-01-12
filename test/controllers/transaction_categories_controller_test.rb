@@ -1,14 +1,24 @@
 require 'test_helper'
+include SessionsHelper
 
 class TransactionCategoriesControllerTest < ActionController::TestCase
   setup do
-    @transaction_category = transaction_categories(:one)
+    sign_in users(:u1)
+    @tc = transaction_categories(:tc1)
+    @tc2 = transaction_categories(:tc2)
+    @tc_no_transactions = transaction_categories(:tc_no_transactions)
+
   end
 
   test "should get index" do
     get :index
     assert_response :success
     assert_not_nil assigns(:transaction_categories)
+  end
+
+  test "should show transaction category" do
+    get :show, id: @tc
+    assert_response :success
   end
 
   test "should get new" do
@@ -18,32 +28,60 @@ class TransactionCategoriesControllerTest < ActionController::TestCase
 
   test "should create transaction_category" do
     assert_difference('TransactionCategory.count') do
-      post :create, transaction_category: { is_income: @transaction_category.is_income, name: @transaction_category.name, order_in_list: @transaction_category.order_in_list, user_name: @transaction_category.user_name }
-    end
-
-    assert_redirected_to transaction_category_path(assigns(:transaction_category))
-  end
-
-  test "should show transaction_category" do
-    get :show, id: @transaction_category
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @transaction_category
-    assert_response :success
-  end
-
-  test "should update transaction_category" do
-    patch :update, id: @transaction_category, transaction_category: { is_income: @transaction_category.is_income, name: @transaction_category.name, order_in_list: @transaction_category.order_in_list, user_name: @transaction_category.user_name }
-    assert_redirected_to transaction_category_path(assigns(:transaction_category))
-  end
-
-  test "should destroy transaction_category" do
-    assert_difference('TransactionCategory.count', -1) do
-      delete :destroy, id: @transaction_category
+      post :create, transaction_category: { name: @tc.name, order_in_list: @tc.order_in_list, user_id: @tc.user_id }
     end
 
     assert_redirected_to transaction_categories_path
   end
+
+  test "should get edit" do
+    get :edit, id: @tc
+    assert_response :success
+  end
+
+  test "should update transaction_category" do
+    patch :update, id: @tc, transaction_category: {user_id: @tc.user_id, name: @tc.name, order_in_list: @tc.order_in_list }
+    assert_redirected_to transaction_categories_path
+  end
+
+  test "should destroy transaction_category" do
+    assert_difference('TransactionCategory.count', -1) do
+      delete :destroy, id: @tc_no_transactions
+    end
+
+    assert_redirected_to transaction_categories_path
+  end
+
+  test "should move transaction category up" do
+    two = @tc2
+    initial_position = two.order_in_list
+    get :move_up, id: two.id
+    assert_equal(two.order_in_list, initial_position - 1)
+    assert_response :success
+  end
+
+  test "should move transaction category down" do
+    one = @tc
+    initial_position = one.order_in_list
+    get :move_down, id: one.id
+    assert_equal(one.order_in_list, initial_position + 1)
+    assert_response :success
+  end
+
+  test "shouldn't move first transaction category up" do
+    one = @tc
+    initial_position = one.order_in_list
+    get :move_up, id: one.id
+    assert_equal(one.order_in_list, initial_position)
+    assert_response :success
+  end
+
+  test "shouldn't move last transaction category up" do
+    last = @tc_no_transactions
+    initial_position = last.order_in_list
+    get :move_down, id: last.id
+    assert_equal(last.order_in_list, initial_position)
+    assert_response :success
+  end
+
 end

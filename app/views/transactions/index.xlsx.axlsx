@@ -10,7 +10,7 @@ wb.add_worksheet(name: 'Transactions') do |sheet|
                  "Transaction Category",
                  "Amount Spent", "Description"], style: header_style
 
-  @transactions.each do |transaction|
+  @transactions.find_each(batch_size: 100) do |transaction|
     sheet.add_row [transaction.transaction_date.strftime('%m/%e/%Y'),
                    transaction.vendor_name,
                    (transaction.account.account_name if transaction.account.present?),

@@ -14,8 +14,10 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  email: MyString
+u1:
+  email: user1@example.com
+  name: user1
 
-two:
-  email: MyString
+u2:
+  email: user2@example.com
+  name: user2
