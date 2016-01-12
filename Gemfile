@@ -58,15 +58,10 @@ group :test do
   #gem 'growl'  #not needed if we don't want notifications from guard.
   gem 'guard-spork'
   gem 'spork-rails'
-  gem 'factory_girl_rails'
 
   gem 'cucumber-rails', '1.4.0', :require => false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
-end
-
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'minitest-reporters'
 end
 
 # Use unicorn as the app server
