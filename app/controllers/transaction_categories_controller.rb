@@ -27,8 +27,8 @@ class TransactionCategoriesController < ApplicationController
   def create
     @transaction_category = TransactionCategory.new(transaction_category_params)
     @transaction_category.user = current_user
-    tc_max = TransactionCategory.first(conditions: {user_id: current_user.id}, order: "order_in_list DESC")
-    @transaction_category.order_in_list = tc_max.nil? ? 1 : tc_max.order_in_list + 1
+    tc_max = current_user.transaction_categories.maximum(:order_in_list)
+    @transaction_category.order_in_list = tc_max.nil? ? 1 : tc_max + 1
 
     respond_to do |format|
       if @transaction_category.save
@@ -117,11 +117,11 @@ class TransactionCategoriesController < ApplicationController
 
     def get_adjacent(current, get_previous = false)
       if get_previous
-        TransactionCategory.first(:conditions => ["order_in_list < ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list DESC")
+        current_user.transaction_categories.where("order_in_list < ?",
+                                                  current.order_in_list).order("order_in_list DESC").first
       else
-        TransactionCategory.first(:conditions => ["order_in_list > ? AND user_id = ?",
-                                                  current.order_in_list,current_user.id], order: "order_in_list")
+        current_user.transaction_categories.where("order_in_list > ?",
+                                                  current.order_in_list).order(:order_in_list).first
       end
     end
 

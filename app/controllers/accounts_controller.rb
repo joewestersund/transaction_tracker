@@ -28,8 +28,8 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.user = current_user
-    a_max = Account.first(conditions: {user_id: current_user.id}, order: "order_in_list DESC")
-    @account.order_in_list = a_max.nil? ? 1 : a_max.order_in_list + 1
+    a_max = current_user.accounts.maximum(:order_in_list)
+    @account.order_in_list = a_max.nil? ? 1 : a_max + 1
 
     respond_to do |format|
       if @account.save
@@ -118,10 +118,10 @@ class AccountsController < ApplicationController
 
     def get_adjacent(current, get_previous = false)
       if get_previous
-        Account.first(conditions: ["order_in_list < ? AND user_id = ?",
-                                   current.order_in_list,current_user.id], order: "order_in_list DESC")
+        current_user.accounts.where("order_in_list < ?",
+                                   current.order_in_list).order("order_in_list DESC").first
       else
-        Account.first(conditions: ["order_in_list > ? AND user_id = ?", current.order_in_list,current_user.id], order: "order_in_list")
+        current_user.accounts.where("order_in_list > ?", current.order_in_list).order(:order_in_list).first
       end
     end
 end

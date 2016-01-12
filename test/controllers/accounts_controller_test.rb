@@ -28,10 +28,10 @@ class AccountsControllerTest < ActionController::TestCase
 
   test "should create account" do
     assert_difference('Account.count') do
-      post :create, account: { account_name: "#{@a1.account_name}_test", order_in_list: 4 }
+      post :create, account: { account_name: "#{@a1.account_name}_test" }
     end
 
-    assert_redirected_to account_path(assigns(:account))
+    assert_redirected_to accounts_path
   end
 
   test "should get edit" do
@@ -64,31 +64,35 @@ class AccountsControllerTest < ActionController::TestCase
     two = @a2
     initial_position = two.order_in_list
     get :move_up, id: two.id
+    two.reload
     assert_equal(two.order_in_list, initial_position - 1)
-    assert_response :success
+    assert_redirected_to accounts_path
   end
 
   test "should move account down" do
     one = @a1
     initial_position = one.order_in_list
     get :move_down, id: one.id
+    one.reload
     assert_equal(one.order_in_list, initial_position + 1)
-    assert_response :success
+    assert_redirected_to accounts_path
   end
 
   test "shouldn't move first account up" do
     one = @a1
     initial_position = one.order_in_list
     get :move_up, id: one.id
+    one.reload
     assert_equal(one.order_in_list, initial_position)
-    assert_response :success
+    assert_redirected_to accounts_path
   end
 
   test "shouldn't move last account up" do
     last = @account_with_no_transactions
     initial_position = last.order_in_list
     get :move_down, id: last.id
+    last.reload
     assert_equal(last.order_in_list, initial_position)
-    assert_response :success
+    assert_redirected_to accounts_path
   end
 end

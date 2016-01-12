@@ -28,7 +28,7 @@ class TransactionCategoriesControllerTest < ActionController::TestCase
 
   test "should create transaction_category" do
     assert_difference('TransactionCategory.count') do
-      post :create, transaction_category: { name: @tc.name, order_in_list: @tc.order_in_list, user_id: @tc.user_id }
+      post :create, transaction_category: { name: "#{@tc.name}_test" }
     end
 
     assert_redirected_to transaction_categories_path
@@ -56,32 +56,36 @@ class TransactionCategoriesControllerTest < ActionController::TestCase
     two = @tc2
     initial_position = two.order_in_list
     get :move_up, id: two.id
+    two.reload
     assert_equal(two.order_in_list, initial_position - 1)
-    assert_response :success
+    assert_redirected_to transaction_categories_path
   end
 
   test "should move transaction category down" do
     one = @tc
     initial_position = one.order_in_list
     get :move_down, id: one.id
+    one.reload
     assert_equal(one.order_in_list, initial_position + 1)
-    assert_response :success
+    assert_redirected_to transaction_categories_path
   end
 
   test "shouldn't move first transaction category up" do
     one = @tc
     initial_position = one.order_in_list
     get :move_up, id: one.id
+    one.reload
     assert_equal(one.order_in_list, initial_position)
-    assert_response :success
+    assert_redirected_to transaction_categories_path
   end
 
   test "shouldn't move last transaction category up" do
     last = @tc_no_transactions
     initial_position = last.order_in_list
     get :move_down, id: last.id
+    last.reload
     assert_equal(last.order_in_list, initial_position)
-    assert_response :success
+    assert_redirected_to transaction_categories_path
   end
 
 end
