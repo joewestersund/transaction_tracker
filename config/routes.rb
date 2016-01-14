@@ -19,7 +19,6 @@ TransactionTracker::Application.routes.draw do
   get '/profile/edit', to: 'users#edit'
   patch '/profile/update_password', to: 'users#update_password'
 
-  get 'transactions/streaming_test' #for debug only
   resources :transactions
 
   resources :transaction_categories

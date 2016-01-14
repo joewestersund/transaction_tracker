@@ -2,6 +2,7 @@
 <div class="link-block">
   <%= link_to 'New Transaction', new_transaction_path %>
   <%= link_to "Download to Excel", transactions_path(format: "xlsx") + "?" + request.query_string %>
+  <%= link_to "Download as CSV", transactions_path(format: "csv") + "?" + request.query_string %>
 </div>
 
 <div class="filter-box">

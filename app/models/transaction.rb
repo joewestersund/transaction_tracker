@@ -29,4 +29,12 @@ class Transaction < ActiveRecord::Base
   validates :transaction_date, presence: true
   validates :amount, presence: true
 
+  def self.csv_header
+    ["Date", "Vendor Name", "Account","Transaction Category","Amount Spent", "Description"]
+  end
+
+  def to_csv
+    [self.transaction_date, self.vendor_name, self.account.account_name, self.transaction_category.name, self.amount, self.description]
+  end
+
 end

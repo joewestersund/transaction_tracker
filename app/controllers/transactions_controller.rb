@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   include ActionController::Live
+  require 'csv'
 
   before_action :signed_in_user, except: :streaming_test
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
@@ -20,27 +21,12 @@ class TransactionsController < ApplicationController
         @transactions = t
         response.headers['Content-Disposition'] = 'attachment; filename="transactions.xlsx"'
       }
+      format.csv {
+        stream_csv(t)
+        nil
+      }
     end
 
-  end
-
-  def streaming_test
-    @transactions = t
-    response.headers['Content-Disposition'] = 'attachment; filename="test.xml"'
-
-    respond_to do |format|
-      format.xml
-    end
-
-    #render layout:false
-    #render stream: true
-
-    #response.headers['Content-Type'] = 'text/event-stream'
-    #10.times {
-    #  response.stream.write "This is a test Message"
-    #  sleep 1
-    #}
-    #response.stream.close
   end
 
   # GET /transactions/1
@@ -182,6 +168,50 @@ class TransactionsController < ApplicationController
       conditions_string << "description ILIKE :description" if search_terms.description.present?
 
       return [conditions_string.join(" AND "), conditions]
+      end
+
+  private
+
+  def stream_csv(transactions)
+    #response.headers['Content-Type'] = 'text/event-stream'
+    #response.headers['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+    #response.stream.write ["Date", "Vendor Name", "Account","Transaction Category","Amount Spent", "Description"].to_csv
+
+    set_file_headers
+    set_streaming_headers
+
+    response.status = 200
+
+    #setting the body to an enumerator, rails will iterate this enumerator
+    #self.response_body = csv_rows(conditions)
+    csv_rows(transactions)
+  end
+
+  def set_file_headers
+    file_name = "transactions.csv"
+    headers["Content-Type"] = "text/csv"
+    headers["Content-disposition"] = "attachment; filename=\"#{file_name}\""
+  end
+
+
+  def set_streaming_headers
+    #nginx doc: Setting this to "no" will allow unbuffered responses suitable for Comet and HTTP streaming applications
+    headers['X-Accel-Buffering'] = 'no'
+
+    headers["Cache-Control"] ||= "no-cache"
+    headers.delete("Content-Length")
+  end
+
+  def csv_rows(transactions)
+    #write out the header row
+    response.stream.write CSV.generate_line(Transaction.csv_header)
+
+    #write out each row of data
+    transactions.find_each do |t|
+      response.stream.write CSV.generate_line(t.to_csv)
     end
+
+    response.stream.close
+  end
 
 end
