@@ -207,7 +207,7 @@ class TransactionsController < ApplicationController
     response.stream.write CSV.generate_line(Transaction.csv_header)
 
     #write out each row of data
-    transactions.find_each do |t|
+    transactions.each do |t|
       response.stream.write CSV.generate_line(t.to_csv)
     end
 

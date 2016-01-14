@@ -15,6 +15,16 @@ class TransactionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:transactions)
   end
 
+  test "should get xlsx" do
+    get :index, :format => :xlsx
+    assert_response :success
+  end
+
+  test "should get csv" do
+    get :index, :format => :csv
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success
