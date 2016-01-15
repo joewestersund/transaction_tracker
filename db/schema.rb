@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "account_balances", force: true do |t|
+  create_table "account_balances", force: :cascade do |t|
     t.integer  "account_id"
     t.date     "balance_date"
     t.decimal  "balance"
@@ -25,25 +25,25 @@ ActiveRecord::Schema.define(version: 20140101231640) do
     t.integer  "user_id"
   end
 
-  create_table "accounts", force: true do |t|
-    t.string   "account_name"
+  create_table "accounts", force: :cascade do |t|
+    t.string   "account_name",  limit: 255
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
   end
 
-  create_table "transaction_categories", force: true do |t|
-    t.string   "name"
+  create_table "transaction_categories", force: :cascade do |t|
+    t.string   "name",          limit: 255
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
   end
 
-  create_table "transactions", force: true do |t|
+  create_table "transactions", force: :cascade do |t|
     t.date     "transaction_date"
-    t.string   "vendor_name"
+    t.string   "vendor_name",             limit: 255
     t.decimal  "amount"
     t.text     "description"
     t.datetime "created_at"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   add_index "transactions", ["account_id"], name: "index_transactions_on_account_id", using: :btree
   add_index "transactions", ["transaction_category_id"], name: "index_transactions_on_transaction_category_id", using: :btree
 
-  create_table "transfers", force: true do |t|
+  create_table "transfers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "from_account_id"
     t.integer  "to_account_id"
@@ -76,14 +76,14 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   add_index "transfers", ["from_account_id"], name: "index_transfers_on_from_account_id", using: :btree
   add_index "transfers", ["to_account_id"], name: "index_transfers_on_to_account_id", using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "email"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.string   "password_digest"
-    t.string   "remember_token"
-    t.string   "time_zone"
+    t.string   "name",            limit: 255
+    t.string   "password_digest", limit: 255
+    t.string   "remember_token",  limit: 255
+    t.string   "time_zone",       limit: 255
   end
 
 end
