@@ -1,7 +1,7 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 15
 
-# Enable streaming (for XLSX downloads)
+# Enable streaming (for CSV downloads)
 port = (ENV["PORT"] || 3000).to_i
 listen port, :tcp_nopush => false
 

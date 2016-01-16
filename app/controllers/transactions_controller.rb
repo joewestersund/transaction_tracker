@@ -23,7 +23,6 @@ class TransactionsController < ApplicationController
       }
       format.csv {
         stream_csv(t)
-        nil
       }
     end
 
