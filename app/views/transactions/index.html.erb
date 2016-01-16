@@ -1,8 +1,9 @@
 <h1>Transactions</h1>
 <div class="link-block">
-  <%= link_to 'New Transaction', new_transaction_path %>
-  Download to Excel as <%= link_to "CSV", transactions_path(format: "csv") + "?" + request.query_string %>
+  <div class="link"><%= link_to 'New Transaction', new_transaction_path %></div>
+  <div class="link">Download to Excel as <%= link_to "CSV", transactions_path(format: "csv") + "?" + request.query_string %>
   | <%= link_to "XLSX", transactions_path(format: "xlsx") + "?" + request.query_string %>
+  </div>
 </div>
 
 <div class="filter-box">
