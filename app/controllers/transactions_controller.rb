@@ -173,36 +173,15 @@ class TransactionsController < ApplicationController
   private
 
   def stream_csv(transactions)
-    #response.headers['Content-Type'] = 'text/event-stream'
-    #response.headers['Content-Disposition'] = 'attachment; filename="transactions.csv"'
-    #response.stream.write ["Date", "Vendor Name", "Account","Transaction Category","Amount Spent", "Description"].to_csv
-
-    set_file_headers
-    set_streaming_headers
+    set_csv_file_headers
+    set_csv_streaming_headers
 
     response.status = 200
 
-    #setting the body to an enumerator, rails will iterate this enumerator
-    #self.response_body = csv_rows(conditions)
-    csv_rows(transactions)
+    write_csv_rows(transactions)
   end
 
-  def set_file_headers
-    file_name = "transactions.csv"
-    headers["Content-Type"] = "text/csv"
-    headers["Content-disposition"] = "attachment; filename=\"#{file_name}\""
-  end
-
-
-  def set_streaming_headers
-    #nginx doc: Setting this to "no" will allow unbuffered responses suitable for Comet and HTTP streaming applications
-    headers['X-Accel-Buffering'] = 'no'
-
-    headers["Cache-Control"] ||= "no-cache"
-    headers.delete("Content-Length")
-  end
-
-  def csv_rows(transactions)
+  def write_csv_rows(transactions)
     #write out the header row
     response.stream.write CSV.generate_line(Transaction.csv_header)
 
