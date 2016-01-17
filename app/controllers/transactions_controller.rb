@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   include ActionController::Live
   require 'csv'
 
-  before_action :signed_in_user, except: :streaming_test
+  before_action :signed_in_user
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
   before_action :set_select_options, only: [:new, :edit, :index]
 
@@ -181,15 +181,17 @@ class TransactionsController < ApplicationController
   end
 
   def write_csv_rows(transactions)
-    #write out the header row
-    response.stream.write CSV.generate_line(Transaction.csv_header)
+    begin
+      #write out the header row
+      response.stream.write CSV.generate_line(Transaction.csv_header)
 
-    #write out each row of data
-    transactions.each do |t|
-      response.stream.write CSV.generate_line(t.to_csv)
+      #write out each row of data
+      transactions.each do |t|
+        response.stream.write CSV.generate_line(t.to_csv)
+      end
+    ensure
+      response.stream.close
     end
-
-    response.stream.close
   end
 
 end
