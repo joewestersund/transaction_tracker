@@ -7,7 +7,6 @@ gem 'sprockets-rails' #-> this will add the latest version
 gem 'pg', '0.17.1' #PostgreSQL
 
 # Use SCSS for stylesheets
-#gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sass-rails', '>= 3.2'
 
@@ -33,7 +32,6 @@ gem 'turbolinks', '~> 2.3.0'
 gem 'jbuilder', '~> 1.2'
 
 # gem to export to Excel
-#gem 'axlsx' #don't need to explicitly include?
 gem 'axlsx_rails', '~> 0.3.0'
 
 group :doc do
@@ -53,24 +51,22 @@ group :development do
 end
 
 group :test do
+  gem "connection_pool"
+
+  gem "poltergeist"
   gem 'capybara'
   gem 'rb-fsevent'
-  #gem 'growl'  #not needed if we don't want notifications from guard.
-  gem 'guard-spork'
-  gem 'spork-rails'
 
-  gem 'cucumber-rails', '1.4.0', :require => false
-  gem 'database_cleaner', github: 'bmabey/database_cleaner'
+  #for model tests
+  gem "shoulda"
+  #gem "shoulda-context"
+  #gem "shoulda-matchers", require: false
+
+  #for color coding of test results
   gem 'minitest-reporters'
 end
 
 # Use unicorn as the app server
 gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
 ruby "2.0.0"

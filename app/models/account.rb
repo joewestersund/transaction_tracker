@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
   has_many :outgoing_transfers, class_name:"Transfer", foreign_key: "from_account_id",  :dependent => :destroy
 
   validates :account_name, presence: true, :uniqueness => {:scope => :user}
-  validates :order_in_list, numericality: { only_integer: true, greater_than: 0 }
+  validates :order_in_list, presence: true, numericality: { only_integer: true, greater_than: 0 }, :uniqueness => {:scope => :user}
   validates :user_id, presence: true
 
   before_destroy :check_no_transactions_or_transfers

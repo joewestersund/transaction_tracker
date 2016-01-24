@@ -1,0 +1,13 @@
+t1:
+  user: :u1
+  from_account: :a1
+  to_account: :a2
+  amount: 12.3
+  transfer_date: '2015-01-01'
+
+t2:
+  user: :u1
+  from_account: :a3
+  to_account: :a2
+  amount: 12.3
+  transfer_date: '2015-01-01'

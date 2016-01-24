@@ -1,0 +1,11 @@
+ab1:
+  user: :u1
+  account: :a1
+  balance: 12.3
+  balance_date: '2015-01-01'
+
+ab2:
+  user: :u1
+  account: :a2
+  balance: -123.12
+  balance_date: '2015-01-01'
