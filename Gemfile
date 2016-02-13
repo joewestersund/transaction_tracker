@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5' #-> Bumped the version
 gem 'sprockets-rails' #-> this will add the latest version
 
-gem 'pg', '0.17.1' #PostgreSQL
+gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
 
 # Use SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.3.6'
@@ -20,7 +20,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'will_paginate', '~> 3.0'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt-ruby'
+gem 'bcrypt-ruby', '3.1.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 3.0'
@@ -69,4 +69,4 @@ end
 # Use unicorn as the app server
 gem 'unicorn'
 
-ruby "2.0.0"
+ruby "2.2.4"

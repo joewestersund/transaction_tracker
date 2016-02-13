@@ -9,15 +9,19 @@ module ApplicationHelper
   end
 
   def swap_and_save(first, second)
+    temp_value = first.class.maximum(:order_in_list) + 1
     if first.order_in_list > second.order_in_list
-      first.order_in_list = second.order_in_list
-      second.order_in_list = first.order_in_list + 1 #if there's space in between due to deletions, move up
+      first_new_value = second.order_in_list
+      second.order_in_list = first_new_value + 1 #if there's space in between due to deletions, move up
     else
       second.order_in_list = first.order_in_list
-      first.order_in_list = second.order_in_list + 1 #if there's space in between due to deletions, move up
+      first_new_value = second.order_in_list + 1 #if there's space in between due to deletions, move up
     end
-    first.save
-    second.save
+    first.order_in_list = temp_value
+    throw "error swapping order_in_list" unless first.save
+    throw "error swapping order_in_list" unless second.save
+    first.order_in_list = first_new_value
+    throw throw "error swapping order_in_list" unless first.save
   end
 
   def show_boolean(bool_variable)

@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   end
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "account_name",  limit: 255
+    t.string   "account_name"
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   end
 
   create_table "transaction_categories", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name"
     t.integer  "order_in_list"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
 
   create_table "transactions", force: :cascade do |t|
     t.date     "transaction_date"
-    t.string   "vendor_name",             limit: 255
+    t.string   "vendor_name"
     t.decimal  "amount"
     t.text     "description"
     t.datetime "created_at"
@@ -77,13 +77,13 @@ ActiveRecord::Schema.define(version: 20140101231640) do
   add_index "transfers", ["to_account_id"], name: "index_transfers_on_to_account_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",           limit: 255
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",            limit: 255
-    t.string   "password_digest", limit: 255
-    t.string   "remember_token",  limit: 255
-    t.string   "time_zone",       limit: 255
+    t.string   "name"
+    t.string   "password_digest"
+    t.string   "remember_token"
+    t.string   "time_zone"
   end
 
 end
