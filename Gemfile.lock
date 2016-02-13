@@ -208,7 +208,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails (~> 3.0)
   minitest-reporters
-  pg (= 0.18.4)
+  pg
   poltergeist
   rails (= 4.2.5)
   rails_12factor
