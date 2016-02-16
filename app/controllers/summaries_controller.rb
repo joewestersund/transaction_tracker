@@ -120,10 +120,10 @@ class SummariesController < ApplicationController
       at = params[:averaging_time]
       if at == "year"
         "year"
-      elsif at == "month"
-        "year, month"
-      else
+      elsif at == "day"
         "year, month, day"
+      else #default to month
+        "year, month"
       end
     end
 
