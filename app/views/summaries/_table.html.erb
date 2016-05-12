@@ -25,8 +25,9 @@
         <td class="row_header"><%= link_to rh_text, rh_href if rh_text.present?%></td>
         <% for column_index in 0..(@table.num_columns-1)
           c_text = @table.text(row_index,column_index)
-          c_href = @table.href(row_index,column_index) %>
-          <td class="<%= "no_data hide" if @table.column_has_no_data(column_index) %>"><%= link_to number_to_currency(c_text), c_href if c_text.present?%></td>
+          c_href = @table.href(row_index,column_index)
+          c_numeric_value = @table.numeric_value(row_index,column_index)%>
+          <td class="<%= "no_data hide" if @table.column_has_no_data(column_index) %>"><%= link_to set_currency_styling(c_numeric_value), c_href if c_text.present?%></td>
         <% end %>
       </tr>
     <% end %>

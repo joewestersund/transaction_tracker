@@ -58,4 +58,9 @@ module ApplicationHelper
     headers["Cache-Control"] ||= "no-cache"
     headers.delete("Content-Length")
   end
+
+  def set_currency_styling(number)
+    "<span #{'class=negative_number' if number < 0}>#{number_to_currency(number)}</span>".html_safe
+  end
+
 end

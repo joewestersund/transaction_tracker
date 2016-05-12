@@ -22,32 +22,32 @@
   <table>
     <tr>
       <td>Start balance <%= start_date %> (end of day)</td>
-      <td><%= number_to_currency(@start_balance.balance) %></td>
+      <td><%= set_currency_styling(@start_balance.balance) %></td>
     </tr>
     <tr>
       <td>End balance <%= end_date %> (end of day)</td>
-      <td><%= number_to_currency(@end_balance.balance) %></td>
+      <td><%= set_currency_styling(@end_balance.balance) %></td>
     </tr>
     <% balance_change = @end_balance.balance - @start_balance.balance %>
     <tr>
       <td>Balance increase:</td>
-      <td><%= number_to_currency(balance_change) %></td>
+      <td><%= set_currency_styling(balance_change) %></td>
     </tr>
     <tr>
       <td>Transfers in:</td>
-      <td><%= number_to_currency(@transfers_in_total) %></td>
+      <td><%= set_currency_styling(@transfers_in_total) %></td>
     </tr>
     <tr>
       <td>Spending total:</td>
-      <td><%= number_to_currency(@total_spending) %></td>
+      <td><%= set_currency_styling(@total_spending) %></td>
     </tr>
     <tr>
       <td>Transfers out:</td>
-      <td><%= number_to_currency(@transfers_out_total) %></td>
+      <td><%= set_currency_styling(@transfers_out_total) %></td>
     </tr>
     <tr>
       <td>Spending (earnings) not accounted for:</td>
-      <td><%= number_to_currency(-1 * (balance_change + @total_spending + @transfers_out_total - @transfers_in_total ))%></td>
+      <td><%= set_currency_styling(-1 * (balance_change + @total_spending + @transfers_out_total - @transfers_in_total ))%></td>
     </tr>
   </table>
 
@@ -74,7 +74,7 @@
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>
           <td><%= transfer.transfer_date %></td>
-          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= set_currency_styling(transfer.amount) %></td>
           <td><%= transfer.description %></td>
           <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
           <td><%= link_to 'Delete', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
@@ -110,7 +110,7 @@
           <td><%= transaction.vendor_name %></td>
           <td><%= transaction.account.account_name if transaction.account.present? %></td>
           <td><%= transaction.transaction_category.name if transaction.transaction_category.present? %></td>
-          <td><%= number_to_currency(transaction.amount) %></td>
+          <td><%= set_currency_styling(transaction.amount) %></td>
           <td><%= transaction.description %></td>
           <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
           <td><%= link_to 'Delete', transaction, method: :delete, data: { confirm: 'Are you sure you want to delete this transaction?' } %></td>
@@ -144,7 +144,7 @@
           <td><%= transfer.from_account.account_name %></td>
           <td><%= transfer.to_account.account_name %></td>
           <td><%= transfer.transfer_date %></td>
-          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= set_currency_styling(transfer.amount) %></td>
           <td><%= transfer.description %></td>
           <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
           <td><%= link_to 'Delete', transfer, method: :delete, data: { confirm: 'Are you sure you want to delete this transfer?' } %></td>
