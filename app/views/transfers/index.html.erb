@@ -21,12 +21,12 @@
         <%= number_field_tag :day, params[:day], min:1, max:31 %>
       </div>
       <div class="field">
-        <%= label_tag :to_account %>
-        <%= select_tag :to_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:to_account_id]), { :include_blank => true } %>
-      </div>
-      <div class="field">
         <%= label_tag :from_account %>
         <%= select_tag :from_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:from_account_id]), { :include_blank => true } %>
+      </div>
+      <div class="field">
+        <%= label_tag :to_account %>
+        <%= select_tag :to_account_id, options_from_collection_for_select(@user_accounts,:id,:account_name,params[:to_account_id]), { :include_blank => true } %>
       </div>
       <div class="field number">
         <%= label_tag :amount %>
