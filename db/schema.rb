@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140101231640) do
+ActiveRecord::Schema.define(version: 20180114184714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
 
   add_index "transactions", ["account_id"], name: "index_transactions_on_account_id", using: :btree
   add_index "transactions", ["transaction_category_id"], name: "index_transactions_on_transaction_category_id", using: :btree
+  add_index "transactions", ["user_id", "transaction_date"], name: "index_transactions_on_user_id_and_transaction_date", order: {"transaction_date"=>:desc}, using: :btree
 
   create_table "transfers", force: :cascade do |t|
     t.integer  "user_id"
@@ -75,6 +76,7 @@ ActiveRecord::Schema.define(version: 20140101231640) do
 
   add_index "transfers", ["from_account_id"], name: "index_transfers_on_from_account_id", using: :btree
   add_index "transfers", ["to_account_id"], name: "index_transfers_on_to_account_id", using: :btree
+  add_index "transfers", ["user_id", "transfer_date"], name: "index_transfers_on_user_id_and_transfer_date", order: {"transfer_date"=>:desc}, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
