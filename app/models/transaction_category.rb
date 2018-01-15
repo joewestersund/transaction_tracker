@@ -10,7 +10,7 @@
 #  user_id       :integer
 #
 
-class TransactionCategory < ActiveRecord::Base
+class TransactionCategory < ApplicationRecord
 
   belongs_to :user
   has_many :transactions

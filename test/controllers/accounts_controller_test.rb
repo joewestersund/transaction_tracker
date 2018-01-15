@@ -22,31 +22,31 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   test "should show account" do
-    get :show, id: @a1
+    get :show, params: {id: @a1}
     assert_response :success
   end
 
   test "should create account" do
     assert_difference('Account.count') do
-      post :create, account: { account_name: "#{@a1.account_name}_test" }
+      post :create, params: {account: { account_name: "#{@a1.account_name}_test" }}
     end
 
     assert_redirected_to accounts_path
   end
 
   test "should get edit" do
-    get :edit, id: @a1
+    get :edit, params: {id: @a1}
     assert_response :success
   end
 
   test "should update account" do
-    patch :update, id: @a1, account: { account_name: @a1.account_name }
+    patch :update, params: {id: @a1, account: { account_name: @a1.account_name }}
     assert_redirected_to accounts_path
   end
 
   test "should destroy account" do
     assert_difference('Account.count', -1) do
-      delete :destroy, id: @account_with_no_transactions  #can't delete if it has transactions
+      delete :destroy, params: {id: @account_with_no_transactions}  #can't delete if it has transactions
     end
 
     assert_redirected_to accounts_path
@@ -54,7 +54,7 @@ class AccountsControllerTest < ActionController::TestCase
 
   test "shouldn't destroy account if it has transctions" do
     assert_no_difference('Account.count') do
-      delete :destroy, id: @a1  #can't delete if it has transactions
+      delete :destroy, params: {id: @a1}  #can't delete if it has transactions
     end
 
     assert_redirected_to accounts_path
@@ -63,7 +63,7 @@ class AccountsControllerTest < ActionController::TestCase
   test "should move account up" do
     two = @a2
     initial_position = two.order_in_list
-    get :move_up, id: two.id
+    get :move_up, params: {id: two.id}
     two.reload
     assert_equal(two.order_in_list, initial_position - 1)
     assert_redirected_to accounts_path
@@ -72,7 +72,7 @@ class AccountsControllerTest < ActionController::TestCase
   test "should move account down" do
     one = @a1
     initial_position = one.order_in_list
-    get :move_down, id: one.id
+    get :move_down, params: {id: one.id}
     one.reload
     assert_equal(one.order_in_list, initial_position + 1)
     assert_redirected_to accounts_path
@@ -81,7 +81,7 @@ class AccountsControllerTest < ActionController::TestCase
   test "shouldn't move first account up" do
     one = @a1
     initial_position = one.order_in_list
-    get :move_up, id: one.id
+    get :move_up, params: {id: one.id}
     one.reload
     assert_equal(one.order_in_list, initial_position)
     assert_redirected_to accounts_path
@@ -90,7 +90,7 @@ class AccountsControllerTest < ActionController::TestCase
   test "shouldn't move last account up" do
     last = @account_with_no_transactions
     initial_position = last.order_in_list
-    get :move_down, id: last.id
+    get :move_down, params: {id: last.id}
     last.reload
     assert_equal(last.order_in_list, initial_position)
     assert_redirected_to accounts_path

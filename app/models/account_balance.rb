@@ -11,7 +11,7 @@
 #  user_id      :integer
 #
 
-class AccountBalance < ActiveRecord::Base
+class AccountBalance < ApplicationRecord
   belongs_to :account
   belongs_to :user
 

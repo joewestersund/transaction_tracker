@@ -15,24 +15,24 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { email: "test_#{@user.email}", name: "test", password: "test_pw", password_confirmation: "test_pw" }
+      post :create, params: {user: { email: "test_#{@user.email}", name: "test", password: "test_pw", password_confirmation: "test_pw" }}
     end
 
     assert_redirected_to welcome_path
   end
 
   test "should show user" do
-    get :show, id: @user
+    get :show, params: {id: @user}
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @user
+    get :edit, params: {id: @user}
     assert_response :success
   end
 
   test "should update user" do
-    patch :update, id: @user, user: { name: @user.name, email: @user.email, time_zone: @user.time_zone  }
+    patch :update, params: {id: @user, user: { name: @user.name, email: @user.email, time_zone: @user.time_zone  }}
     assert_response :success
     #assert_redirected_to profile_edit_path
   end

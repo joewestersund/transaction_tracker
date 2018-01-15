@@ -10,7 +10,7 @@
 #  user_id       :integer
 #
 
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
 
   belongs_to :user
   has_many :transactions
@@ -26,15 +26,13 @@ class Account < ActiveRecord::Base
 
   private
     def check_no_transactions_or_transfers
-      status = true
       if self.transactions.count > 0
-        self.errors[:deletion_status] = 'Cannot delete an account that is being used for one or more transactions.'
-        status = false
+        self.errors.add(:base, :deletion_status, message: 'Cannot delete an account that is being used for one or more transactions.')
+        throw :abort
       elsif self.incoming_transfers.count > 0 or self.outgoing_transfers.count > 0
-        self.errors[:deletion_status] = 'Cannot delete an account that is being used for one or more transfers.'
-        status = false
+        self.errors.add(:base, :deletion_status, message: 'Cannot delete an account that is being used for one or more transfers.')
+        throw :abort
       end
-      status
     end
 
 end

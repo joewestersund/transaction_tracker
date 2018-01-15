@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5' #-> Bumped the version
+gem 'rails', '5.1' #-> Bumped the version
 gem 'sprockets-rails' #-> this will add the latest version
 
 gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
@@ -14,25 +14,27 @@ gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 
 #use will_paginate to show big tables page by page
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate', '~> 3.1'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '3.1.2'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '~> 3.0'
+gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks', '~> 2.3.0'
+gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder'
 
 # gem to export to Excel
-gem 'axlsx_rails', '~> 0.3.0'
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
+gem 'axlsx_rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -64,6 +66,9 @@ group :test do
 
   #for color coding of test results
   gem 'minitest-reporters'
+
+  #to use the assigns testing feature in Rails 5
+  gem 'rails-controller-testing'
 end
 
 # Use unicorn as the app server

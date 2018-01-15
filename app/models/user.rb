@@ -12,7 +12,7 @@
 #  time_zone       :string(255)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_secure_password #adds authenticate method, etc.
 
   has_many :accounts, :dependent => :destroy
