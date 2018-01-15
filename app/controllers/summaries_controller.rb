@@ -1,4 +1,6 @@
 require 'ostruct'
+require 'summary_table'
+require 'chart_data'
 
 class ColumnNameAndID
   def column_id
@@ -25,6 +27,7 @@ class SummariesController < ApplicationController
 
   def by_account
     @show_table = show_table
+    @display = (@show_table ? "table" : "chart")
     at = get_averaging_time
     @user_accounts = current_user.accounts.order('order_in_list').all
 
@@ -43,6 +46,7 @@ class SummariesController < ApplicationController
 
   def by_category
     @show_table = show_table
+    @display = (@show_table ? "table" : "chart")
     at = get_averaging_time
     @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
 
@@ -61,6 +65,7 @@ class SummariesController < ApplicationController
 
   def by_transaction_direction
     @show_table = show_table
+    @display = (@show_table ? "table" : "chart")
     at = get_averaging_time
 
     respond_to do |format|
@@ -77,10 +82,12 @@ class SummariesController < ApplicationController
 
   private
     def get_params_for_link_url
-      params_to_exclude = ["averaging_time", "display"]
-      filtered_params = params.reject{ |key, value| params_to_exclude.include?(key) }
+      #params_to_exclude = ["averaging_time", "display"]
+      #filtered_params = params.reject{ |key, value| params_to_exclude.include?(key) }
 
-      @params_for_link_url = "&" + URI.encode(filtered_params.map{|k,v| "#{k}=#{v}"}.join("&"))
+      #@params_for_link_url = "&" + URI.encode(filtered_params.to_hash.map{|k,v| "#{k}=#{v}"}.join("&"))
+
+      @params_for_link_url = params.permit(:display, :averaging_time, :year, :month, :day, :transaction_category_id, :account_id)
     end
 
     def test_if_filtered

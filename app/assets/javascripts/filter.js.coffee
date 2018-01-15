@@ -6,5 +6,4 @@ ready = ->
     $('.filter select option:first').attr('selected',true) #select the first option
     $('.filter form').submit() #submit the form with the new, blank values
 
-$(document).ready(ready)
-$(document).on('page:load', ready)
+$(document).on('turbolinks:load', ready)
