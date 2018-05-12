@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '5.1' #-> Bumped the version
 gem 'sprockets-rails' #-> this will add the latest version
 
+gem 'rails-html-sanitizer', '~> 1.0.4'
+
 gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
 
 # Use SCSS for stylesheets
