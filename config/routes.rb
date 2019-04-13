@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
  resources :transfers
+ get '/transfers/:id/copy', to: 'transfers#copy', as: 'copy_transfer'
+
  resources :account_balances
 
  get "/check_balance", to: 'balance_checks#check_balance'

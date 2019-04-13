@@ -1,7 +1,7 @@
 class TransfersController < ApplicationController
   before_action :signed_in_user
-  before_action :set_transfer, only: [:show, :edit, :update, :destroy]
-  before_action :set_select_options, only: [:new, :edit, :index]
+  before_action :set_transfer, only: [:show, :edit, :copy, :update, :destroy]
+  before_action :set_select_options, only: [:new, :edit, :copy, :index]
 
   # GET /transfers
   # GET /transfers.json
@@ -24,9 +24,15 @@ class TransfersController < ApplicationController
       format.json { render json: @account_balance.errors, status: :unprocessable_entity }
     else
       @transfer = Transfer.new
+      @transfer.transfer_date = get_current_time
       @transfer.from_account_id = current_user.accounts.order(:order_in_list).first
       @transfer.to_account_id = current_user.accounts.order(:order_in_list).first
     end
+  end
+
+  def copy
+    @transfer = @transfer.dup
+    @transfer.transfer_date = get_current_time
   end
 
   # GET /transfers/1/edit

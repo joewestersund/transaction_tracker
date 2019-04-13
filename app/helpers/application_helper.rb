@@ -63,4 +63,9 @@ module ApplicationHelper
     "<span #{'class=negative_number' if number < 0}>#{number_to_currency(number)}</span>".html_safe
   end
 
+  def get_current_time
+    Time.use_zone(current_user.time_zone) do
+      Time.now.in_time_zone
+    end
+  end
 end

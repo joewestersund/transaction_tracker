@@ -97,11 +97,6 @@ class TransactionsController < ApplicationController
   end
 
   private
-    def get_current_time
-      Time.use_zone(current_user.time_zone) do
-        Time.now.in_time_zone
-      end
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
