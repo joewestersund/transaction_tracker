@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1' #-> Bumped the version
+gem 'rails', '5.1.7' #-> Bumped the version
 gem 'sprockets-rails' #-> this will add the latest version
 
 gem 'rails-html-sanitizer', '~> 1.0.4'
@@ -63,9 +63,9 @@ group :test do
   gem 'rb-fsevent'
 
   #for model tests
-  gem "shoulda"
+  gem 'shoulda', '~> 3.5'
   #gem "shoulda-context"
-  #gem "shoulda-matchers", require: false
+  gem "shoulda-matchers", '~> 2.0'
 
   #for color coding of test results
   gem 'minitest-reporters'
