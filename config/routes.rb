@@ -20,6 +20,7 @@ Rails.application.routes.draw do
  patch '/profile/update_password', to: 'users#update_password'
 
  resources :transactions
+ get '/transactions/:id/copy', to: 'transactions#copy', as: 'copy_transaction'
 
  resources :transaction_categories
  post '/transaction_categories/:id/move_up', to: 'transaction_categories#move_up'

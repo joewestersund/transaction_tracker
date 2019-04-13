@@ -3,8 +3,8 @@ class TransactionsController < ApplicationController
   require 'csv'
 
   before_action :signed_in_user
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :set_select_options, only: [:new, :edit, :index]
+  before_action :set_transaction, only: [:show, :edit, :copy, :update, :destroy]
+  before_action :set_select_options, only: [:new, :edit, :copy, :index]
 
   # GET /transactions
   # GET /transactions.json
@@ -36,13 +36,16 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
-    Time.use_zone(current_user.time_zone) do
-      @transaction.transaction_date = Time.now.in_time_zone
-    end
+    @transaction.transaction_date = get_current_time
   end
 
   # GET /transactions/1/edit
   def edit
+  end
+
+  def copy
+    @transaction = @transaction.dup
+    @transaction.transaction_date = get_current_time
   end
 
   # POST /transactions
@@ -94,6 +97,12 @@ class TransactionsController < ApplicationController
   end
 
   private
+    def get_current_time
+      Time.use_zone(current_user.time_zone) do
+        Time.now.in_time_zone
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       t = Transaction.find(params[:id])

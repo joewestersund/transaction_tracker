@@ -49,6 +49,11 @@ class TransactionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get copy" do
+    get :copy, params: {id: @transaction}
+    assert_response :success
+  end
+
   test "should update transaction" do
     patch :update, params: {id: @transaction, transaction: { amount: @transaction.amount, transaction_date: @transaction.transaction_date, description: @transaction.description, vendor_name: @transaction.vendor_name, account_id: @account, transaction_category_id: @transaction_category }}
     assert_redirected_to transactions_path
