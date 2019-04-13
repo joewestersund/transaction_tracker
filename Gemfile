@@ -9,7 +9,7 @@ gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
 
 # Use SCSS for stylesheets
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sass-rails', '>= 3.2'
 
 # Use Uglifier as compressor for JavaScript assets
