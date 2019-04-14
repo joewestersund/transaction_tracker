@@ -2,7 +2,7 @@ class RepeatingTransactionsController < ApplicationController
 
   before_action :signed_in_user
   before_action :set_repeating_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :set_select_options, only: [:new, :edit, :copy, :index]
+  before_action :set_select_options, only: [:new, :edit, :index]
 
   # GET /repeating_transactions
   # GET /repeating_transactions.json
@@ -39,9 +39,10 @@ class RepeatingTransactionsController < ApplicationController
 
     respond_to do |format|
       if @repeating_transaction.save
-        format.html { redirect_to @repeating_transaction, notice: 'Repeating transaction was successfully created.' }
+        format.html { redirect_to repeating_transactions_path, notice: 'Repeating transaction was successfully created.' }
         format.json { render :show, status: :created, location: @repeating_transaction }
       else
+        set_select_options
         format.html { render :new }
         format.json { render json: @repeating_transaction.errors, status: :unprocessable_entity }
       end
@@ -56,9 +57,10 @@ class RepeatingTransactionsController < ApplicationController
       @repeating_transaction.amount = currency_string_to_number(repeating_transaction_params_amount)
 
       if @repeating_transaction.save
-        format.html { redirect_to @repeating_transaction, notice: 'Repeating transaction was successfully updated.' }
+        format.html { redirect_to repeating_transactions_path, notice: 'Repeating transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @repeating_transaction }
       else
+        set_select_options
         format.html { render :edit }
         format.json { render json: @repeating_transaction.errors, status: :unprocessable_entity }
       end

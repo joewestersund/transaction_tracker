@@ -1,6 +1,6 @@
 <h1>Balance Check</h1>
-<% start_date = @start_balance.balance_date.strftime('%m/%e/%Y')
-   end_date =  @end_balance.balance_date.strftime('%m/%e/%Y') %>
+<% start_date = display_date(@start_balance.balance_date)
+   end_date =  display_date(@end_balance.balance_date) %>
 <div class="inline">
   <h4><%= "#{start_date} to #{end_date}" %></h4>
   <%= link_to "earlier", request.path + "?account_id=#{@account.id}&prev_balance=#{@account_balance_num + 1}" if @show_earlier_link%>
@@ -106,7 +106,7 @@
       <tbody>
       <% @transactions.reverse.each do |transaction| %>
         <tr>
-          <td><%= transaction.transaction_date.strftime('%m/%e/%Y') %></td>
+          <td><%= display_date(transaction.transaction_date) %></td>
           <td><%= transaction.vendor_name %></td>
           <td><%= transaction.account.account_name if transaction.account.present? %></td>
           <td><%= transaction.transaction_category.name if transaction.transaction_category.present? %></td>

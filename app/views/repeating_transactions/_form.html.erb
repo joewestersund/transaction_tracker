@@ -12,33 +12,26 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :repeating_transaction_user_id %>
-  </div>
-
-  <div class="field">
     <%= form.label :vendor_name %>
     <%= form.text_field :vendor_name, id: :repeating_transaction_vendor_name %>
   </div>
-
   <div class="field">
-    <%= form.label :account_id %>
-    <%= form.number_field :account_id, id: :repeating_transaction_account_id %>
+    <%= form.label :account %>
+    <%= form.collection_select :account_id, @user_accounts, :id, :account_name %>
+    <%= link_to "Add / Edit", new_account_path %>
   </div>
-
   <div class="field">
-    <%= form.label :transaction_category_id %>
-    <%= form.number_field :transaction_category_id, id: :repeating_transaction_transaction_category_id %>
+    <%= form.label :transaction_category, "Spending Category" %>
+    <%= form.collection_select :transaction_category_id, @user_transaction_categories, :id, :name %>
+    <%= link_to "Add / Edit", new_transaction_category_path %>
   </div>
-
   <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount, id: :repeating_transaction_amount %>
+    <%= form.label :amount, "Amount Spent" %>
+    <%= form.number_field :amount, step: 0.01%>
   </div>
-
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_area :description, id: :repeating_transaction_description %>
+    <%= form.text_area :description %>
   </div>
 
   <div class="field">

@@ -10,8 +10,7 @@
 #  description                :text
 #  repeat_start_date          :date
 #  ends_after_num_occurrences :integer
-#  ends                       :string
-#  after_date                 :date
+#  ends_after_date            :date
 #  repeat_period              :string
 #  repeat_every_x_periods     :integer
 #  repeat_on_x_day_of_period  :integer

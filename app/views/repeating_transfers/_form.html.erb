@@ -12,28 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :repeating_transfer_user_id %>
+    <%= form.label :from_account, "From Account" %>
+    <%= form.collection_select :from_account_id, @user_accounts, :id, :account_name %>
+    <%= link_to "Add / Edit", new_account_path %>
   </div>
-
   <div class="field">
-    <%= form.label :from_account_id %>
-    <%= form.number_field :from_account_id, id: :repeating_transfer_from_account_id %>
+    <%= form.label :to_account, "To Account" %>
+    <%= form.collection_select :to_account_id, @user_accounts, :id, :account_name %>
+    <%= link_to "Add / Edit", new_account_path %>
   </div>
-
-  <div class="field">
-    <%= form.label :to_account_id %>
-    <%= form.number_field :to_account_id, id: :repeating_transfer_to_account_id %>
-  </div>
-
   <div class="field">
     <%= form.label :amount %>
-    <%= form.text_field :amount, id: :repeating_transfer_amount %>
+    <%= form.number_field :amount, step: 0.01 %>
   </div>
-
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_area :description, id: :repeating_transfer_description %>
+    <%= form.text_area :description %>
   </div>
 
   <div class="field">

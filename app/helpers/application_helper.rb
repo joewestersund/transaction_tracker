@@ -68,4 +68,10 @@ module ApplicationHelper
       Time.now.in_time_zone
     end
   end
+
+  def display_date(date)
+    if date.present?
+      date.strftime('%m/%e/%Y')
+    end
+  end
 end

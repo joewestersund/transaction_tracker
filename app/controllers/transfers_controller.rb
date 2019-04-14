@@ -69,6 +69,7 @@ class TransfersController < ApplicationController
         format.html { redirect_to transfers_path, notice: 'Transfer was successfully updated.' }
         format.json { head :no_content }
       else
+        set_select_options
         format.html { render action: 'edit' }
         format.json { render json: @transfer.errors, status: :unprocessable_entity }
       end

@@ -2,7 +2,7 @@ class RepeatingTransfersController < ApplicationController
 
   before_action :signed_in_user
   before_action :set_repeating_transfer, only: [:show, :edit, :update, :destroy]
-  before_action :set_select_options, only: [:new, :edit, :copy, :index]
+  before_action :set_select_options, only: [:new, :edit, :index]
 
   # GET /repeating_transfers
   # GET /repeating_transfers.json
@@ -46,9 +46,10 @@ class RepeatingTransfersController < ApplicationController
 
     respond_to do |format|
       if @repeating_transfer.save
-        format.html { redirect_to @repeating_transfer, notice: 'Repeating transfer was successfully created.' }
+        format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully created.' }
         format.json { render :show, status: :created, location: @repeating_transfer }
       else
+        set_select_options
         format.html { render :new }
         format.json { render json: @repeating_transfer.errors, status: :unprocessable_entity }
       end
@@ -62,9 +63,10 @@ class RepeatingTransfersController < ApplicationController
       @repeating_transfer.attributes = repeating_transfer_params_no_amount
       @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
       if @repeating_transfer.save
-        format.html { redirect_to @repeating_transfer, notice: 'Repeating transfer was successfully updated.' }
+        format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully updated.' }
         format.json { render :show, status: :ok, location: @repeating_transfer }
       else
+        set_select_options
         format.html { render :edit }
         format.json { render json: @repeating_transfer.errors, status: :unprocessable_entity }
       end
