@@ -1,41 +1,44 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
- resources :transfers
- get '/transfers/:id/copy', to: 'transfers#copy', as: 'copy_transfer'
+  resources :repeating_transfers
+  resources :repeating_transactions
 
- resources :account_balances
+  resources :transfers
+  get '/transfers/:id/copy', to: 'transfers#copy', as: 'copy_transfer'
 
- get "/check_balance", to: 'balance_checks#check_balance'
+  resources :account_balances
 
- get "/summaries/by_account"
- get "/summaries/by_category"
- get "/summaries/by_transaction_direction"
+  get "/check_balance", to: 'balance_checks#check_balance'
 
- get '/about', to: 'static_pages#about' # creates named path 'about'
- get '/welcome', to: 'static_pages#welcome' # creates named path 'welcome'
- get '/signup', to: 'users#new' # creates named path 'signup'
+  get "/summaries/by_account"
+  get "/summaries/by_category"
+  get "/summaries/by_transaction_direction"
 
- resources :users
- get '/profile/edit_password', to: 'users#edit_password'
- get '/profile/edit', to: 'users#edit'
- patch '/profile/update_password', to: 'users#update_password'
+  get '/about', to: 'static_pages#about' # creates named path 'about'
+  get '/welcome', to: 'static_pages#welcome' # creates named path 'welcome'
+  get '/signup', to: 'users#new' # creates named path 'signup'
 
- resources :transactions
- get '/transactions/:id/copy', to: 'transactions#copy', as: 'copy_transaction'
+  resources :users
+  get '/profile/edit_password', to: 'users#edit_password'
+  get '/profile/edit', to: 'users#edit'
+  patch '/profile/update_password', to: 'users#update_password'
 
- resources :transaction_categories
- post '/transaction_categories/:id/move_up', to: 'transaction_categories#move_up'
- post '/transaction_categories/:id/move_down', to: 'transaction_categories#move_down'
+  resources :transactions
+  get '/transactions/:id/copy', to: 'transactions#copy', as: 'copy_transaction'
 
- resources :accounts
- post '/accounts/:id/move_up', to: 'accounts#move_up'
- post '/accounts/:id/move_down', to: 'accounts#move_down'
+  resources :transaction_categories
+  post '/transaction_categories/:id/move_up', to: 'transaction_categories#move_up'
+  post '/transaction_categories/:id/move_down', to: 'transaction_categories#move_down'
 
- resources :sessions, only: [:new, :create, :destroy]
- get '/signin', to: "sessions#new"
- delete '/signout', to: "sessions#destroy"
+  resources :accounts
+  post '/accounts/:id/move_up', to: 'accounts#move_up'
+  post '/accounts/:id/move_down', to: 'accounts#move_down'
 
- root 'static_pages#about'
+  resources :sessions, only: [:new, :create, :destroy]
+  get '/signin', to: "sessions#new"
+  delete '/signout', to: "sessions#destroy"
+
+  root 'static_pages#about'
 
 end

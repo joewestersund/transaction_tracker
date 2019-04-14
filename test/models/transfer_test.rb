@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: transfers
+#
+#  id              :integer          not null, primary key
+#  user_id         :integer
+#  from_account_id :integer
+#  to_account_id   :integer
+#  transfer_date   :date
+#  amount          :decimal(, )
+#  description     :text
+#  created_at      :datetime
+#  updated_at      :datetime
+#  year            :integer
+#  month           :integer
+#  day             :integer
+#
+
 require 'test_helper'
 
 class TransferTest < ActiveSupport::TestCase

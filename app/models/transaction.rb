@@ -3,8 +3,8 @@
 # Table name: transactions
 #
 #  id                      :integer          not null, primary key
-#  transaction_date        :datetime
-#  vendor_name             :string(255)
+#  transaction_date        :date
+#  vendor_name             :string
 #  amount                  :decimal(, )
 #  description             :text
 #  created_at              :datetime

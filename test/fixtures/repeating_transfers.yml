@@ -1,0 +1,53 @@
+# == Schema Information
+#
+# Table name: repeating_transfers
+#
+#  id                         :bigint(8)        not null, primary key
+#  user_id                    :integer
+#  from_account_id            :integer
+#  to_account_id              :integer
+#  amount                     :decimal(, )
+#  description                :text
+#  repeat_start_date          :date
+#  ends_after_num_occurrences :integer
+#  ends                       :string
+#  after_date                 :date
+#  repeat_period              :string
+#  repeat_every_x_periods     :integer
+#  repeat_on_x_day_of_period  :integer
+#  last_occurrence_added      :date
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  from_account_id: 1
+  to_account_id: 1
+  amount: 9.99
+  description: MyText
+  repeat_start_date: 2019-04-13
+  ends_after_num_occurrences: 1
+  ends: MyString
+  after_date: 2019-04-13
+  repeat_period: MyString
+  repeat_every_x_periods: 1
+  repeat_on_x_day_of_period: 1
+  last_occurrence_added: 2019-04-13
+
+two:
+  user_id: 1
+  from_account_id: 1
+  to_account_id: 1
+  amount: 9.99
+  description: MyText
+  repeat_start_date: 2019-04-13
+  ends_after_num_occurrences: 1
+  ends: MyString
+  after_date: 2019-04-13
+  repeat_period: MyString
+  repeat_every_x_periods: 1
+  repeat_on_x_day_of_period: 1
+  last_occurrence_added: 2019-04-13

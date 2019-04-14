@@ -3,7 +3,7 @@
 # Table name: transaction_categories
 #
 #  id            :integer          not null, primary key
-#  name          :string(255)
+#  name          :string
 #  order_in_list :integer
 #  created_at    :datetime
 #  updated_at    :datetime

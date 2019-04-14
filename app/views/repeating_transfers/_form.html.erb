@@ -1,0 +1,77 @@
+<%= form_with(model: repeating_transfer, local: true) do |form| %>
+  <% if repeating_transfer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(repeating_transfer.errors.count, "error") %> prohibited this repeating_transfer from being saved:</h2>
+
+      <ul>
+      <% repeating_transfer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, id: :repeating_transfer_user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :from_account_id %>
+    <%= form.number_field :from_account_id, id: :repeating_transfer_from_account_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :to_account_id %>
+    <%= form.number_field :to_account_id, id: :repeating_transfer_to_account_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :amount %>
+    <%= form.text_field :amount, id: :repeating_transfer_amount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :repeating_transfer_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_start_date %>
+    <%= form.date_select :repeat_start_date, id: :repeating_transfer_repeat_start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ends_after_num_occurrences %>
+    <%= form.number_field :ends_after_num_occurrences, id: :repeating_transfer_ends_after_num_occurrences %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ends_after_date %>
+    <%= form.date_select :ends_after_date, id: :repeating_transfer_ends_after_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_period %>
+    <%= form.text_field :repeat_period, id: :repeating_transfer_repeat_period %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_every_x_periods %>
+    <%= form.number_field :repeat_every_x_periods, id: :repeating_transfer_repeat_every_x_periods %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_on_x_day_of_period %>
+    <%= form.number_field :repeat_on_x_day_of_period, id: :repeating_transfer_repeat_on_x_day_of_period %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_occurrence_added %>
+    <%= form.date_select :last_occurrence_added, id: :repeating_transfer_last_occurrence_added %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

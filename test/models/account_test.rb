@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id            :integer          not null, primary key
+#  account_name  :string
+#  order_in_list :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  user_id       :integer
+#
+
 require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase

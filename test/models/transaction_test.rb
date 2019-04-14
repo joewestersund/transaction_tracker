@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: transactions
+#
+#  id                      :integer          not null, primary key
+#  transaction_date        :date
+#  vendor_name             :string
+#  amount                  :decimal(, )
+#  description             :text
+#  created_at              :datetime
+#  updated_at              :datetime
+#  user_id                 :integer
+#  account_id              :integer
+#  transaction_category_id :integer
+#  year                    :integer
+#  month                   :integer
+#  day                     :integer
+#
+
 require 'test_helper'
 
 class TransactionTest < ActiveSupport::TestCase

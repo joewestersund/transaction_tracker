@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: transaction_categories
+#
+#  id            :integer          not null, primary key
+#  name          :string
+#  order_in_list :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  user_id       :integer
+#
+
 require 'test_helper'
 
 class TransactionCategoryTest < ActiveSupport::TestCase

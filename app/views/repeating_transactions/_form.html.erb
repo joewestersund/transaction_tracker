@@ -1,0 +1,77 @@
+<%= form_with(model: repeating_transaction, local: true) do |form| %>
+  <% if repeating_transaction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(repeating_transaction.errors.count, "error") %> prohibited this repeating_transaction from being saved:</h2>
+
+      <ul>
+      <% repeating_transaction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, id: :repeating_transaction_user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vendor_name %>
+    <%= form.text_field :vendor_name, id: :repeating_transaction_vendor_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account_id %>
+    <%= form.number_field :account_id, id: :repeating_transaction_account_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :transaction_category_id %>
+    <%= form.number_field :transaction_category_id, id: :repeating_transaction_transaction_category_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :amount %>
+    <%= form.text_field :amount, id: :repeating_transaction_amount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :repeating_transaction_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_start_date %>
+    <%= form.date_select :repeat_start_date, id: :repeating_transaction_repeat_start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ends_after_num_occurrences %>
+    <%= form.number_field :ends_after_num_occurrences, id: :repeating_transaction_ends_after_num_occurrences %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ends_after_date %>
+    <%= form.date_select :ends_after_date, id: :repeating_transaction_ends_after_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_period %>
+    <%= form.text_field :repeat_period, id: :repeating_transaction_repeat_period %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_every_x_periods %>
+    <%= form.number_field :repeat_every_x_periods, id: :repeating_transaction_repeat_every_x_periods %>
+  </div>
+
+  <div class="field">
+    <%= form.label :repeat_on_x_day_of_period %>
+    <%= form.number_field :repeat_on_x_day_of_period, id: :repeating_transaction_repeat_on_x_day_of_period %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
