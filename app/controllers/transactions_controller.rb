@@ -100,12 +100,7 @@ class TransactionsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      t = Transaction.find(params[:id])
-      if t.nil? or t.user != current_user
-        redirect_to transactions_path
-      else
-        @transaction = t
-      end
+      @transaction = current_user.transactions.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -118,7 +113,7 @@ class TransactionsController < ApplicationController
     end
 
 
-  def set_select_options
+    def set_select_options
       @user_accounts = current_user.accounts.order('order_in_list').all
       @user_transaction_categories = current_user.transaction_categories.order('order_in_list').all
     end
@@ -171,31 +166,29 @@ class TransactionsController < ApplicationController
       conditions_string << "description ILIKE :description" if search_terms.description.present?
 
       return [conditions_string.join(" AND "), conditions]
-      end
-
-  private
-
-  def stream_csv(transactions)
-    set_csv_file_headers
-    set_csv_streaming_headers
-
-    response.status = 200
-
-    write_csv_rows(transactions)
-  end
-
-  def write_csv_rows(transactions)
-    begin
-      #write out the header row
-      response.stream.write CSV.generate_line(Transaction.csv_header)
-
-      #write out each row of data
-      transactions.each do |t|
-        response.stream.write CSV.generate_line(t.to_csv)
-      end
-    ensure
-      response.stream.close
     end
-  end
+
+    def stream_csv(transactions)
+      set_csv_file_headers
+      set_csv_streaming_headers
+
+      response.status = 200
+
+      write_csv_rows(transactions)
+    end
+
+    def write_csv_rows(transactions)
+      begin
+        #write out the header row
+        response.stream.write CSV.generate_line(Transaction.csv_header)
+
+        #write out each row of data
+        transactions.each do |t|
+          response.stream.write CSV.generate_line(t.to_csv)
+        end
+      ensure
+        response.stream.close
+      end
+    end
 
 end

@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :transaction_categories, :dependent => :destroy
   has_many :transactions, :dependent => :destroy
   has_many :transfers, :dependent => :destroy
+  has_many :repeating_transactions, :dependent => :destroy
+  has_many :repeating_transfers, :dependent => :destroy
 
   before_save { |user| user.email.downcase! }
   before_create :create_remember_token

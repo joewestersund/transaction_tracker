@@ -14,9 +14,13 @@ class Account < ApplicationRecord
 
   belongs_to :user
   has_many :transactions
+  has_many :repeating_transactions, :dependent => :destroy
   has_many :account_balances, :dependent => :destroy
   has_many :incoming_transfers, class_name:"Transfer", foreign_key: "to_account_id", :dependent => :destroy
   has_many :outgoing_transfers, class_name:"Transfer", foreign_key: "from_account_id",  :dependent => :destroy
+  has_many :incoming_repeating_transfers, class_name:"RepeatingTransfer", foreign_key: "to_account_id", :dependent => :destroy
+  has_many :outgoing_repeating_transfers, class_name:"RepeatingTransfer", foreign_key: "from_account_id",  :dependent => :destroy
+
 
   validates :account_name, presence: true, :uniqueness => {:scope => :user}
   validates :order_in_list, presence: true, numericality: { only_integer: true, greater_than: 0 }, :uniqueness => {:scope => :user}

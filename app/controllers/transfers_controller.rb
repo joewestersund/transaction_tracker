@@ -20,7 +20,7 @@ class TransfersController < ApplicationController
   def new
     if current_user.accounts.count < 2
       #need an account before you can add a balance
-      format.html { redirect_to account_balances_path notice: 'You must have at least 2 accounts before you can record a transfer between them.' }
+      format.html { redirect_to accounts_path notice: 'You must have at least 2 accounts before you can record a transfer between them.' }
       format.json { render json: @account_balance.errors, status: :unprocessable_entity }
     else
       @transfer = Transfer.new
@@ -88,7 +88,7 @@ class TransfersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transfer
-      @transfer = Transfer.find(params[:id])
+      @transfer = current_user.transfers.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

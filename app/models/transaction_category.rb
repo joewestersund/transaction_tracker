@@ -14,6 +14,7 @@ class TransactionCategory < ApplicationRecord
 
   belongs_to :user
   has_many :transactions
+  has_many :repeating_transactions, :dependent => :destroy
 
   validates :name, presence: true, :uniqueness => {:scope => :user}
   validates :order_in_list, presence: true, numericality: { only_integer: true, greater_than: 0 }, :uniqueness => {:scope => :user}
