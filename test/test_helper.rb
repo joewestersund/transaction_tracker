@@ -11,7 +11,8 @@ require "minitest/reporters"
 #    ENV,
 #    Minitest.backtrace_filter)
 
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new # spec-like progress
+#Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new # spec-like progress
+Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
 
 # Capybara and poltergeist integration
 require "capybara/rails"
@@ -20,6 +21,7 @@ Capybara.javascript_driver = :poltergeist
 
 class ActiveSupport::TestCase
   fixtures :all
+
 end
 
 class ActionDispatch::IntegrationTest

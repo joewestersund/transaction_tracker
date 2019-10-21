@@ -2,7 +2,7 @@
 #
 # Table name: repeating_transfers
 #
-#  id                         :bigint(8)        not null, primary key
+#  id                         :integer          not null, primary key
 #  user_id                    :integer
 #  from_account_id            :integer
 #  to_account_id              :integer

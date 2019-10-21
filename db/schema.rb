@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190414045312) do
+ActiveRecord::Schema.define(version: 20191020213509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20190414045312) do
     t.integer "user_id"
   end
 
-  create_table "repeating_transactions", force: :cascade do |t|
+  create_table "repeating_transactions", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.string "vendor_name"
     t.integer "account_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20190414045312) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "repeating_transfers", force: :cascade do |t|
+  create_table "repeating_transfers", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "from_account_id"
     t.integer "to_account_id"

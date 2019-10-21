@@ -2,7 +2,7 @@
 #
 # Table name: repeating_transactions
 #
-#  id                         :bigint(8)        not null, primary key
+#  id                         :integer          not null, primary key
 #  user_id                    :integer
 #  vendor_name                :string
 #  account_id                 :integer
@@ -33,6 +33,7 @@ class RepeatingTransaction < ApplicationRecord
   validates :amount, presence: true, numericality: true
 
   validates :repeat_start_date, presence:true
+  validates :repeat_period, inclusion: { in: %w(day week month) }
 
 
 end

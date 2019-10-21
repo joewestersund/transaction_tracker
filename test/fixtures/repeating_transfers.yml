@@ -2,7 +2,7 @@
 #
 # Table name: repeating_transfers
 #
-#  id                         :bigint(8)        not null, primary key
+#  id                         :integer          not null, primary key
 #  user_id                    :integer
 #  from_account_id            :integer
 #  to_account_id              :integer
@@ -21,32 +21,30 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  user_id: 1
-  from_account_id: 1
-  to_account_id: 1
+rtransfer1:
+  user: :u1
+  from_account: :a1
+  to_account: :a2
   amount: 9.99
   description: MyText
   repeat_start_date: 2019-04-13
   ends_after_num_occurrences: 1
-  ends: MyString
-  after_date: 2019-04-13
-  repeat_period: MyString
+  ends_after_date: 2019-04-13
+  repeat_period: month
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
   last_occurrence_added: 2019-04-13
 
-two:
-  user_id: 1
-  from_account_id: 1
-  to_account_id: 1
+rtransfer2:
+  user: :u1
+  from_account: :a1
+  to_account: :a2
   amount: 9.99
   description: MyText
   repeat_start_date: 2019-04-13
   ends_after_num_occurrences: 1
-  ends: MyString
-  after_date: 2019-04-13
-  repeat_period: MyString
+  ends_after_date: 2019-04-13
+  repeat_period: month
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
   last_occurrence_added: 2019-04-13

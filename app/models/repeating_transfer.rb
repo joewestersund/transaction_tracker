@@ -2,7 +2,7 @@
 #
 # Table name: repeating_transfers
 #
-#  id                         :bigint(8)        not null, primary key
+#  id                         :integer          not null, primary key
 #  user_id                    :integer
 #  from_account_id            :integer
 #  to_account_id              :integer
@@ -29,6 +29,8 @@ class RepeatingTransfer < ApplicationRecord
   validates :from_account_id, presence: true
   validates :to_account_id, presence: true
   validates :amount, presence: true, numericality: true
+
+  validates :repeat_period, inclusion: { in: %w(day week month) }
 
   def from_and_to_accounts_are_not_same
     self.errors.add(:base, "The 'to' account must be different from the 'from' account.") if self.to_account_id == self.from_account_id

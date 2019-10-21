@@ -15,11 +15,6 @@ class RepeatingTransactionsController < ApplicationController
 
   end
 
-  # GET /repeating_transactions/1
-  # GET /repeating_transactions/1.json
-  def show
-  end
-
   # GET /repeating_transactions/new
   def new
     @repeating_transaction = RepeatingTransaction.new

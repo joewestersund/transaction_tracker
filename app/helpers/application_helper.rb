@@ -74,4 +74,9 @@ module ApplicationHelper
       date.strftime('%m/%e/%Y')
     end
   end
+
+  def repeat_period_choices
+    ['day', 'week', 'month']
+  end
+
 end

@@ -12,11 +12,6 @@ class RepeatingTransfersController < ApplicationController
     @repeating_transfers = current_user.repeating_transfers.where(conditions).order("last_occurrence_added DESC").page(params[:page]).per_page(20)
   end
 
-  # GET /repeating_transfers/1
-  # GET /repeating_transfers/1.json
-  def show
-  end
-
   # GET /repeating_transfers/new
   def new
 
