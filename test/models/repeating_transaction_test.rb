@@ -18,6 +18,7 @@
 #  last_occurrence_added      :date
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  next_occurrence            :date
 #
 
 require 'test_helper'

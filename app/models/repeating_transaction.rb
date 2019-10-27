@@ -18,7 +18,10 @@
 #  last_occurrence_added      :date
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  next_occurrence            :date
 #
+
+include RepeatingObjectsHelper
 
 class RepeatingTransaction < ApplicationRecord
 
@@ -35,5 +38,20 @@ class RepeatingTransaction < ApplicationRecord
   validates :repeat_start_date, presence:true
   validates :repeat_period, inclusion: { in: %w(day week month) }
 
+  validate :end_date_after_start_date
+
+  validates :repeat_on_x_day_of_period, absence: true, if: repeat_period == 'day' #should be blank if repeat period = "day"
+  validates :repeat_on_x_day_of_period, inclusion: 1..7, if: repeat_period == 'week'
+  validates :repeat_on_x_day_of_period, inclusion: 1..31, if: repeat_period == 'month'
+
+  before_save :do_initialize_next_occurrence
+
+  def end_date_after_start_date
+    self.errors.add(:base, "If the 'ends_after_date' is not left blank, it must be on or after the 'repeat_start_date'.") if self.ends_after_date.present? && (self.ends_after_date > self.repeat_start_date)
+  end
+
+  def do_initialize_next_occurrence
+    RepeatingObjectsHelper.initialize_next_occurrence(self)
+  end
 
 end

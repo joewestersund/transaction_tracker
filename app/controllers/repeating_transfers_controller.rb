@@ -57,6 +57,7 @@ class RepeatingTransfersController < ApplicationController
     respond_to do |format|
       @repeating_transfer.attributes = repeating_transfer_params_no_amount
       @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
+
       if @repeating_transfer.save
         format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully updated.' }
         format.json { render :show, status: :ok, location: @repeating_transfer }
