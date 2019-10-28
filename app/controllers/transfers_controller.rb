@@ -1,7 +1,10 @@
 class TransfersController < ApplicationController
+  include RepeatingObjectsHelper
+
   before_action :signed_in_user
   before_action :set_transfer, only: [:show, :edit, :copy, :update, :destroy]
   before_action :set_select_options, only: [:new, :edit, :copy, :index]
+  before_action :check_and_create_repeat_instances, only: :index
 
   # GET /transfers
   # GET /transfers.json

@@ -17,3 +17,6 @@
 
 #ignore RubyMine's internal files
 /.idea
+
+#ignore byebug's file
+.byebug_history

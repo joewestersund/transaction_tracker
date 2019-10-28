@@ -19,6 +19,7 @@
       <th>Repeat every x periods</th>
       <th>Repeat on x day of period</th>
       <th>Last occurrence added</th>
+      <th>Next occurrence</th>
       <th></th>
       <th></th>
     </tr>
@@ -39,6 +40,7 @@
         <td><%= repeating_transaction.repeat_every_x_periods %></td>
         <td><%= repeating_transaction.repeat_on_x_day_of_period %></td>
         <td><%= display_date(repeating_transaction.last_occurrence_added) %></td>
+        <td><%= display_date(repeating_transaction.next_occurrence) %></td>
         <td><%= link_to 'Edit', edit_repeating_transaction_path(repeating_transaction) %></td>
         <td><%= link_to 'Delete', repeating_transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

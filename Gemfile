@@ -52,12 +52,11 @@ gem 'rails_12factor' #for deployment to Heroku
 # https://github.com/Nerian/bootstrap-datepicker-rails
 gem 'bootstrap-datepicker-rails'
 
-gem 'byebug'
-
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html
   gem 'annotate'  #adds annotations to models, call bundle exec annotate to make it work
   gem 'listen'
+  gem 'byebug'
 end
 
 group :test do
@@ -77,6 +76,8 @@ group :test do
 
   #to use the assigns testing feature in Rails 5
   gem 'rails-controller-testing'
+  gem 'byebug'
+
 end
 
 # Use puma as the app server
