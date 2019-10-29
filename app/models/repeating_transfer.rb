@@ -41,8 +41,6 @@ class RepeatingTransfer < ApplicationRecord
   validate :end_date_after_start_date
   validate :repeat_on_x_day_is_in_range
 
-  #before_save :do_initialize_next_occurrence
-
   def repeat_on_x_day_is_in_range
     valid = false
     if self.repeat_period == 'day'
@@ -70,10 +68,6 @@ class RepeatingTransfer < ApplicationRecord
       self.errors.add(:base, "If the 'ends_after_date' is not left blank, it must be on or after the 'repeat_start_date'.")
     end
   end
-
-  #def do_initialize_next_occurrence
-  #  RepeatingObjectsHelper.initialize_next_occurrence(self)
-  #end
 
   def create_instance()
     t = Transfer.new
