@@ -1,5 +1,24 @@
 module RepeatingObjectsHelper
 
+  def reset_repeating_transactions
+    #debug
+    Transaction.delete_all
+    Transfer.delete_all
+
+    RepeatingTransaction.all.each do |rt|
+      rt.last_occurrence_added = nil
+      initialize_next_occurrence(rt)
+      rt.save
+    end
+
+    RepeatingTransfer.all.each do |rt|
+      rt.last_occurrence_added = nil
+      initialize_next_occurrence(rt)
+      rt.save
+    end
+
+  end
+
   def initialize_next_occurrence(repeating_object)
 
     #if the user moved up the start date, then reset last_occurrence_added
@@ -19,15 +38,17 @@ module RepeatingObjectsHelper
   def check_repeating_objects(repeating_objects)
     current_date = get_current_time.change(hour: 0)
     repeating_objects.each do |ro|
+      changed = false
       while (ro.next_occurrence.present? && ro.next_occurrence <= current_date) do
         ro.create_instance()
-        update_next_occurrence(ro)
+        increment_next_occurrence(ro)
+        changed = true
       end
-      ro.save #to save the last_occurrence_added and next_occurrence
+      ro.save if changed #to save the last_occurrence_added and next_occurrence
     end
   end
 
-  def update_next_occurrence(repeating_obj)
+  def increment_next_occurrence(repeating_obj)
     if repeating_obj.next_occurrence.nil?
       #the next_occurrence has been set to nil.
       #we've already been through here, and the next date was after the end of the repeats.
@@ -47,7 +68,9 @@ module RepeatingObjectsHelper
 
       if repeating_obj.ends_after_num_occurrences.present?
         max_periods = repeating_obj.repeat_every_x_periods * repeating_obj.ends_after_num_occurrences
-        if next_date > add_repeat_period_to_date(start, repeating_obj.repeat_period, max_periods)
+        #DEBUG
+        #not sure if I can use repeat_start_date directly, or if I need to calculate the actual first occurrence.
+        if next_date >= add_repeat_period_to_date(repeating_obj.repeat_start_date, repeating_obj.repeat_period, max_periods)
           repeating_obj.next_occurrence = nil
           return
         end

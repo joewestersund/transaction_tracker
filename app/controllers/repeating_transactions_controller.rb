@@ -1,4 +1,5 @@
 class RepeatingTransactionsController < ApplicationController
+  include RepeatingObjectsHelper
 
   before_action :signed_in_user
   before_action :set_repeating_transaction, only: [:show, :edit, :update, :destroy]
@@ -32,6 +33,8 @@ class RepeatingTransactionsController < ApplicationController
     @repeating_transaction.amount = currency_string_to_number(repeating_transaction_params_amount)
     @repeating_transaction.user = current_user
 
+    initialize_next_occurrence(@repeating_transaction)
+
     respond_to do |format|
       if @repeating_transaction.save
         format.html { redirect_to repeating_transactions_path, notice: 'Repeating transaction was successfully created.' }
@@ -50,6 +53,8 @@ class RepeatingTransactionsController < ApplicationController
     respond_to do |format|
       @repeating_transaction.attributes = repeating_transaction_params_no_amount
       @repeating_transaction.amount = currency_string_to_number(repeating_transaction_params_amount)
+
+      initialize_next_occurrence(@repeating_transaction)
 
       if @repeating_transaction.save
         format.html { redirect_to repeating_transactions_path, notice: 'Repeating transaction was successfully updated.' }

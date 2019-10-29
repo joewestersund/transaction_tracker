@@ -1,4 +1,5 @@
 class RepeatingTransfersController < ApplicationController
+  include RepeatingObjectsHelper
 
   before_action :signed_in_user
   before_action :set_repeating_transfer, only: [:show, :edit, :update, :destroy]
@@ -39,6 +40,8 @@ class RepeatingTransfersController < ApplicationController
     @repeating_transfer.user = current_user
     @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
 
+    initialize_next_occurrence(@repeating_transfer)
+
     respond_to do |format|
       if @repeating_transfer.save
         format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully created.' }
@@ -57,6 +60,8 @@ class RepeatingTransfersController < ApplicationController
     respond_to do |format|
       @repeating_transfer.attributes = repeating_transfer_params_no_amount
       @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
+
+      initialize_next_occurrence(@repeating_transfer)
 
       if @repeating_transfer.save
         format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully updated.' }
