@@ -43,27 +43,31 @@
     <%= form.label :repeat_every %>
     <%= form.number_field :repeat_every_x_periods, id: :repeating_transaction_repeat_every_x_periods %>
     <%= form.text_field :repeat_period, id: :repeating_transaction_repeat_period %>
-    <%= form.label "s on the" %>
+    <%= form.label "(s) on the" %>
     <%= form.number_field :repeat_on_x_day_of_period, id: :repeating_transaction_repeat_on_x_day_of_period %>
     <%= form.label :day_of_the_period %>
   </div>
 
-  <div class="field">
-    <%= form.label :end_after %>
+  <div class="inline-field">
+    <%= form.label :end %>
+    <div class="inline-field">
+      <%= form.radio_button :end_after, 'Never', :checked => true %>
+      <%= form.label :end_after_never, 'Never', value: 'Never' %>
+    </div>
+    <div class="inline-field">
+      <%= form.radio_button :end_after, 'after_num_occurrences' %>
+      <%= form.label :end_after_after_num_occurrences, 'After number of occurrences', value: 'after_num_occurrences' %>
+      <%= form.number_field :ends_after_num_occurrences, id: :repeating_transaction_ends_after_num_occurrences %>
+    </div>
+    <div class="inline-field">
 
-    <%= form.radio_button :end_after, 'Never', :checked => true %>
-    <%= form.label :end_after_never, 'Never', value: 'Never' %>
-    <%= form.radio_button :end_after, 'num_occurrences' %>
-    <%= form.label :end_after_num_occurrences, 'Number of occurrences', value: 'num_occurrences' %>
-    <%= form.number_field :ends_after_num_occurrences, id: :repeating_transaction_ends_after_num_occurrences %>
-
-    <%= form.radio_button :end_after, 'date' %>
-    <%= form.label :end_after_date, 'Date', value: 'date' %>
-
-    <%= form.date_select :ends_after_date, id: :repeating_transaction_ends_after_date %>
+      <%= form.radio_button :end_after, 'after_date' %>
+      <%= form.label :end_after_after_date, 'After date', value: 'after_date' %>
+      <%= form.date_select :ends_after_date, id: :repeating_transaction_ends_after_date %>
+    </div>
 
 
-  </div>
+    </div>
 
 
 
