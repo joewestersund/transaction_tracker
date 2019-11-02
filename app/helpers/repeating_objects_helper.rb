@@ -1,5 +1,17 @@
 module RepeatingObjectsHelper
 
+  def days_of_week
+    {"Sunday" => 1, "Monday" => 2, "Tuesday" => 3, "Wednesday" => 4, "Thursday" => 5, "Friday" => 6, "Saturday" => 7 }
+  end
+
+  def get_day_number(day_name)
+    days_of_week[day_name.capitalize]
+  end
+
+  def get_day_name(day_number)
+    days_of_week.key(day_number)
+  end
+
   def reset_repeating_transactions
     #debug
     Transaction.delete_all
@@ -103,7 +115,7 @@ module RepeatingObjectsHelper
       #for a monthly repeat, the first instance will be on the next repeat_on_x_day_of_period day of the month, between 0 and 30 days after the start day.
       #for a monthly repeat, repeat_on_x_day_of_period goes from 1 (first day of month) to 31 (last day of a 31-day month).
       start_day_day_of_the_month =  start_date.day
-      days_to_add = (31 +  repeat_on_x_day_of_period - start_day_day_of_the_month) % 31
+      days_to_add = (31 +  repeating_object.repeat_on_x_day_of_period - start_day_day_of_the_month) % 31
       return start_date + days_to_add.days
     else
       #this isn't handled. Throw an error.
@@ -123,6 +135,33 @@ module RepeatingObjectsHelper
       raise "Error: repeat period #{repeat_period_string} not handled in RepeatingObjectsHelper.add_repeat_period_to_date()"
     end
     next_date
+  end
+
+  def set_repeat_period(repeating_object, params_object)
+    if repeating_object.repeat_period == 'day'
+      repeating_object.repeat_on_x_day_of_period = nil
+    elsif repeating_object.repeat_period == 'week'
+      day_name = params_object[:on_weekday]
+      repeating_object.repeat_on_x_day_of_period = get_day_number(day_name)
+    elsif repeating_object.repeat_period == 'month'
+      #no need to take any action. repeating_object.repeat_on_x_day_of_period is set by textbox on interface.
+    else
+      raise "error: repeating object repeat period '#{repeating_object.repeat_period}' was not handled."
+    end
+  end
+
+  def set_end_type(repeating_object, params_object)
+    end_type = params_object[:end_type]
+    if end_type == 'never'
+      repeating_object.ends_after_num_occurrences = nil
+      repeating_object.ends_after_date = nil
+    elsif end_type == 'num-occurrences'
+      repeating_object.ends_after_date = nil
+    elsif end_type == 'end-date'
+      repeating_object.ends_after_num_occurrences = nil
+    else
+      raise "error: repeating object end type '#{end_type}' was not handled."
+    end
   end
 
 end

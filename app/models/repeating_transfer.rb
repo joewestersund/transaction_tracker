@@ -88,4 +88,15 @@ class RepeatingTransfer < ApplicationRecord
 
   end
 
+  def end_type
+    #these choices are used to determine which options show up in the interface
+    if self.ends_after_num_occurrences.present?
+      return 'num-occurrences'
+    elsif self.ends_after_date.present?
+      return 'end-date'
+    else
+      return 'never'
+    end
+  end
+
 end

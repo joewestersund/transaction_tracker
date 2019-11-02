@@ -41,47 +41,59 @@
 
   <div class="inline-field">
     <%= form.label :repeat_every %>
-    <%= form.number_field :repeat_every_x_periods, id: :repeating_transaction_repeat_every_x_periods %>
-    <%= form.text_field :repeat_period, id: :repeating_transaction_repeat_period %>
-    <%= form.label "(s) on the" %>
-    <%= form.number_field :repeat_on_x_day_of_period, id: :repeating_transaction_repeat_on_x_day_of_period %>
-    <%= form.label :day_of_the_period %>
+    <%= form.number_field :repeat_every_x_periods, id: :repeating_transaction_repeat_every_x_periods, class: "number-field-short" %>
 
-    <div class="inline-field">
-      <%= form.radio_button :on_weekday, 'sunday' %>
-      <%= form.label :on_weekday_sunday, 'Sunday' %>
-      <%= form.radio_button :on_weekday, 'monday' %>
-      <%= form.label :on_weekday_monday, 'Monday' %>
-      <%= form.radio_button :on_weekday, 'tuesday' %>
-      <%= form.label :on_weekday_tuesday, 'Tuesday' %>
-      <%= form.radio_button :on_weekday, 'wednesday' %>
-      <%= form.label :on_weekday_wednesday, 'Wednesday' %>
-      <%= form.radio_button :on_weekday, 'thursday' %>
-      <%= form.label :on_weekday_thursday, 'Thursday' %>
-      <%= form.radio_button :on_weekday, 'friday' %>
-      <%= form.label :on_weekday_friday, 'Friday' %>
-      <%= form.radio_button :on_weekday, 'saturday' %>
-      <%= form.label :on_weekday_saturday, 'Saturday' %>
+    <%= form.select(:repeat_period, options_for_select([['day(s)','day'], ['week(s)','week'], ['month(s)','month']], @repeating_transaction.repeat_period), {}, id: 'repeat-period')%>
+
+    <% if @repeating_transaction.repeat_period == 'week'
+         week_repeat_day = @repeating_transaction.repeat_on_x_day_of_period
+       elsif @repeating_transaction.repeat_period == 'month'
+         month_repeat_day = @repeating_transaction.repeat_on_x_day_of_period
+       end
+    %>
+
+    <div class="inline-field repeat-period-month">
+      <%= form.label "on day " %>
+      <%= form.number_field :repeat_on_x_day_of_period, {value: month_repeat_day, id: :repeating_transaction_repeat_on_x_day_of_period, class: "number-field-short"} %>
+      <%= form.label "of the month" %>
+    </div>
+
+    <div class="inline-field repeat-period-week">
+      <div class="inline-field">
+        <%= form.label "on" %>
+        <%= form.radio_button :on_weekday, 'sunday', checked: week_repeat_day == 1 %>
+        <%= form.label :on_weekday_sunday, 'Sunday'%>
+        <%= form.radio_button :on_weekday, 'monday', checked: week_repeat_day == 2 %>
+        <%= form.label :on_weekday_monday, 'Monday' %>
+        <%= form.radio_button :on_weekday, 'tuesday', checked: week_repeat_day == 3 %>
+        <%= form.label :on_weekday_tuesday, 'Tuesday' %>
+        <%= form.radio_button :on_weekday, 'wednesday', checked: week_repeat_day == 4 %>
+        <%= form.label :on_weekday_wednesday, 'Wednesday' %>
+        <%= form.radio_button :on_weekday, 'thursday', checked: week_repeat_day == 5 %>
+        <%= form.label :on_weekday_thursday, 'Thursday' %>
+        <%= form.radio_button :on_weekday, 'friday', checked: week_repeat_day == 6 %>
+        <%= form.label :on_weekday_friday, 'Friday' %>
+        <%= form.radio_button :on_weekday, 'saturday', checked: week_repeat_day == 7 %>
+        <%= form.label :on_weekday_saturday, 'Saturday' %>
+      </div>
     </div>
 
   </div>
 
   <div class="inline-field">
     <%= form.label :end %>
-  <div class="inline-field">
-    <%= form.radio_button :end_after, 'never', :checked => true %>
-    <%= form.label :end_after_never, 'Never' %>
-  </div>
-  <div class="inline-field">
-    <%= form.radio_button :end_after, 'num_occurrences' %>
-    <%= form.label :end_after_num_occurrences, 'After number of occurrences' %>
-    <%= form.number_field :ends_after_num_occurrences, id: :repeating_transaction_ends_after_num_occurrences %>
-  </div>
+    <%= form.select(:end_type, options_for_select([['Never','never'],['After # of occurrences','num-occurrences'],['After a date','end-date']], @repeating_transaction.end_type), {}, id: 'end-type')%>
 
-  <div class="inline-field">
-    <%= form.radio_button :end_after, 'end_date' %>
-    <%= form.label :end_after_end_date, 'After date' %>
-    <%= form.date_select :ends_after_date, id: :repeating_transaction_ends_after_date %>
+    <div class="inline-field end-type-num-occurrences">
+      <%= form.label :end_after_num_occurrences, 'After' %>
+      <%= form.number_field :ends_after_num_occurrences, id: :repeating_transaction_ends_after_num_occurrences, class: "number-field-short" %>
+      <%= form.label :end_after_num_occurrences, 'occurrences' %>
+    </div>
+
+    <div class="inline-field end-type-end-date">
+      <%= form.label :end_after_end_date, 'After' %>
+      <%= form.date_select :ends_after_date, id: :repeating_transaction_ends_after_date %>
+    </div>
   </div>
 
   <div class="actions">

@@ -32,6 +32,8 @@ class RepeatingTransactionsController < ApplicationController
     @repeating_transaction = RepeatingTransaction.new(repeating_transaction_params_no_amount)
     @repeating_transaction.amount = currency_string_to_number(repeating_transaction_params_amount)
     @repeating_transaction.user = current_user
+    set_repeat_period(@repeating_transaction, params[:repeating_transaction])
+    set_end_type(@repeating_transaction, params[:repeating_transaction])
 
     initialize_next_occurrence(@repeating_transaction)
 
@@ -53,6 +55,8 @@ class RepeatingTransactionsController < ApplicationController
     respond_to do |format|
       @repeating_transaction.attributes = repeating_transaction_params_no_amount
       @repeating_transaction.amount = currency_string_to_number(repeating_transaction_params_amount)
+      set_repeat_period(@repeating_transaction, params[:repeating_transaction])
+      set_end_type(@repeating_transaction, params[:repeating_transaction])
 
       initialize_next_occurrence(@repeating_transaction)
 

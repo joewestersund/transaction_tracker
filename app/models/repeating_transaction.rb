@@ -50,8 +50,8 @@ class RepeatingTransaction < ApplicationRecord
         self.errors.add(:base, "For a weekly repeat, the 'repeat on x day of period' must be between 1 and 7.")
       end
     elsif self.repeat_period == 'month'
-      unless (1..31).include?(self.repeat_on_x_day_of_period)
-        self.errors.add(:base, "For a weekly repeat, the 'repeat on x day of period' must be between 1 and 7.")
+      unless (1..28).include?(self.repeat_on_x_day_of_period)
+        self.errors.add(:base, "For a monthly repeat, the 'repeat on x day of period' must be between 1 and 28.")
       end
     end
 
@@ -81,6 +81,17 @@ class RepeatingTransaction < ApplicationRecord
 
     self.last_occurrence_added = self.next_occurrence
 
+  end
+
+  def end_type
+    #these choices are used to determine which options show up in the interface
+    if self.ends_after_num_occurrences.present?
+      return 'num-occurrences'
+    elsif self.ends_after_date.present?
+      return 'end-date'
+    else
+      return 'never'
+    end
   end
 
 end

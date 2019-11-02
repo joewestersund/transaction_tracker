@@ -39,6 +39,8 @@ class RepeatingTransfersController < ApplicationController
     @repeating_transfer = RepeatingTransfer.new(repeating_transfer_params_no_amount)
     @repeating_transfer.user = current_user
     @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
+    set_repeat_period(@repeating_transfer, params[:repeating_transfer])
+    set_end_type(@repeating_transfer, params[:repeating_transfer])
 
     initialize_next_occurrence(@repeating_transfer)
 
@@ -60,6 +62,8 @@ class RepeatingTransfersController < ApplicationController
     respond_to do |format|
       @repeating_transfer.attributes = repeating_transfer_params_no_amount
       @repeating_transfer.amount = currency_string_to_number(repeating_transfer_params_amount)
+      set_repeat_period(@repeating_transfer, params[:repeating_transfer])
+      set_end_type(@repeating_transfer, params[:repeating_transfer])
 
       initialize_next_occurrence(@repeating_transfer)
 
