@@ -12,6 +12,35 @@ module RepeatingObjectsHelper
     days_of_week.key(day_number)
   end
 
+  def repeat_description(repeat_object)
+    ro = repeat_object
+    if ro.repeat_every_x_periods > 1
+      every_x_periods = " #{ro.repeat_every_x_periods}"
+    else
+      every_x_periods = ""
+    end
+
+    repeat_text = "every#{every_x_periods} #{ro.repeat_period.pluralize(ro.repeat_every_x_periods)}"
+    if ro.repeat_period == "week"
+      repeat_text += " on #{get_day_name(ro.repeat_on_x_day_of_period)}"
+    elsif ro.repeat_period == "month"
+      repeat_text += " on day #{ro.repeat_on_x_day_of_period} of the month"
+    end
+    repeat_text
+  end
+
+  def end_description(repeat_object)
+    ro = repeat_object
+    if ro.end_type == 'num-occurrences'
+      end_text = "after #{ro.ends_after_num_occurrences} occurrences"
+    elsif ro.end_type == 'end-date'
+      end_text = "after #{display_date(ro.ends_after_date)}"
+    else
+      end_text = 'never'
+    end
+    end_text
+  end
+
   def reset_repeating_transactions
     #debug
     Transaction.delete_all

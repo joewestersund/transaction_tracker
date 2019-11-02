@@ -12,11 +12,8 @@
       <th>Amount</th>
       <th>Description</th>
       <th>Repeat start date</th>
-      <th>Ends after num occurrences</th>
-      <th>Ends after date</th>
-      <th>Repeat period</th>
-      <th>Repeat every x periods</th>
-      <th>Repeat on x day of period</th>
+      <th>Repeat description</th>
+      <th>Ends</th>
       <th>Last occurrence added</th>
       <th>Next occurrence</th>
       <th></th>
@@ -32,11 +29,8 @@
         <td><%= repeating_transfer.amount %></td>
         <td><%= repeating_transfer.description %></td>
         <td><%= display_date(repeating_transfer.repeat_start_date) %></td>
-        <td><%= repeating_transfer.ends_after_num_occurrences %></td>
-        <td><%= display_date(repeating_transfer.ends_after_date) %></td>
-        <td><%= repeating_transfer.repeat_period %></td>
-        <td><%= repeating_transfer.repeat_every_x_periods %></td>
-        <td><%= repeating_transfer.repeat_on_x_day_of_period %></td>
+        <td><%= repeat_description(repeating_transfer) %></td>
+        <td><%= end_description(repeating_transfer) %></td>
         <td><%= display_date(repeating_transfer.last_occurrence_added) %></td>
         <td><%= display_date(repeating_transfer.next_occurrence) %></td>
         <td><%= link_to 'Edit', edit_repeating_transfer_path(repeating_transfer) %></td>

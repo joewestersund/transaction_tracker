@@ -13,11 +13,8 @@
       <th>Amount</th>
       <th>Description</th>
       <th>Repeat start date</th>
-      <th>Ends after num occurrences</th>
-      <th>Ends after date</th>
-      <th>Repeat period</th>
-      <th>Repeat every x periods</th>
-      <th>Repeat on x day of period</th>
+      <th>Repeat description</th>
+      <th>Ends</th>
       <th>Last occurrence added</th>
       <th>Next occurrence</th>
       <th></th>
@@ -34,11 +31,8 @@
         <td><%= repeating_transaction.amount %></td>
         <td><%= repeating_transaction.description %></td>
         <td><%= display_date(repeating_transaction.repeat_start_date) %></td>
-        <td><%= repeating_transaction.ends_after_num_occurrences %></td>
-        <td><%= display_date(repeating_transaction.ends_after_date) %></td>
-        <td><%= repeating_transaction.repeat_period %></td>
-        <td><%= repeating_transaction.repeat_every_x_periods %></td>
-        <td><%= repeating_transaction.repeat_on_x_day_of_period %></td>
+        <td><%= repeat_description(repeating_transaction) %></td>
+        <td><%= end_description(repeating_transaction) %></td>
         <td><%= display_date(repeating_transaction.last_occurrence_added) %></td>
         <td><%= display_date(repeating_transaction.next_occurrence) %></td>
         <td><%= link_to 'Edit', edit_repeating_transaction_path(repeating_transaction) %></td>
