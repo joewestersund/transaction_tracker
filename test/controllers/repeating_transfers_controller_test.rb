@@ -22,7 +22,7 @@ class RepeatingTransfersControllerTest < ActionController::TestCase
 
   test "should create repeating_transfer" do
     assert_difference('RepeatingTransfer.count') do
-      post :create, params: { repeating_transfer: { ends_after_date: @repeating_transfer.ends_after_date, amount: @repeating_transfer.amount, description: @repeating_transfer.description, ends_after_num_occurrences: @repeating_transfer.ends_after_num_occurrences, from_account_id: @account1.id, last_occurrence_added: @repeating_transfer.last_occurrence_added, repeat_every_x_periods: @repeating_transfer.repeat_every_x_periods, repeat_on_x_day_of_period: @repeating_transfer.repeat_on_x_day_of_period, repeat_period: @repeating_transfer.repeat_period, repeat_start_date: @repeating_transfer.repeat_start_date, to_account_id: @account2.id, user_id: @repeating_transfer.user_id } }
+      post :create, params: { repeating_transfer: { ends_after_date: @repeating_transfer.ends_after_date, amount: @repeating_transfer.amount, description: @repeating_transfer.description, ends_after_num_occurrences: @repeating_transfer.ends_after_num_occurrences, from_account_id: @account1.id, last_occurrence_added: @repeating_transfer.last_occurrence_added, repeat_every_x_periods: @repeating_transfer.repeat_every_x_periods, repeat_on_x_day_of_period: @repeating_transfer.repeat_on_x_day_of_period, repeat_period: @repeating_transfer.repeat_period, repeat_start_date: @repeating_transfer.repeat_start_date, to_account_id: @account2.id, user_id: @repeating_transfer.user_id, end_type: 'num-occurrences' } }
     end
 
     assert_redirected_to repeating_transfers_path
@@ -34,7 +34,7 @@ class RepeatingTransfersControllerTest < ActionController::TestCase
   end
 
   test "should update repeating_transfer" do
-    patch :update, params: {id: @repeating_transfer, repeating_transfer: { amount: @repeating_transfer.amount, description: @repeating_transfer.description, ends_after_num_occurrences: @repeating_transfer.ends_after_num_occurrences, ends_after_date: @repeating_transfer.ends_after_date,  from_account_id: @account1.id, last_occurrence_added: @repeating_transfer.last_occurrence_added, repeat_every_x_periods: @repeating_transfer.repeat_every_x_periods, repeat_on_x_day_of_period: @repeating_transfer.repeat_on_x_day_of_period, repeat_period: @repeating_transfer.repeat_period, repeat_start_date: @repeating_transfer.repeat_start_date, to_account_id: @account2.id, user_id: @repeating_transfer.user_id } }
+    patch :update, params: {id: @repeating_transfer, repeating_transfer: { amount: @repeating_transfer.amount, description: @repeating_transfer.description, ends_after_num_occurrences: @repeating_transfer.ends_after_num_occurrences, ends_after_date: @repeating_transfer.ends_after_date,  from_account_id: @account1.id, last_occurrence_added: @repeating_transfer.last_occurrence_added, repeat_every_x_periods: @repeating_transfer.repeat_every_x_periods, repeat_on_x_day_of_period: @repeating_transfer.repeat_on_x_day_of_period, repeat_period: @repeating_transfer.repeat_period, repeat_start_date: @repeating_transfer.repeat_start_date, to_account_id: @account2.id, user_id: @repeating_transfer.user_id, end_type: 'num-occurrences' } }
     assert_redirected_to repeating_transfers_path
   end
 
