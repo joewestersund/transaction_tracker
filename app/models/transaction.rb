@@ -2,19 +2,20 @@
 #
 # Table name: transactions
 #
-#  id                      :integer          not null, primary key
-#  transaction_date        :date
-#  vendor_name             :string
-#  amount                  :decimal(, )
-#  description             :text
-#  created_at              :datetime
-#  updated_at              :datetime
-#  user_id                 :integer
-#  account_id              :integer
-#  transaction_category_id :integer
-#  year                    :integer
-#  month                   :integer
-#  day                     :integer
+#  id                       :integer          not null, primary key
+#  transaction_date         :date
+#  vendor_name              :string
+#  amount                   :decimal(, )
+#  description              :text
+#  created_at               :datetime
+#  updated_at               :datetime
+#  user_id                  :integer
+#  account_id               :integer
+#  transaction_category_id  :integer
+#  year                     :integer
+#  month                    :integer
+#  day                      :integer
+#  repeating_transaction_id :integer
 #
 
 class Transaction < ApplicationRecord
@@ -22,6 +23,7 @@ class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :account
   belongs_to :transaction_category
+  belongs_to :repeating_transaction
 
   validates :user_id, presence: true
   validates :account_id, presence: true

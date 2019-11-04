@@ -25,26 +25,26 @@
 
 rtransaction1:
   user: :u1
-  vendor_name: MyString
+  vendor_name: MyString2
   account: :a1
   transaction_category: :tc1
-  amount: 9.99
-  description: MyText
+  amount: 99.99
+  description: MyText2
   repeat_start_date: 2019-04-13
-  ends_after_num_occurrences: 1
-  ends_after_date: 2019-04-13
-  repeat_period: month
+  ends_after_num_occurrences: 10
+  ends_after_date:
+  repeat_period: week
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
-  last_occurrence_added: 2019-04-13
+  last_occurrence_added:
 
 rtransaction2:
   user: :u1
-  vendor_name: MyString2
+  vendor_name: MyString
   account: :a1
   transaction_category: :tc2
-  amount: 99.99
-  description: MyText2
+  amount: 9.99
+  description: MyText
   repeat_start_date: 2019-04-13
   ends_after_num_occurrences: 1
   ends_after_date: 2019-04-13

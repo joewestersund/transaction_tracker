@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191027201726) do
+ActiveRecord::Schema.define(version: 20191104145255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20191027201726) do
     t.integer "year"
     t.integer "month"
     t.integer "day"
+    t.integer "repeating_transaction_id"
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"
     t.index ["user_id", "transaction_date"], name: "index_transactions_on_user_id_and_transaction_date", order: { transaction_date: :desc }
@@ -107,6 +108,7 @@ ActiveRecord::Schema.define(version: 20191027201726) do
     t.integer "year"
     t.integer "month"
     t.integer "day"
+    t.integer "repeating_transfer_id"
     t.index ["from_account_id"], name: "index_transfers_on_from_account_id"
     t.index ["to_account_id"], name: "index_transfers_on_to_account_id"
     t.index ["user_id", "transfer_date"], name: "index_transfers_on_user_id_and_transfer_date", order: { transfer_date: :desc }

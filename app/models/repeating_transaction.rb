@@ -75,6 +75,7 @@ class RepeatingTransaction < ApplicationRecord
     t.year = self.next_occurrence.year
     t.month = self.next_occurrence.month
     t.day = self.next_occurrence.day
+    t.repeating_transaction = self
     if not t.save
       raise t.errors
     end
