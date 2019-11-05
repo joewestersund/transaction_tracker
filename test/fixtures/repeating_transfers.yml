@@ -33,8 +33,10 @@ rtransfer1:
   ends_after_date:
   repeat_period: month
   repeat_every_x_periods: 1
-  repeat_on_x_day_of_period: 1
+  repeat_on_x_day_of_period: 2
   last_occurrence_added:
+  next_occurrence: 2019-05-2
+
 
 rtransfer2:
   user: :u1
@@ -49,3 +51,4 @@ rtransfer2:
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
   last_occurrence_added:
+  next_occurrence: 2019-04-14

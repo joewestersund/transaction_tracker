@@ -37,6 +37,7 @@ rtransaction1:
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
   last_occurrence_added:
+  next_occurrence: 2019-04-14
 
 rtransaction2:
   user: :u1
@@ -52,3 +53,4 @@ rtransaction2:
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 5
   last_occurrence_added:
+  next_occurrence: 2019-05-5
