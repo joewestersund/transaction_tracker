@@ -23,7 +23,7 @@ class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :account
   belongs_to :transaction_category
-  belongs_to :repeating_transaction
+  belongs_to :repeating_transaction, optional: true
 
   validates :user_id, presence: true
   validates :account_id, presence: true

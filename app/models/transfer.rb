@@ -22,7 +22,7 @@ class Transfer < ApplicationRecord
   belongs_to :to_account, class_name: "Account"
   belongs_to :from_account, class_name: "Account"
   belongs_to :user
-  belongs_to :repeating_transfer
+  belongs_to :repeating_transfer, optional: true
 
   validates :user_id, presence: true
   validate :from_and_to_accounts_are_not_same

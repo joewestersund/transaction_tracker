@@ -28,6 +28,8 @@ class RepeatingTransfer < ApplicationRecord
   belongs_to :to_account, class_name: "Account"
   belongs_to :from_account, class_name: "Account"
 
+  has_many :transfers, :dependent => :nullify
+
   validates :user_id, presence: true
   validate :from_and_to_accounts_are_not_same
   validates :from_account_id, presence: true

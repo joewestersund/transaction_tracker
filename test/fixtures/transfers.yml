@@ -21,12 +21,14 @@ t1:
   user: :u1
   from_account: :a1
   to_account: :a2
-  amount: 12.3
-  transfer_date: '2015-01-01'
+  amount: 12.35
+  transfer_date: '2019-01-01'
+  repeating_transfer_id:
 
 t2:
   user: :u1
-  from_account: :a3
-  to_account: :a2
-  amount: 12.3
-  transfer_date: '2015-01-01'
+  from_account: :a2
+  to_account: :a1
+  amount: 100.32
+  transfer_date: '2018-02-01'
+  repeating_transfer_id:

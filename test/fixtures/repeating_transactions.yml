@@ -46,9 +46,9 @@ rtransaction2:
   amount: 9.99
   description: MyText
   repeat_start_date: 2019-04-13
-  ends_after_num_occurrences: 1
-  ends_after_date: 2019-04-13
+  ends_after_num_occurrences:
+  ends_after_date: 2019-10-13
   repeat_period: month
   repeat_every_x_periods: 1
-  repeat_on_x_day_of_period: 1
-  last_occurrence_added: 2019-04-13
+  repeat_on_x_day_of_period: 5
+  last_occurrence_added:

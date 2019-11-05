@@ -66,4 +66,16 @@ class TransactionsControllerTest < ActionController::TestCase
 
     assert_redirected_to transactions_path
   end
+
+  test "recurring transaction should create transactions" do
+    @repeating_transaction = repeating_transactions(:rtransaction1)
+    assert_equal(0, Transaction.where(repeating_transaction: @repeating_transaction).count)
+
+    #this should run the code that creates repeating transactions
+    get :index
+
+    assert_equal(@repeating_transaction.ends_after_num_occurrences, Transaction.where(repeating_transaction: @repeating_transaction).count)
+
+  end
+
 end

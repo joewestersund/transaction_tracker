@@ -28,6 +28,9 @@ class RepeatingTransaction < ApplicationRecord
   belongs_to :account
   belongs_to :transaction_category
 
+  has_many :transactions, :dependent => :nullify
+
+
   validates :user_id, presence: true
   validates :vendor_name, presence: true
   validates :account_id, presence: true

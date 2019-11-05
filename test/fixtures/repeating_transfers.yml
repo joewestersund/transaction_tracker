@@ -29,12 +29,12 @@ rtransfer1:
   amount: 9.99
   description: MyText
   repeat_start_date: 2019-04-13
-  ends_after_num_occurrences: 1
-  ends_after_date: 2019-04-13
+  ends_after_num_occurrences: 2
+  ends_after_date:
   repeat_period: month
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
-  last_occurrence_added: 2019-04-13
+  last_occurrence_added:
 
 rtransfer2:
   user: :u1
@@ -43,9 +43,9 @@ rtransfer2:
   amount: 9.99
   description: MyText
   repeat_start_date: 2019-04-13
-  ends_after_num_occurrences: 1
+  ends_after_num_occurrences: 5
   ends_after_date: 2019-04-13
-  repeat_period: month
+  repeat_period: week
   repeat_every_x_periods: 1
   repeat_on_x_day_of_period: 1
-  last_occurrence_added: 2019-04-13
+  last_occurrence_added:
