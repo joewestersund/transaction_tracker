@@ -54,3 +54,51 @@ rtransaction2:
   repeat_on_x_day_of_period: 5
   last_occurrence_added:
   next_occurrence: 2019-05-5
+
+rtransaction_monthly_on_4_5x:
+  user: :u1
+  vendor_name: MyString
+  account: :a1
+  transaction_category: :tc2
+  amount: 9.99
+  description: MyText
+  repeat_start_date: 2019-04-13
+  ends_after_num_occurrences: 5
+  ends_after_date:
+  repeat_period: month
+  repeat_every_x_periods: 1
+  repeat_on_x_day_of_period: 4
+  last_occurrence_added:
+  next_occurrence: 2019-05-4
+
+rtransaction_every_2_weeks_ends_on_date:
+  user: :u1
+  vendor_name: MyString
+  account: :a1
+  transaction_category: :tc2
+  amount: 9.99
+  description: MyText
+  repeat_start_date: 2019-04-18
+  ends_after_num_occurrences:
+  ends_after_date: 2019-10-15
+  repeat_period: week
+  repeat_every_x_periods: 2
+  repeat_on_x_day_of_period: 5
+  last_occurrence_added:
+  next_occurrence: 2019-04-18
+
+rtransaction_daily_no_end:
+  user: :u1
+  vendor_name: MyString
+  account: :a1
+  transaction_category: :tc2
+  amount: 9.99
+  description: MyText
+  repeat_start_date: 2019-11-01
+  ends_after_num_occurrences:
+  ends_after_date:
+  repeat_period: day
+  repeat_every_x_periods: 1
+  repeat_on_x_day_of_period:
+  last_occurrence_added:
+  next_occurrence: 2019-11-01

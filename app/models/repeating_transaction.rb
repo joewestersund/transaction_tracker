@@ -53,6 +53,7 @@ class RepeatingTransaction < ApplicationRecord
         self.errors.add(:base, "For a weekly repeat, the 'repeat on x day of period' must be between 1 and 7.")
       end
     elsif self.repeat_period == 'month'
+      #don't let it go above 28, because some months only have that many days
       unless (1..28).include?(self.repeat_on_x_day_of_period)
         self.errors.add(:base, "For a monthly repeat, the 'repeat on x day of period' must be between 1 and 28.")
       end
@@ -73,7 +74,7 @@ class RepeatingTransaction < ApplicationRecord
     t.account = self.account
     t.transaction_category = self.transaction_category
     t.amount = self.amount
-    t.description = "#{self.description} added by repeating transaction #{self.id}"
+    t.description = self.description
     t.transaction_date = self.next_occurrence
     t.year = self.next_occurrence.year
     t.month = self.next_occurrence.month

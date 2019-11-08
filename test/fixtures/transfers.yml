@@ -24,6 +24,9 @@ t1:
   amount: 12.35
   transfer_date: '2019-01-01'
   repeating_transfer_id:
+  year: 2019
+  month: 1
+  day: 1
 
 t2:
   user: :u1
@@ -32,3 +35,6 @@ t2:
   amount: 100.32
   transfer_date: '2018-02-01'
   repeating_transfer_id:
+  year: 2018
+  month: 2
+  day: 1

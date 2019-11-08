@@ -47,6 +47,7 @@ class TransfersController < ApplicationController
   def create
     @transfer = Transfer.new(transfer_params_no_amount)
     @transfer.user = current_user
+
     @transfer.amount = currency_string_to_number(transfer_params_amount)
     set_year_month_day(@transfer)
     respond_to do |format|
