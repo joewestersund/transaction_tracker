@@ -8,8 +8,6 @@ ready = ->
       $('.' + elementID + '-' + value).hide(100)
   showHide('repeat-period')
   showHide('end-type')
-  $('#repeat-period').on 'change', () ->
-    showHide('repeat-period')
   $('#end-type').on 'change', () ->
     showHide('end-type')
 
