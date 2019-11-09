@@ -8,9 +8,8 @@ class RepeatingTransactionsController < ApplicationController
   # GET /repeating_transactions
   # GET /repeating_transactions.json
   def index
-    @repeating_transactions = RepeatingTransaction.all
     conditions = get_conditions
-    rt = current_user.repeating_transactions.where(conditions).order("last_occurrence_added DESC")
+    rt = current_user.repeating_transactions.where(conditions).order(:next_occurrence)
     @filtered = !conditions[1].empty?
     @repeating_transactions = rt.page(params[:page]).per_page(20)
 
@@ -37,7 +36,7 @@ class RepeatingTransactionsController < ApplicationController
     set_repeat_period(@repeating_transaction, params[:repeating_transaction])
     set_end_type(@repeating_transaction, params[:repeating_transaction])
 
-    initialize_next_occurrence(@repeating_transaction)
+    @repeating_transaction.next_occurrence = @repeating_transaction.repeat_start_date
 
     respond_to do |format|
       if @repeating_transaction.save
@@ -60,7 +59,7 @@ class RepeatingTransactionsController < ApplicationController
       set_repeat_period(@repeating_transaction, params[:repeating_transaction])
       set_end_type(@repeating_transaction, params[:repeating_transaction])
 
-      initialize_next_occurrence(@repeating_transaction)
+      reinitialize_next_occurrence(@repeating_transaction)
 
       if @repeating_transaction.save
         format.html { redirect_to repeating_transactions_path, notice: 'Repeating transaction was successfully updated.' }

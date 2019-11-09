@@ -41,52 +41,29 @@ module RepeatingObjectsHelper
     end_text
   end
 
-  def initialize_next_occurrence(repeating_object)
+  def reinitialize_next_occurrence(repeating_object)
 
-    #if the user moved up the start date, then reset last_occurrence_added
-    if repeating_object.last_occurrence_added.present? && repeating_object.repeat_start_date > repeating_object.last_occurrence_added
-      repeating_object.last_occurrence_added = nil
-    end
-    repeating_object.next_occurrence = recalculate_next_occurrence(repeating_object)
-  end
-
-  def recalculate_next_occurrence(repeating_object)
-
-    if repeating_object.last_occurrence_added.present?
-      start_date = repeating_object.last_occurrence_added #if we've added occurrences before, we don't want to have 2 instances on the last_occurrence_added date
+    #if the user moved up the start date, then set next occurrence = the new start date
+    if repeating_object.last_occurrence_added.nil? || repeating_object.repeat_start_date > repeating_object.last_occurrence_added
+      repeating_object.next_occurrence = repeating_object.repeat_start_date
     else
-      start_date = repeating_object.repeat_start_date - 1.day #if this is the first occurrence, it's OK if that happens on the start date. So back up 1 day.
-    end
-
-    if repeating_object.repeat_period == 'day'
-      #for a daily repeat, the first instance will be on the start day.
-      return start_date + 1.day #make sure it's after the start date
-    elsif repeating_object.repeat_period == 'week'
-      #for a weekly repeat, the first instance will be on the next repeat_on_x_day_of_period weekday, between 0 and 6 days after the start day.
-      #for a weekly repeat, repeat_on_x_day_of_period goes from 1 (Sunday) to 7 (Saturday).
-      #Date.wday() also goes from 0 (Sunday) to 6 (Saturday). Hence the minus one.
-      #add 7 to make sure the result is positive, then take mod 7 so it's not ever above 7.
-      start_date += 1.day #make sure it's after the start date
-      days_to_add = (7 + repeating_object.repeat_on_x_day_of_period - 1 - start_date.wday()) % 7
-      return start_date + days_to_add.days
-    elsif repeating_object.repeat_period == 'month'
-      #for a monthly repeat, the first instance will be on the next repeat_on_x_day_of_period day of the month, between 0 and 30 days after the start day.
-      #for a monthly repeat, repeat_on_x_day_of_period goes from 1 (first day of month) to 31 (last day of a 31-day month).
-
-      if start_date.mday < repeating_object.repeat_on_x_day_of_period
-        next_occurrence = Date.new(start_date.year, start_date.month, repeating_object.repeat_on_x_day_of_period)
+      if repeating_object.is_a?(RepeatingTransaction)
+        klass = RepeatingTransaction
+      elsif repeating_object.is_a?(RepeatingTransfer)
+        klass = RepeatingTransfer
       else
-        if start_date.month < 12
-          next_occurrence = Date.new(start_date.year, start_date.month + 1, repeating_object.repeat_on_x_day_of_period)
-        else
-          next_occurrence = Date.new(start_date.year + 1, 1, repeating_object.repeat_on_x_day_of_period)
-        end
+        raise "error: repeating object type #{repeating_object.class} was not recognized."
       end
-
-      return next_occurrence
-    else
-      #this isn't handled. Throw an error.
-      raise "Error: repeat period #{repeating_object.repeat_period} not handled in RepeatingObjectsHelper.recalculate_next_occurrence()"
+      #reset the next occurrence only if they changed the repeat start date
+      previous_repeat_start_date = klass.find(repeating_object.id).repeat_start_date
+      if previous_repeat_start_date != repeating_object.repeat_start_date
+        repeating_object.next_occurrence = repeating_object.repeat_start_date
+        repeating_object.last_occurrence_added = nil
+      else
+        #step back to the previous occurrence, then use that to reset the next occurrence.
+        repeating_object.next_occurrence = repeating_object.last_occurrence_added
+        increment_next_occurrence(repeating_object)
+      end
     end
   end
 
@@ -137,7 +114,6 @@ module RepeatingObjectsHelper
       end
 
       repeating_obj.next_occurrence = next_date
-
     end
   end
 

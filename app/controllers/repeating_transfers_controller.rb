@@ -10,7 +10,7 @@ class RepeatingTransfersController < ApplicationController
   def index
     conditions = get_conditions
     @filtered = !conditions[1].empty?
-    @repeating_transfers = current_user.repeating_transfers.where(conditions).order("last_occurrence_added DESC").page(params[:page]).per_page(20)
+    @repeating_transfers = current_user.repeating_transfers.where(conditions).order(:next_occurrence).page(params[:page]).per_page(20)
   end
 
   # GET /repeating_transfers/new
@@ -44,7 +44,7 @@ class RepeatingTransfersController < ApplicationController
     set_repeat_period(@repeating_transfer, params[:repeating_transfer])
     set_end_type(@repeating_transfer, params[:repeating_transfer])
 
-    initialize_next_occurrence(@repeating_transfer)
+    @repeating_transfer.next_occurrence = @repeating_transfer.repeat_start_date
 
     respond_to do |format|
       if @repeating_transfer.save
@@ -67,7 +67,7 @@ class RepeatingTransfersController < ApplicationController
       set_repeat_period(@repeating_transfer, params[:repeating_transfer])
       set_end_type(@repeating_transfer, params[:repeating_transfer])
 
-      initialize_next_occurrence(@repeating_transfer)
+      reinitialize_next_occurrence(@repeating_transfer)
 
       if @repeating_transfer.save
         format.html { redirect_to repeating_transfers_path, notice: 'Repeating transfer was successfully updated.' }

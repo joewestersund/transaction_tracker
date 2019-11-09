@@ -6,7 +6,6 @@ ready = ->
     thisElement.find('option').not(":selected").each ->
       value = $(this).val()
       $('.' + elementID + '-' + value).hide(100)
-  showHide('repeat-period')
   showHide('end-type')
   $('#end-type').on 'change', () ->
     showHide('end-type')
