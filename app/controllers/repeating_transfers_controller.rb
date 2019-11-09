@@ -24,6 +24,8 @@ class RepeatingTransfersController < ApplicationController
       @repeating_transfer = RepeatingTransfer.new
       @repeating_transfer.from_account_id = current_user.accounts.order(:order_in_list).first
       @repeating_transfer.to_account_id = current_user.accounts.order(:order_in_list).first
+      @repeating_transfer.repeat_every_x_periods = 1
+      @repeating_transfer.repeat_period = 'month'
     end
 
   end
@@ -96,7 +98,7 @@ class RepeatingTransfersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def repeating_transfer_params_no_amount
-      params.require(:repeating_transfer).permit(:from_account_id, :to_account_id, :description, :repeat_start_date, :ends_after_num_occurrences, :ends_after_date, :repeat_period, :repeat_every_x_periods, :repeat_on_x_day_of_period, :last_occurrence_added)
+      params.require(:repeating_transfer).permit(:from_account_id, :to_account_id, :description, :repeat_start_date, :ends_after_num_occurrences, :ends_after_date, :repeat_period, :repeat_every_x_periods, :last_occurrence_added)
     end
 
     def repeating_transfer_params_amount

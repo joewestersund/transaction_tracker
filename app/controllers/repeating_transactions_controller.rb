@@ -20,6 +20,8 @@ class RepeatingTransactionsController < ApplicationController
   def new
     @repeating_transaction = RepeatingTransaction.new
     @repeating_transaction.repeat_start_date = get_current_time
+    @repeating_transaction.repeat_every_x_periods = 1
+    @repeating_transaction.repeat_period = 'month'
   end
 
   # GET /repeating_transactions/1/edit
@@ -89,7 +91,7 @@ class RepeatingTransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def repeating_transaction_params_no_amount
-      params.require(:repeating_transaction).permit(:user_id, :vendor_name, :account_id, :transaction_category_id, :description, :repeat_start_date, :ends_after_num_occurrences, :ends_after_date, :repeat_period, :repeat_every_x_periods, :repeat_on_x_day_of_period, :last_occurrence_added)
+      params.require(:repeating_transaction).permit(:user_id, :vendor_name, :account_id, :transaction_category_id, :description, :repeat_start_date, :ends_after_num_occurrences, :ends_after_date, :repeat_period, :repeat_every_x_periods, :last_occurrence_added)
     end
 
     def repeating_transaction_params_amount

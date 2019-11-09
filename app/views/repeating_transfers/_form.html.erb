@@ -30,50 +30,16 @@
     <%= form.text_area :description %>
   </div>
 
-  <div class="field">
-    <%= form.label :repeat_start_date %>
-    <%= form.date_select :repeat_start_date, id: :repeating_transfer_repeat_start_date %>
-  </div>
-
   <div class="inline-field">
     <%= form.label :repeat_every %>
     <%= form.number_field :repeat_every_x_periods, id: :repeating_transfer_repeat_every_x_periods, class: "number-field-short" %>
 
     <%= form.select(:repeat_period, options_for_select([['day(s)','day'], ['week(s)','week'], ['month(s)','month']], @repeating_transfer.repeat_period), {}, id: 'repeat-period')%>
+  </div>
 
-    <% if @repeating_transfer.repeat_period == 'week'
-         week_repeat_day = @repeating_transfer.repeat_on_x_day_of_period
-       elsif @repeating_transfer.repeat_period == 'month'
-         month_repeat_day = @repeating_transfer.repeat_on_x_day_of_period
-       end
-    %>
-
-    <div class="inline-field repeat-period-month">
-      <%= form.label "on day " %>
-      <%= form.number_field :repeat_on_x_day_of_period, {value: month_repeat_day, id: :repeating_transfer_repeat_on_x_day_of_period, class: "number-field-short"} %>
-      <%= form.label "of the month" %>
-    </div>
-
-    <div class="inline-field repeat-period-week">
-      <div class="inline-field">
-        <%= form.label "on" %>
-        <%= form.radio_button :on_weekday, 'sunday', checked: week_repeat_day == 1 %>
-        <%= form.label :on_weekday_sunday, 'Sunday'%>
-        <%= form.radio_button :on_weekday, 'monday', checked: week_repeat_day == 2 %>
-        <%= form.label :on_weekday_monday, 'Monday' %>
-        <%= form.radio_button :on_weekday, 'tuesday', checked: week_repeat_day == 3 %>
-        <%= form.label :on_weekday_tuesday, 'Tuesday' %>
-        <%= form.radio_button :on_weekday, 'wednesday', checked: week_repeat_day == 4 %>
-        <%= form.label :on_weekday_wednesday, 'Wednesday' %>
-        <%= form.radio_button :on_weekday, 'thursday', checked: week_repeat_day == 5 %>
-        <%= form.label :on_weekday_thursday, 'Thursday' %>
-        <%= form.radio_button :on_weekday, 'friday', checked: week_repeat_day == 6 %>
-        <%= form.label :on_weekday_friday, 'Friday' %>
-        <%= form.radio_button :on_weekday, 'saturday', checked: week_repeat_day == 7 %>
-        <%= form.label :on_weekday_saturday, 'Saturday' %>
-      </div>
-    </div>
-
+  <div class="field">
+    <%= form.label :starting_on %>
+    <%= form.date_select :repeat_start_date, id: :repeating_transfer_repeat_start_date %>
   </div>
 
   <div class="inline-field">

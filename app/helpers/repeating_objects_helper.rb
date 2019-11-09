@@ -159,10 +159,10 @@ module RepeatingObjectsHelper
     if repeating_object.repeat_period == 'day'
       repeating_object.repeat_on_x_day_of_period = nil
     elsif repeating_object.repeat_period == 'week'
-      day_name = params_object[:on_weekday]
-      repeating_object.repeat_on_x_day_of_period = get_day_number(day_name)
+      #add 1 because wday goes from zero (Sunday) to 6 (Saturday) and we want it to go 1 to 7.
+      repeating_object.repeat_on_x_day_of_period = repeating_object.repeat_start_date.wday + 1
     elsif repeating_object.repeat_period == 'month'
-      #no need to take any action. repeating_object.repeat_on_x_day_of_period is set by textbox on interface.
+      repeating_object.repeat_on_x_day_of_period = repeating_object.repeat_start_date.day
     else
       raise "error: repeating object repeat period '#{repeating_object.repeat_period}' was not handled."
     end
