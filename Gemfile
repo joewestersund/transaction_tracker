@@ -76,7 +76,6 @@ group :test do
 
   #to use the assigns testing feature in Rails 5
   gem 'rails-controller-testing'
-  gem 'byebug'
 
 end
 
