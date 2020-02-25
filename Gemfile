@@ -39,7 +39,7 @@ gem "rubyzip", ">= 1.3.0"
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
 gem 'axlsx_rails'
 
-gem "nokogiri", ">= 1.10.4"
+gem "nokogiri", ">= 1.10.8"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
