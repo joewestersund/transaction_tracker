@@ -80,6 +80,6 @@ group :test do
 end
 
 # Use puma as the app server
-gem 'puma'
+gem 'puma', '~> 3.12.3'
 
 ruby '2.5.7'
