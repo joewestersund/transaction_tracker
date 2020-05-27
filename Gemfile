@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.4.2' # 5.1.7'
+gem 'rails', '5.2.4.3' # 5.1.7'
 gem 'sprockets-rails' #-> this will add the latest version
 
 gem 'rake', '~> 12.3.3'
