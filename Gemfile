@@ -43,6 +43,7 @@ gem 'caxlsx_rails'
 
 gem "nokogiri", ">= 1.10.8"
 gem "websocket-extensions", ">= 0.1.5" #specified due to security vulnerability identified by dependabot
+gem "rack", ">= 2.2.3"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
