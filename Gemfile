@@ -41,7 +41,9 @@ gem "rubyzip", ">= 1.3.0"
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
-gem "nokogiri", ">= 1.10.8"
+#gem "nokogiri", ">= 1.10.8"
+gem "nokogiri", ">= 1.11.0.rc4"
+
 gem "websocket-extensions", ">= 0.1.5" #specified due to security vulnerability identified by dependabot
 gem "rack", ">= 2.2.3"
 
