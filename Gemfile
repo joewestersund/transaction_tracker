@@ -88,4 +88,4 @@ end
 # Use puma as the app server
 gem 'puma', '~> 3.12.3'
 
-ruby '2.5.7'
+ruby '2.5.8'
