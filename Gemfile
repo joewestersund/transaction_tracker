@@ -73,9 +73,9 @@ group :test do
   gem 'rb-fsevent'
 
   #for model tests
-  gem 'shoulda', '~> 3.5'
+  gem 'shoulda'  # , '~> 3.5'
   #gem "shoulda-context"
-  gem "shoulda-matchers", '~> 2.0'
+  gem "shoulda-matchers", require: false  #, '~> 2.0'
 
   #for color coding of test results
   gem 'minitest-reporters'
@@ -88,4 +88,4 @@ end
 # Use puma as the app server
 gem 'puma', '~> 3.12.3'
 
-ruby '2.5.8'
+ruby '2.7.2'

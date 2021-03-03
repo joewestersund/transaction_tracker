@@ -22,8 +22,8 @@ class Account < ApplicationRecord
   has_many :outgoing_repeating_transfers, class_name:"RepeatingTransfer", foreign_key: "from_account_id",  :dependent => :destroy
 
 
-  validates :account_name, presence: true, :uniqueness => {:scope => :user}
-  validates :order_in_list, presence: true, numericality: { only_integer: true, greater_than: 0 }, :uniqueness => {:scope => :user}
+  validates :account_name, presence: true, :uniqueness => {:scope => :user_id}
+  validates :order_in_list, presence: true, numericality: { only_integer: true, greater_than: 0 }, :uniqueness => {:scope => :user_id}
   validates :user_id, presence: true
 
   before_destroy :check_no_transactions_or_transfers

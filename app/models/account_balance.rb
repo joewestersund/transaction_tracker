@@ -17,7 +17,7 @@ class AccountBalance < ApplicationRecord
 
   validates :account_id, presence: true
   validates :balance_date, presence: true
-  validates :balance_date, :uniqueness => {:scope => :account, message: "you've already entered balance information for this account for this day"} #can't have two balances on same day for same account
+  validates :balance_date, :uniqueness => {:scope => :account_id, message: "you've already entered balance information for this account for this day"} #can't have two balances on same day for same account
   validates :balance, presence: true, numericality: true
   validates :user_id, presence: true
 
