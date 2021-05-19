@@ -121,7 +121,8 @@ class TransactionsControllerTest < ActionController::TestCase
     assert_equal(next_occurrence, Transaction.where(repeating_transaction: @repeating_transaction).order(:transaction_date).first.transaction_date)
     assert_equal(current_date, Transaction.where(repeating_transaction: @repeating_transaction).order(:transaction_date).last.transaction_date)
 
-    Transaction.where(repeating_transaction: @repeating_transaction).each do |t|
+    #Transaction.where(repeating_transaction: @repeating_transaction).each do |t|
+    Transaction.where(repeating_transaction: @repeating_transaction).order(:transaction_date).each do |t|
       assert_equal(next_occurrence, t.transaction_date)
       next_occurrence += 1.day
     end
