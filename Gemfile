@@ -48,6 +48,8 @@ gem "nokogiri", ">= 1.11.4"
 gem "websocket-extensions", ">= 0.1.5" #specified due to security vulnerability identified by dependabot
 gem "rack", ">= 2.2.3"
 
+gem "addressable", ">=2.8.0"
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
