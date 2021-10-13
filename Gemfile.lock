@@ -75,6 +75,7 @@ GEM
     caxlsx_rails (0.6.2)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
+    childprocess (4.1.0)
     cliver (0.3.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -178,6 +179,7 @@ GEM
       ffi (~> 1.0)
     rdoc (6.3.1)
     regexp_parser (2.1.1)
+    rexml (3.2.5)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
@@ -192,6 +194,10 @@ GEM
       tilt
     sdoc (2.1.0)
       rdoc (>= 5.0)
+    selenium-webdriver (4.0.0)
+      childprocess (>= 0.5, < 5.0)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
       shoulda-matchers (~> 4.0)
@@ -256,6 +262,7 @@ DEPENDENCIES
   rubyzip (>= 1.3.0)
   sass-rails (>= 3.2)
   sdoc
+  selenium-webdriver
   shoulda
   shoulda-matchers
   sprockets-rails

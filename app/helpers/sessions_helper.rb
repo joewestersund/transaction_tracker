@@ -16,7 +16,11 @@ module SessionsHelper
   end
 
   def signed_in_user
-    redirect_to signin_path(requested_path: request.path), notice: "Please sign in." unless signed_in?
+    unless signed_in?
+      @requested_path = request.path
+      flash[:notice] = "Please sign in"
+      render 'sessions/new'
+    end
   end
 
   def current_user=(user)

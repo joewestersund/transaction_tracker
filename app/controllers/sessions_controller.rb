@@ -5,13 +5,13 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email].downcase)
+    @requested_path = params[:requested_path]
     if user && user.authenticate(params[:password])
       sign_in user
-      requested_path = params[:requested_path]
-      if requested_path.nil?
+      if @requested_path.nil? or @requested_path.empty?
         redirect_to transactions_path
       else
-        redirect_to requested_path
+        redirect_to @requested_path
       end
     else
       flash.now[:error] = "Invalid username / password"

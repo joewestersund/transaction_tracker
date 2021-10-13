@@ -87,6 +87,9 @@ group :test do
   #to use the assigns testing feature in Rails 5
   gem 'rails-controller-testing'
 
+  # to use in system tests
+  gem 'selenium-webdriver'
+
 end
 
 # Use puma as the app server
