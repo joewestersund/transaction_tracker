@@ -1,14 +1,17 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.4.6'
+#gem 'rails', '5.2.4.6'
+gem 'rails', '6.1.0'
+
 gem 'sprockets-rails' #-> this will add the latest version
 
 gem 'rake', '~> 12.3.3'
 
-gem 'rails-html-sanitizer', '~> 1.0.4'
+gem 'rails-html-sanitizer' #, '~> 1.0.4'
 
-gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
+#gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
+gem 'pg', '~> 1.1'
 
 # Use SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.4.1'
@@ -24,7 +27,8 @@ gem 'coffee-rails'
 gem 'will_paginate', '~> 3.1'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '3.1.2'
+#gem 'bcrypt-ruby', '3.1.2'
+gem 'bcrypt'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -97,4 +101,4 @@ end
 #gem 'puma', '~> 4.3.8'
 gem 'puma', '~> 4.3.9'
 
-ruby '2.7.3'
+ruby '2.7.4'
