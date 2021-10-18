@@ -6,10 +6,6 @@ require 'shoulda/matchers'
 
 # Improved Minitest output (color and progress bar)
 require "minitest/reporters"
-#Minitest::Reporters.use!(
-#    Minitest::Reporters::ProgressReporter.new,
-#    ENV,
-#    Minitest.backtrace_filter)
 
 #Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new # spec-like progress
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
@@ -28,7 +24,6 @@ Capybara.javascript_driver = :poltergeist
 
 class ActiveSupport::TestCase
   fixtures :all
-
 end
 
 class ActionDispatch::IntegrationTest
