@@ -87,7 +87,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_redirected_to accounts_path
   end
 
-  test "shouldn't move last account up" do
+  test "shouldn't move last account down" do
     last = @account_with_no_transactions
     initial_position = last.order_in_list
     get :move_down, params: {id: last.id}
