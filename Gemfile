@@ -103,6 +103,6 @@ end
 #gem 'puma', '~> 3.12.3'
 #gem 'puma', '~> 4.3.8'
 #gem 'puma', '~> 4.3.9'
-gem 'puma', '~> 4.3.11'
+gem 'puma', '~> 4.3.12'
 
 ruby '2.7.5'
