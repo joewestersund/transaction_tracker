@@ -45,7 +45,8 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 
 #gem "nokogiri", ">= 1.13.2"
-gem "nokogiri", ">= 1.13.4"
+#gem "nokogiri", ">= 1.13.4"
+gem "nokogiri", ">= 1.13.5"
 
 gem "websocket-extensions", ">= 0.1.5" #specified due to security vulnerability identified by dependabot
 gem "rack", ">= 2.2.3"
