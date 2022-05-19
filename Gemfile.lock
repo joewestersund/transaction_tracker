@@ -140,7 +140,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     nio4r (2.5.8)
-    nokogiri (1.13.4)
+    nokogiri (1.13.5)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     pg (1.3.5)
