@@ -5,7 +5,7 @@ gem 'rails', '6.1.5.1'
 
 gem 'sprockets-rails' #-> this will add the latest version
 
-gem 'rake', '~> 12.3.3'
+gem 'rake'  #, '~> 12.3.3'
 
 #gem 'rails-html-sanitizer' #, '~> 1.0.4'
 gem 'rails-html-sanitizer', '~> 1.4.3'
@@ -101,5 +101,5 @@ end
 #gem 'puma', '~> 4.3.11'
 gem 'puma', '~> 4.3.12'
 
-#ruby '2.7.5'
-ruby '2.7.6'
+#ruby '2.7.6'
+ruby '3.0.4'
