@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '6.1.5.1'
-gem 'rails', '7.0'
+gem 'rails', '7.0.3'
 
 gem 'sprockets-rails' #-> this will add the latest version
 
@@ -103,4 +103,5 @@ end
 gem 'puma', '~> 4.3.12'
 
 #ruby '2.7.6'
-ruby '3.0.4'
+#ruby '3.0.4'
+ruby '3.1.2'
