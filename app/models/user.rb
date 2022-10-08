@@ -10,6 +10,7 @@
 #  password_digest :string
 #  remember_token  :string
 #  time_zone       :string
+#  user_group_id   :integer
 #
 
 class User < ApplicationRecord

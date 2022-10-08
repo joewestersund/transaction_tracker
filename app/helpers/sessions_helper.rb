@@ -15,12 +15,21 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
+  def signed_in_user_unactivated_ok
+    redirect_to signin_path, notice: "Please sign in." unless signed_in?
+  end
+
   def signed_in_user
-    unless signed_in?
-      @requested_path = request.path
-      flash[:notice] = "Please sign in"
-      render 'sessions/new'
+    if signed_in?
+      redirect_to activate_path, notice: "Please check your email for your activation link." unless current_user.activated?
+    else
+      redirect_to signin_path, notice: "Please sign in."
     end
+    #unless signed_in?
+    #  @requested_path = request.path
+    #  flash[:notice] = "Please sign in"
+    #  render 'sessions/new'
+    #end
   end
 
   def current_user=(user)
