@@ -1,6 +1,6 @@
 require 'ostruct'
-require 'summary_table'
-require 'chart_data'
+require 'transaction_summary_table'
+require 'transaction_chart_data'
 
 class ColumnNameAndID
   def column_id
@@ -20,7 +20,7 @@ class ColumnNameAndID
   end
 end
 
-class SummariesController < ApplicationController
+class TransactionSummariesController < ApplicationController
   before_action :signed_in_user
   before_action :get_params_for_link_url
   before_action :test_if_filtered

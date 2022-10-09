@@ -1,6 +1,6 @@
 require 'ostruct'
-require 'summary_table'
-require 'chart_data'
+require 'workout_summary_table'
+require 'workout_chart_data'
 require 'column_name_and_id'
 require 'date_fields'
 
@@ -12,7 +12,7 @@ class WorkoutSummariesController < ApplicationController
   SUMMARY_TYPE_X_VS_Y = "x vs y"
 
   def time_series
-    set_workout_type_route_data_type(get_params_for_link_url(SUMMARY_TYPE_TIME_SERIES))
+    set_wt_route_dt(get_params_for_link_url(SUMMARY_TYPE_TIME_SERIES))
     get_params_for_link_url(SUMMARY_TYPE_TIME_SERIES)
     @show_table = show_table
     @display = (@show_table ? "table" : "chart")
@@ -45,7 +45,7 @@ class WorkoutSummariesController < ApplicationController
   end
 
   def x_vs_y
-    set_workout_type_route_data_type(SUMMARY_TYPE_X_VS_Y)
+    set_wt_route_dt(SUMMARY_TYPE_X_VS_Y)
     get_params_for_link_url(SUMMARY_TYPE_X_VS_Y)
 
     if @x_data_type.present? && @y_data_type.present? && @route.present?
@@ -259,12 +259,12 @@ class WorkoutSummariesController < ApplicationController
       workout_routes_with_y = current_user.workout_routes.joins(:data_points).where("data_points.data_type_id = #{y_data_type.id}").select("workout_routes.id")
 
       workout_routes = current_user.workout_routes.joins(:workout)
-                                   .where("workout_routes.id": workout_routes_with_x)
-      .where("workout_routes.id": workout_routes_with_y)
+                                   .where(workout_routes.id = workout_routes_with_x)
+      .where(workout_routes.id = workout_routes_with_y)
       .where(get_conditions)
 
       if route.present?
-        workout_routes = workout_routes.where("workout_routes.route_id": route.id)
+        workout_routes = workout_routes.where(workout_routes.route_id = route.id)
       end
 
       x_label = get_axis_label(x_data_type)
@@ -495,7 +495,7 @@ class WorkoutSummariesController < ApplicationController
     return [conditions_string.join(" AND "), conditions]
   end
 
-  def set_workout_type_route_data_type(summary_type)
+  def set_wt_route_dt(summary_type)
     @workout_types = current_user.workout_types.order(:order_in_list)
 
     if summary_type == SUMMARY_TYPE_X_VS_Y

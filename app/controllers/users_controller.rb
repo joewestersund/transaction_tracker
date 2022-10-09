@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   before_action :signed_in_user_unactivated_ok, only: [ :edit_password, :update_password ]
   before_action :set_self_as_user, only: %i[ edit_profile update update_profile edit_password update_password destroy ]
 
+
+  # GET /users/new
   def new
     @user = User.new
   end
@@ -36,19 +38,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def create
-    @user = User.new(user_params_new)
-    if @user.save
-      sign_in @user
-      create_user_defaults(@user)
-      flash[:notice] = "Welcome to the Spending Tracker! We've set up some default account names and transaction categories for you."
-      redirect_to welcome_path
-    else
-      render 'new'
-    end
-  end
-
-  def edit
+  def edit_profile
   end
 
   def edit_password
@@ -70,7 +60,18 @@ class UsersController < ApplicationController
   def update_password
     respond_to do |format|
       if params[:user][:password].present? and @user.update(user_params_change_password)
-        format.html { redirect_to profile_edit_password_path, notice: 'Your password was successfully updated.' }
+        if !@user.activated?
+          # this user just created their password for the first time
+          notice_text = "Welcome to Log My Workout!"
+          create_user_defaults(@user)
+          flash[:notice] =
+            @user.activated = true
+          @user.save
+        else
+          notice_text = 'Your password was successfully updated.'
+        end
+
+        format.html { redirect_to workouts_path, notice: notice_text }
         format.json { head :no_content }
       else
         format.html { render action: 'edit_password' }
@@ -79,16 +80,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-  end
-
-  def destroy
-    sign_out
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to signup_path }
-      format.json { head :no_content }
-    end
+  def forgot_password
   end
 
   def send_password_reset_email
@@ -140,10 +132,12 @@ class UsersController < ApplicationController
   end
 
   private
+  # Use callbacks to share common setup or constraints between actions.
     def set_self_as_user
-      @user = current_user
+      @user = self.current_user
     end
 
+    # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:name, :email, :time_zone)
     end
