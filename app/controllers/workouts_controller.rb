@@ -5,6 +5,7 @@ class WorkoutsController < ApplicationController
   # GET /workouts or /workouts.json
 
   def index
+    current_user.switch_mode(User::MODES[:workouts])
     conditions = get_conditions
 
     w = current_user.workouts.where("id IN (?)", current_user.workouts.left_outer_joins(workout_routes: :data_points).where(conditions).select(:id))

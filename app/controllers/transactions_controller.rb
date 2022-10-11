@@ -11,6 +11,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
+    current_user.switch_mode(User::MODES[:transactions])
     conditions = get_conditions
     t = current_user.transactions.where(conditions).order("transaction_date DESC")
 

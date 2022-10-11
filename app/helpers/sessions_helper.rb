@@ -40,5 +40,12 @@ module SessionsHelper
     remember_token = User.encrypt(cookies[:remember_token])
     @current_user ||= User.find_by(remember_token: remember_token)
   end
-  
+
+  def mode_name(mode_number)
+    if mode_number == User::MODES[:transactions]
+      "Transactions"
+    else
+      "Workouts"
+    end
+  end
 end
