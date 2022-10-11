@@ -11,9 +11,16 @@
 #  remember_token  :string
 #  time_zone       :string
 #  user_group_id   :integer
+#  current_mode    :integer
 #
 
 class User < ApplicationRecord
+
+  MODES = {
+    transactions: 0,
+    workouts: 1
+  }
+  
   has_secure_password #adds authenticate method, etc.
 
   has_many :accounts, dependent: :destroy
@@ -77,7 +84,7 @@ class User < ApplicationRecord
   def generate_password_token!
     self.reset_password_token = generate_pw_token
     self.password_reset_sent_at = Time.now.utc
-    save!
+    self.save
   end
 
   def password_token_valid?
@@ -87,6 +94,13 @@ class User < ApplicationRecord
     else
       #established user gets hours_to_reset_password
       (self.password_reset_sent_at + User.hours_to_reset_password.hours) > Time.now.utc
+    end
+  end
+
+  def switch_mode(mode)
+    if mode != self.current_mode
+      self.current_mode = mode
+      self.save
     end
   end
 

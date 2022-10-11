@@ -1,0 +1,125 @@
+<h1>Workouts</h1>
+
+<% if current_user.workout_types.count == 0   # they can't add a workout until they add workout_types and routes %>
+  <p>Welcome to Log My Workout!</p>
+  <p>To start, please <%= link_to "add one or more workout types", workout_types_path %>. For each workout type, you'll need to define one or more routes.</p>
+<% elsif current_user.routes.count == 0   # they can't add a workout until they add routes %>
+  <p>Welcome to Log My Workout!</p>
+  <p>You currently have these workout types set up for you:</p>
+    <ul>
+      <% current_user.workout_types.order(:order_in_list).each do |wt| %>
+        <li><%= wt.name %></li>
+      <% end %>
+    </ul>
+   <p>To start logging your workouts, you'll first need to <%= link_to "add one or more Routes", routes_default_path %> for each workout type.</p>
+<% else %>
+
+  <script type="application/json" id="workout-filter-JSON"><%= @workout_filter_json %></script>
+
+  <div class="link-block">
+    <div class="link"><%= link_to 'New Workout', new_workout_path %></div>|
+    <div class="link"><%= link_to "Download as XLSX", workouts_path(format: "xlsx") + "?" + request.query_string %></div>
+  </div>
+
+  <div class="filter-box" id="workout-filter-box">
+    <button id="show_filter" class="filter-button">Show/Hide Filter</button>
+    <div class="filter <%="hidden" unless @filtered %>">
+      <%= form_tag workouts_path, method: 'get' do %>
+        <div class="field">
+          <%= label_tag :start_date  %>
+          <%= date_field_tag :start_date, params[:start_date] %>
+        </div>
+        <div class="field">
+          <%= label_tag :end_date %>
+          <%= date_field_tag :end_date, params[:end_date] %>
+        </div>
+        <div class="field number">
+          <%= label_tag :year %>
+          <%= number_field_tag :year, params[:year], min:2000 %>
+        </div>
+        <div class="field number">
+          <%= label_tag :month %>
+          <%= number_field_tag :month, params[:month], min:1, max:12 %>
+        </div>
+        <div class="field number">
+          <%= label_tag :day %>
+          <%= number_field_tag :day, params[:day], min:1, max:31 %>
+        </div>
+        <div class="field">
+          <%= label_tag :workout_type %>
+          <%= select_tag :workout_type_id %>
+        </div>
+        <div class="field">
+          <%= label_tag :route %>
+          <%= select_tag :route_id %>
+        </div>
+        <div class="field">
+          <%= label_tag :data_type %>
+          <%= select_tag :data_type_id %>
+        </div>
+        <div class="field">
+          <%= select_tag :operator, nil, {class: "hidden"} %>
+        </div>
+        <div class="field">
+          <%= select_tag :dropdown_option_id, nil, {class: "hidden"} %>
+        </div>
+        <div class="field">
+          <%= text_field_tag :comparison_value, params[:comparison_value], {class: "hidden"} %>
+        </div>
+        <div class="actions">
+          <%= submit_tag "Search", {id: "submit_filter"} %>
+          <%= button_tag 'Clear Form', {type: "reset", id: "clear_filter"} %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= paginate @workouts %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Workout date</th>
+        <th>Workout type</th>
+        <th>Routes</th>
+        <th>Route Details</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @workouts.each do |workout| %>
+        <% wr_rows = workout.workout_routes.empty? ? 1 : workout.workout_routes.count %>
+        <% first_workout_route = true %>
+        <% workout.workout_routes.order(:updated_at).each do |wr|   # order by updated date to maintain order user had in form %>
+          <tr>
+            <% if first_workout_route %>
+              <td rowspan="<%= wr_rows %>"><%= display_date_with_day_of_week(workout.workout_date) %></td>
+              <td rowspan="<%= wr_rows %>"><%= workout.workout_type.name %></td>
+            <% end %>
+            <td class="show-border" title="<%= wr.route.description %>" >
+              <%= wr.route.name %>
+            </td>
+            <td>
+              <% dp_array = wr.data_points.sort_by { |dp| dp.data_type.order_in_list }.map {|dp| dp.to_s } %>
+              <%= dp_array.join(", ") %>
+              <% if wr.repetitions > 1 %>
+                <div><%= pluralize(wr.repetitions, "repetition")%></div>
+              <% end %>
+            </td>
+            <% if first_workout_route %>
+              <td rowspan="<%= wr_rows %>"><%= link_to 'Edit', edit_workout_path(workout) %></td>
+              <td rowspan="<%= wr_rows %>"><%= link_to 'Delete', workout, method: :delete, data: { confirm: "Are you sure you want to delete the #{workout.workout_date} #{workout.workout_type.name} workout?" } %></td>
+            <% end %>
+            <% first_workout_route = false %>
+          </tr>
+        <% end %>
+
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= paginate @workouts %>
+
+  <div class="links"><%= link_to 'New Workout', new_workout_path %></div>
+<% end %>

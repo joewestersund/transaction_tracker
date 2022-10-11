@@ -1,0 +1,44 @@
+<h2>For Workout Type '<%= @workout_type.name %>'</h2>
+
+<%= form_with(model: model) do |form| %>
+  <% if data_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(data_type.errors.count, "error") %> prohibited this workout_type from being saved:</h2>
+
+      <ul>
+        <% data_type.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_type %>
+    <%= form.collection_select :field_type, @field_types, :to_s, :to_s, {selected: @data_type.field_type, include_blank: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :units %>
+    <%= form.text_field :units %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -11,7 +11,7 @@ class TransfersController < ApplicationController
   def index
     conditions = get_conditions
     @filtered = !conditions[1].empty?
-    @transfers = current_user.transfers.where(conditions).order("transfer_date DESC").page(params[:page]).per_page(20)
+    @transfers = current_user.transfers.where(conditions).order("transfer_date DESC").page(params[:page]).per(20)
   end
 
   # GET /transfers/1

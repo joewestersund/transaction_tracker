@@ -82,7 +82,7 @@
       <% end %>
       </tbody>
     </table>
-    <%= will_paginate @transfers_in, :param_name => 'transfers_in_page'%>
+    <%= paginate @transfers_in, :param_name => 'transfers_in_page'%>
   <% end %>
 
   <h4>Spending</h4>
@@ -118,7 +118,7 @@
       <% end %>
       </tbody>
     </table>
-    <%= will_paginate @transactions, :param_name => 'transactions_page'%>
+    <%= paginate @transactions, :param_name => 'transactions_page'%>
   <% end %>
 
   <h4>Transfers out</h4>
@@ -152,7 +152,7 @@
       <% end %>
       </tbody>
     </table>
-    <%= will_paginate @transfers_out, :param_name => 'transfers_out_page'%>
+    <%= paginate @transfers_out, :param_name => 'transfers_out_page'%>
   <% end %>
 <% end %>
 

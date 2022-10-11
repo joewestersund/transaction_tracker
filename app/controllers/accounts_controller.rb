@@ -5,7 +5,7 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = current_user.accounts.order('order_in_list').all
+    @accounts = current_user.accounts.order('order_in_list').per(20)
   end
 
   # GET /accounts/1

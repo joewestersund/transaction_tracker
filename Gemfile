@@ -26,7 +26,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 
 #use will_paginate to show big tables page by page
-gem 'will_paginate', '~> 3.1'
+#gem 'will_paginate', '~> 3.1'
+gem 'kaminari'  # for pagination, replacement for will_paginate
+
 
 # Use ActiveModel has_secure_password
 #gem 'bcrypt-ruby', '3.1.2'
@@ -66,6 +68,9 @@ gem 'rails_12factor' #for deployment to Heroku
 # for datepicker
 # https://github.com/Nerian/bootstrap-datepicker-rails
 gem 'bootstrap-datepicker-rails'
+
+gem 'recaptcha'
+gem 'font_awesome5_rails'
 
 group :development do
   gem 'rails_layout'  #gem to set up for bootstrap css and js http://railsapps.github.io/twitter-bootstrap-rails.html

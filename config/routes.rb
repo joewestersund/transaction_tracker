@@ -7,10 +7,13 @@ Rails.application.routes.draw do
 
   resources :users, except: [:show, :destroy]
   resources :user_groups
+
   get '/profile/edit_password', to: 'users#edit_password'
-  patch '/profile/update', to: 'users#update_profile'
+  get '/profile/edit', to: 'users#edit_profile'
 
   patch '/profile/update_password', to: 'users#update_password'
+  patch '/profile/update', to: 'users#update_profile'
+
 
   get '/password/forgot', to: 'users#forgot_password'
   post '/password/send_reset_email', to: 'users#send_password_reset_email'

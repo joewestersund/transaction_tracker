@@ -1,0 +1,76 @@
+<h1>Routes</h1>
+
+<p>What routes do you follow or exercises do you do, when doing this workout type?</p>
+
+<div class="hidden" id="default-data-explanation">
+  Each route can have default values for the data you track for this workout type.
+  When you enter a workout, you'll see that default, and be able to keep it or enter a different value.
+  Example: You have a workout type 'Running' and track 'distance'. You set up a route 'Around the Park'
+  and give it a default distance of 5 miles. When you enter a workout and choose 'Around the Park',
+  you can use 5 miles or change it to 6 if you went a little farther.
+</div>
+
+<%= form_with() do |form| %>
+  <div class="field">
+    <%= form.label :workout_type %>
+    <%= form.collection_select :workout_type_id, @workout_types, :id, :name, {selected: @workout_type.id, include_blank: false},
+                               {class: "select-and-redirect", "data-prefix": '/workout_types/', "data-suffix": '/routes'}%>
+  </div>
+<% end %>
+
+<div class="links">
+  <%= link_to 'New Route', new_workout_type_route_path(@workout_type) %>
+  |
+  <%= link_to 'Edit the data types you can track for this Workout Type', workout_type_data_types_path(@workout_type) %>
+</div>
+
+<%= paginate @routes %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Active</th>
+      <th><%= link_to "Default Data", '#', {id: "default-data-label"} %></th>
+      <th>Order in list</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @routes.each do |route| %>
+      <tr>
+        <td><%= route.name %></td>
+        <td><%= route.description %></td>
+        <td><%= display_bool(route.active) %></td>
+        <td>
+          <% if route.default_data_points.count > 0 %>
+            <ul>
+              <% @data_types.each do |dt| %>
+                <% ddp = route.default_data_points.where(data_type: dt).first %>
+                <% if ddp.present? %>
+                  <li><%= ddp.to_s %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% end %>
+          <%= link_to "Add/Edit", route_default_data_points_path(route) if route.workout_type.data_types.count > 0 %>
+        </td>
+        <td><%= route.order_in_list %></td>
+        <td><%= link_to 'Edit', edit_route_path(route) %></td>
+        <td><%= link_to 'Delete', route, method: :delete, data: { confirm: "Are you sure you want to delete '#{route.name}'? This will delete any data you had for this route. If you want to keep past data but not have this route show up in the future, you can set it to 'active' = No."} %></td>
+        <td><%= (link_to 'Move Up', move_route_up_path(route), method: :post) unless route.order_in_list == 1 %></td>
+        <td><%= (link_to 'Move Down', move_route_down_path(route), method: :post) unless route.order_in_list == @route_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @routes %>
+
+<div class="links">
+<%= link_to 'New Route', new_workout_type_route_path(@workout_type) %>
+|
+<%= link_to 'Edit the data types you can track for this Workout Type', workout_type_data_types_path(@workout_type) %>
+</div>

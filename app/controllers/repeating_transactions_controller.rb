@@ -11,7 +11,7 @@ class RepeatingTransactionsController < ApplicationController
     conditions = get_conditions
     rt = current_user.repeating_transactions.where(conditions).order(:next_occurrence)
     @filtered = !conditions[1].empty?
-    @repeating_transactions = rt.page(params[:page]).per_page(20)
+    @repeating_transactions = rt.page(params[:page]).per(20)
 
   end
 

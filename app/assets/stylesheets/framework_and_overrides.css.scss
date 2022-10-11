@@ -66,6 +66,13 @@ section {
   margin-right: 5px;
 }
 
+.current-mode {
+  font-weight: bold;
+  a {
+    margin-top: 10px; //to center vertically with other navbar links
+  }
+}
+
 .glyphicon {
   font-size: 18px;
 }

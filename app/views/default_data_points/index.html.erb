@@ -1,0 +1,42 @@
+<h1>Default Data Points for <%= @route.name %> </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Field Type</th>
+      <th>Units</th>
+      <th>Current Value</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_types.each do |dt| %>
+      <tr>
+        <td><%= dt.name %></td>
+        <td><%= dt.description %></td>
+        <td><%= dt.field_type%></td>
+        <td><%= dt.units %></td>
+        <td>
+          <% ddp = @route.default_data_points.find_by(data_type: dt) %>
+          <% if ddp.present? %>
+            <%= ddp.value_to_s %>
+          <% else %>
+            No value set
+          <% end %>
+        </td>
+        <% if ddp.present? %>
+          <td><%= link_to 'Edit', edit_default_data_point_path(ddp) %></td>
+          <td><%= link_to 'Delete', ddp, method: :delete, data: { confirm: "Are you sure you want to delete the default data point for '#{dt.name}' for this route?" } %></td>
+        <% else %>
+          <td><%= link_to 'Add', new_route_default_data_point_path(@route, data_type_id: dt)%></td>
+          <td></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="links"><%= link_to 'Back', workout_type_routes_path(@route.workout_type) %></div>

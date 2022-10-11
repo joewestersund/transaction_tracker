@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+Dear <%= @user.name %>,
+<p>
+  Thank you for creating a login for <%= link_to APPLICATION_NAME, @main_app_url %>. In order to activate your account, please confirm your email by going to <%= link_to @account_activation_url, @account_activation_url %> in the next <%= pluralize(@hours_to_log_in,"hour") %>.
+</p>
+
+<p>
+  If you don't click on the link before it expires, you can always request a new link by going to "Forgot Password" on the <%= link_to 'Login', @login_url %> page.
+</p>
+
+</body>
+</html>

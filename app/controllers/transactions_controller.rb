@@ -17,7 +17,7 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       format.html {
         @filtered = !conditions[1].empty?
-        @transactions = t.page(params[:page]).per_page(20)
+        @transactions = t.page(params[:page]).per(20)
       }
       format.xlsx {
         @transactions = t

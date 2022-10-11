@@ -37,10 +37,10 @@ class BalanceChecksController < ApplicationController
       transfer_in_conditions = get_conditions(:transfers_in, @account.id, start_date, end_date)
       transfer_out_conditions = get_conditions(:transfers_out, @account.id, start_date, end_date)
 
-      @transactions = current_user.transactions.where(transaction_conditions).order("transaction_date DESC").page(params[:transactions_page]).per_page(10)
+      @transactions = current_user.transactions.where(transaction_conditions).order("transaction_date DESC").page(params[:transactions_page]).per(10)
       @total_spending = current_user.transactions.where(transaction_conditions).sum(:amount)
-      @transfers_in = @account.incoming_transfers.where(transfer_in_conditions).order("transfer_date DESC").page(params[:transfers_in_page]).per_page(10)
-      @transfers_out = @account.outgoing_transfers.where(transfer_out_conditions).order("transfer_date DESC").page(params[:transfers_out_page]).per_page(10)
+      @transfers_in = @account.incoming_transfers.where(transfer_in_conditions).order("transfer_date DESC").page(params[:transfers_in_page]).per(10)
+      @transfers_out = @account.outgoing_transfers.where(transfer_out_conditions).order("transfer_date DESC").page(params[:transfers_out_page]).per(10)
       @transfers_in_total = @account.incoming_transfers.where(transfer_in_conditions).sum(:amount)
       @transfers_out_total = @account.outgoing_transfers.where(transfer_out_conditions).sum(:amount)
 

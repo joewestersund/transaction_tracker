@@ -231,6 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_09_184839) do
     t.boolean "activated"
     t.datetime "password_reset_sent_at"
     t.string "reset_password_token"
+    t.integer "current_mode"
     t.index ["user_group_id"], name: "index_users_on_user_group_id"
   end
 

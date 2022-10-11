@@ -1,0 +1,64 @@
+<h1>Data Types</h1>
+
+<p>
+  What data would you like to track for this type of workout?
+</p>
+
+<%= form_with() do |form| %>
+  <div class="field">
+    <%= form.label :workout_type %>
+    <%= form.collection_select :workout_type_id, @workout_types, :id, :name, {selected: @workout_type.id, include_blank: false},
+                               {class: "select-and-redirect", "data-prefix": '/workout_types/', "data-suffix": '/data_types'} %>
+  </div>
+<% end %>
+
+<div class="links"><%= link_to 'New Data Type', new_workout_type_data_type_path(@workout_type) %></div>
+
+<%= paginate @data_types %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Field Type</th>
+      <th>Dropdown Options</th>
+      <th>Units</th>
+      <th>Active</th>
+      <th>Order in list</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_types.each do |dt| %>
+      <tr>
+        <td><%= dt.name %></td>
+        <td><%= dt.description %></td>
+        <td><%= dt.field_type %></td>
+        <td>
+          <% if dt.is_dropdown? %>
+            <ul>
+              <% dt.dropdown_options.order(:order_in_list).each do |dto| %>
+                <li><%= dto.name %></li>
+              <% end %>
+            </ul>
+          <% end %>
+          <%= link_to "edit options", data_type_dropdown_options_path(dt) if dt.is_dropdown? %>
+        </td>
+        <td><%= dt.units %></td>
+        <td><%= display_bool(dt.active) %></td>
+        <td><%= dt.order_in_list %></td>
+        <td><%= link_to 'Edit', edit_data_type_path(dt) %></td>
+        <td><%= link_to 'Delete', dt, method: :delete, data: { confirm: "Are you sure you want to delete '#{dt.name}'?" } %></td>
+        <td><%= (link_to 'Move Up', move_data_type_up_path(dt), method: :post) unless dt.order_in_list == 1 %></td>
+        <td><%= (link_to 'Move Down', move_data_type_down_path(dt), method: :post) unless dt.order_in_list == @data_type_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @data_types %>
+
+<div class="links"><%= link_to 'New Data Type', new_workout_type_data_type_path(@workout_type) %></div>
+

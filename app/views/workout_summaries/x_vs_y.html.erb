@@ -1,0 +1,51 @@
+<h1>X vs Y Charts</h1>
+
+<h3><%= @description %></h3>
+
+<%= form_with() do |form| %>
+  <div class="field">
+    <%= form.label :workout_type %>
+    <%= form.collection_select :workout_type_id, @workout_types, :id, :name, {selected: @workout_type.id, include_blank: false},
+                               {class: "select-and-redirect", "data-prefix": "/summaries/x_vs_y?workout_type_id=", "data-suffix": ''}%>
+  </div>
+<% end %>
+
+<div class="filter-box">
+  <%= form_with(url: summaries_x_vs_y_path, method: 'get') do |form| %>
+    <%= form.hidden_field :workout_type_id, value: @workout_type.id %>
+    <%= form.hidden_field :display, value: @display %>
+
+    <div class="field">
+      <%= label_tag :start_date  %>
+      <%= date_field_tag :start_date, params[:start_date] %>
+    </div>
+    <div class="field">
+      <%= label_tag :end_date %>
+      <%= date_field_tag :end_date, params[:end_date] %>
+    </div>
+
+    <div class="field">
+      <%= form.label :route_id %>
+      <%= form.collection_select :route_id, @routes, :id, :name, {selected: params[:route_id], include_blank: true} %>
+    </div>
+    <div class="field">
+      <%= form.label :x %>
+      <%= form.collection_select  :x_data_type_id, @data_types, :id, :name, {selected: (@x_data_type.id if @x_data_type.present?), include_blank: false} %>
+    </div>
+    <div class="field">
+      <%= form.label :y %>
+      <%= form.collection_select  :y_data_type_id, @data_types, :id, :name, {selected: (@y_data_type.id if @y_data_type.present?), include_blank: false} %>
+    </div>
+    <div class="field">
+      <%= form.label :color_by %>
+      <%= form.collection_select  :by, @color_by_options, :to_s, :to_s, {selected: @color_by, include_blank: false} %>
+    </div>
+    <div class="actions">
+      <%= submit_tag "Search", {id: "submit_filter"} %>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'chart' %>
+
+

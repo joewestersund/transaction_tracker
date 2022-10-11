@@ -1,0 +1,7 @@
+Dear <%= @user.name %>,
+
+Thank you for creating a login for <%= APPLICATION_NAME %>. In order to activate your account, please confirm your email by going to <%= @password_reset_url %> in the next <%= pluralize(@hours_to_log_in,"hour") %>.
+
+If you don't click on the link before it expires, you can always request a new link by clicking on "Forgot Password" on the login page at <%= @login_url %>.
+
+

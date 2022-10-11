@@ -10,7 +10,7 @@ class RepeatingTransfersController < ApplicationController
   def index
     conditions = get_conditions
     @filtered = !conditions[1].empty?
-    @repeating_transfers = current_user.repeating_transfers.where(conditions).order(:next_occurrence).page(params[:page]).per_page(20)
+    @repeating_transfers = current_user.repeating_transfers.where(conditions).order(:next_occurrence).page(params[:page]).per(20)
   end
 
   # GET /repeating_transfers/new
