@@ -1,7 +1,7 @@
 <div class="summary_type_navbar">
-  <%= link_to "By Account", summaries_by_account_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,summaries_by_account_path)}%>
-  <%= link_to "By Category", summaries_by_category_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,summaries_by_category_path)}%>
-  <%= link_to "By Transaction Direction", summaries_by_transaction_direction_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,summaries_by_transaction_direction_path)}%>
+  <%= link_to "By Account", transaction_summaries_by_account_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,transaction_summaries_by_account_path)}%>
+  <%= link_to "By Category", transaction_summaries_by_category_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,transaction_summaries_by_category_path)}%>
+  <%= link_to "By Transaction Direction", transaction_summaries_by_transaction_direction_path(@params_for_link_url.merge(display: @display)), {class: mark_current_tab(request.path,transaction_summaries_by_transaction_direction_path)}%>
 </div>
 <div class="summary_type_navbar">
   <%= link_to "By Day", @params_for_link_url.merge(averaging_time: 'day'), {class: mark_current_tab(@averaging_time,"day")} %>
