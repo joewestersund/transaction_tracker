@@ -10,7 +10,7 @@ gem 'sprockets-rails' #-> this will add the latest version
 gem 'rake'  #, '~> 12.3.3'
 
 #gem 'rails-html-sanitizer' #, '~> 1.0.4'
-gem 'rails-html-sanitizer', '~> 1.4.3'
+gem 'rails-html-sanitizer' #, '~> 1.4.3'
 
 #gem 'pg', '0.18.4' # upgraded from '0.17.1' #PostgreSQL
 gem 'pg', '~> 1.1'
