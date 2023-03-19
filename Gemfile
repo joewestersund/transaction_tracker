@@ -4,7 +4,8 @@ source 'https://rubygems.org'
 #gem 'rails', '6.1.5.1'
 #gem 'rails', '7.0.3'
 #gem 'rails', '7.0.4'
-gem 'rails', '~> 7.0.4'
+gem 'rails', '7.0.4.3'
+
 
 gem 'sprockets-rails' #-> this will add the latest version
 
@@ -53,7 +54,8 @@ gem 'caxlsx_rails'
 gem "nokogiri", ">= 1.13.9"
 
 gem "websocket-extensions", ">= 0.1.5" #specified due to security vulnerability identified by dependabot
-gem "rack", ">= 2.2.3.1"
+#gem "rack", ">= 2.2.3.1"
+gem "rack", ">= 2.2.6.4"
 
 gem "addressable", ">=2.8.0"
 
