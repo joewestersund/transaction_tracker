@@ -104,7 +104,8 @@ end
 
 # Use puma as the app server
 #gem 'puma', '~> 4.3.11'
-gem 'puma', '~> 4.3.12'
+#gem 'puma', '~> 4.3.12'
+gem 'puma', '~> 5.6.7'
 
 #ruby '3.1.3'
 ruby '3.1.4'
