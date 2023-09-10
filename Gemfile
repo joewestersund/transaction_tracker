@@ -5,7 +5,8 @@ source 'https://rubygems.org'
 #gem 'rails', '7.0.3'
 #gem 'rails', '7.0.4'
 #gem 'rails', '7.0.4.3'
-gem 'rails', '7.0.5.1'
+#gem 'rails', '7.0.5.1'
+gem 'rails', '7.0.7.1'
 
 
 gem 'sprockets-rails' #-> this will add the latest version
